@@ -1,0 +1,11 @@
+{
+    "name": "my-app",
+    "scripts": {
+        "dev:backend": "cd backend && node server.js",
+        "dev:frontend": "cd frontend && npx expo start",
+        "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\""
+    },
+    "devDependencies": {
+        "concurrently": "^9.0.0"
+    }
+}

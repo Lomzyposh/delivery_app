@@ -1,0 +1,43 @@
+[
+  {
+    "restaurantId": { "$oid": "68d86dd067f60c28ecca7ac8" },
+    "name": "Meat Pie",
+    "description": "Flaky pastry filled with spiced meat & veggies",
+    "price": 1200,
+    "image": "",
+    "category": "Snacks",
+    "ingredients": ["Flour", "Beef", "Carrot", "Onion"],
+    "isAvailable": true,
+    "tags": ["baked", "popular"],
+    "rating": { "average": 4.5, "count": 10 },
+    "prepTime": 20,
+    "discount": 0,
+    "isFeatured": true
+  },
+  {
+    "restaurantId": { "$oid": "68d86dd067f60c28ecca7ac8" },
+    "name": "Puff Puff",
+    "description": "Sweet, fluffy fried dough balls",
+    "price": 500,
+    "image": "",
+    "category": "Snacks",
+    "ingredients": ["Flour", "Yeast", "Sugar"],
+    "isAvailable": true,
+    "tags": ["sweet"],
+    "rating": { "average": 4.2, "count": 7 },
+    "prepTime": 10
+  },
+  {
+    "restaurantId": { "$oid": "68d86dd067f60c28ecca7ac8" },
+    "name": "Suya",
+    "description": "Spicy grilled beef skewers",
+    "price": 2000,
+    "image": "",
+    "category": "Meals",
+    "ingredients": ["Beef", "Yaji spice", "Onion"],
+    "isAvailable": true,
+    "tags": ["spicy", "grill"],
+    "rating": { "average": 4.8, "count": 25 },
+    "prepTime": 15
+  }
+]
