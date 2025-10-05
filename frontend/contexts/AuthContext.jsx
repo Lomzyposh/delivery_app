@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import * as SecureStore from "expo-secure-store";
 import axios from "axios";
 
-const API_URL = "http://192.168.177.224:5000"; 
+const API_URL = "http://192.168.121.224:5000";
 
 const AuthContext = createContext(null);
 
@@ -15,14 +15,16 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     (async () => {
       const refresh = await SecureStore.getItemAsync("refresh");
+      console.log("🔑 Refresh token from SecureStore:", refresh);
+
       if (refresh) {
         try {
           const { data } = await axios.post(`${API_URL}/refresh`, { refresh });
           setAccess(data.access);
-          const me = await axios.get(`${API_URL}/me`, {
-            headers: { Authorization: `Bearer ${data.access}` },
-          });
-          setUser(me.data);
+
+          const payload = JSON.parse(atob(data.access.split(".")[1]));
+          setUser({ id: payload.sub, role: payload.role });
+
         } catch {
           await SecureStore.deleteItemAsync("refresh");
         }
@@ -64,7 +66,10 @@ export function AuthProvider({ children }) {
     const { data } = await axios.post(`${API_URL}/login`, { email, password });
     setUser(data.user);
     setAccess(data.access);
+    console.log('Saving Refresh: ', data.refresh);
     await SecureStore.setItemAsync("refresh", data.refresh);
+    const saved = await SecureStore.getItemAsync("refresh");
+    console.log("📦 Saved refresh token:", saved);
   };
 
   const signup = async (name, email, password) => {
@@ -76,7 +81,7 @@ export function AuthProvider({ children }) {
 
   const logout = async () => {
     const refresh = await SecureStore.getItemAsync("refresh");
-    await axios.post(`${API_URL}/logout`, { refresh }).catch(() => {});
+    await axios.post(`${API_URL}/logout`, { refresh }).catch(() => { });
     await SecureStore.deleteItemAsync("refresh");
     setUser(null);
     setAccess(null);

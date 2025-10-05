@@ -81,9 +81,13 @@ export default function OnboardingScreen({
 
   const handleGetStarted = () => {
     if (onGetStarted) return onGetStarted();
-    
-    router.replace("/login");
+
+    router.replace("/Auth/Login")
   };
+
+  const skipStarted = () => {
+    router.replace('/Main/Home')
+  }
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -118,6 +122,7 @@ export default function OnboardingScreen({
             onGetStarted={handleGetStarted}
             onNext={goNext}
             isLast={index === max - 1}
+            skipStarted={skipStarted}
           />
         )}
       </View>
@@ -169,7 +174,7 @@ function HeaderCTA({ onPress }) {
   );
 }
 
-function FooterCTA({ onGetStarted, onNext, isLast }) {
+function FooterCTA({ onGetStarted, onNext, isLast, skipStarted }) {
   return (
     <View style={styles.footer}>
       <TouchableOpacity
@@ -181,7 +186,7 @@ function FooterCTA({ onGetStarted, onNext, isLast }) {
           {isLast ? "Get Started" : "Next"}
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={onGetStarted} activeOpacity={0.8} style={styles.linkBtn}>
+      <TouchableOpacity onPress={skipStarted} activeOpacity={0.8} style={styles.linkBtn}>
         <Text style={styles.linkText}>Skip</Text>
       </TouchableOpacity>
     </View>

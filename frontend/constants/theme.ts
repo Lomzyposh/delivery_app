@@ -2,6 +2,8 @@ const tintColorLight = "#ff7f50";  // coral/orange (appetizing accent)
 const tintColorDark = "#ffa94d";   // softer orange glow
 
 export const Colors = {
+  tintColorLight: "#ff7f50",
+  tintColorDark: "#ffa94d",
   light: {
     text: "#11181C",         // main text
     background: "#ffffff",   // app background
@@ -28,4 +30,17 @@ export const Colors = {
     error: "#c0392b",        // red
     warning: "#e67e22",      // yellow/orange
   },
+};
+
+
+export const fonts = {
+  dpRegular: "DynaPuff_400Regular",
+  dpBold: "DynaPuff_700Bold",
+  obRegular: "Orbitron_400Regular",
+  obBold: "Orbitron_700Bold",
+  poppinsRegular: "Poppins_400Regular",
+  poppinsBold: "Poppins_700Bold",
+  interRegular: "Inter_400Regular",
+  interSemi: "Inter_600SemiBold",
+  fredoka: "Fredoka_700Bold"
 };

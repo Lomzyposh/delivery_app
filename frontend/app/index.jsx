@@ -4,6 +4,8 @@ import { View, Text, StyleSheet, Button } from "react-native";
 import axios from "axios";
 import { useRouter } from "expo-router";
 import OnboardingScreen from "../components/Onboarding";
+import LoadingScreen from "../components/LoadingScreen";
+import Onboarding2 from "../components/Onboarding2";
 
 export default function App() {
     const [msg, setMsg] = useState("");
@@ -16,11 +18,10 @@ export default function App() {
     }, []);
 
     return (
-        <OnboardingScreen buttonPosition="top" indicatorStyle="dash" />
+        // <OnboardingScreen buttonPosition="top" indicatorStyle="dash" />
+        // <LoadingScreen />
+        <Onboarding2 />
     );
 }
 
-const styles = StyleSheet.create({
-    container: { flex: 1, justifyContent: "center", alignItems: "center" },
-    text: { fontSize: 20 }
-});
+const styles = StyleSheet.create({});

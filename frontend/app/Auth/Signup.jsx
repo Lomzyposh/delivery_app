@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Button, Alert } from "react-native";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
+import { useRouter } from "expo-router";
 
-export default function SignupScreen({ navigation }) {
+export default function SignupScreen() {
+
   const { signup } = useAuth();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleSignup = async () => {
     if (!name || !email || !password) {
@@ -17,7 +20,7 @@ export default function SignupScreen({ navigation }) {
     setLoading(true);
     try {
       await signup(name.trim(), email.trim(), password);
-      navigation.replace("Home"); // same flow as login → go to Home
+      router.replace('/Main/Home');
     } catch (e) {
       Alert.alert("Error", e.response?.data?.error || e.message);
     } finally {
@@ -59,7 +62,7 @@ export default function SignupScreen({ navigation }) {
       <View style={{ marginTop: 10 }}>
         <Button
           title="Already have an account? Login"
-          onPress={() => navigation.replace("Login")}
+          onPress={() => router.replace("Auth/Login")}
         />
       </View>
     </View>
