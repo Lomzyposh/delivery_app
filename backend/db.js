@@ -21,10 +21,9 @@ async function login({ email, password }) {
   const ok = await bcrypt.compare(password, user.passwordHash);
   if (!ok) throw new Error("Invalid email or password");
 
-  return user; // return the doc, your route can issue JWT etc.
+  return user;
 }
 
-// ---------------- RESTAURANTS ----------------
 async function getAllRestaurants() {
   return Restaurant.find().sort({ isFeatured: -1, "rating.average": -1 });
 }

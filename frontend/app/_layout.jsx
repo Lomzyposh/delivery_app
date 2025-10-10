@@ -1,86 +1,68 @@
-import { Slot, SplashScreen, Stack, Tabs, useRouter } from "expo-router";
+// app/_layout.jsx
+import React, { useEffect } from "react";
+import { View, ActivityIndicator } from "react-native";
+import { Stack } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
+
 import { AuthProvider, useAuth } from "../contexts/AuthContext";
+import { CartProvider } from "../contexts/CartContext";
 
 import {
-    DynaPuff_400Regular,
-    DynaPuff_600SemiBold,
-    DynaPuff_700Bold,
-    useFonts,
+    DynaPuff_400Regular, DynaPuff_600SemiBold, DynaPuff_700Bold, useFonts,
 } from "@expo-google-fonts/dynapuff";
+import { Orbitron_400Regular, Orbitron_700Bold } from "@expo-google-fonts/orbitron";
+import { Fredoka_500Medium, Fredoka_700Bold } from "@expo-google-fonts/fredoka";
 import {
-    Orbitron_400Regular,
-    Orbitron_700Bold,
-} from "@expo-google-fonts/orbitron";
-
-import { Fredoka_500Medium, Fredoka_700Bold } from '@expo-google-fonts/fredoka';
-
-import {
-    Poppins_400Regular,
-    Poppins_500Medium,
-    Poppins_600SemiBold,
-    Poppins_700Bold,
+    Poppins_400Regular, Poppins_500Medium, Poppins_600SemiBold, Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
 import {
-    Inter_400Regular,
-    Inter_500Medium,
-    Inter_600SemiBold,
-    Inter_700Bold,
+    Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold,
 } from "@expo-google-fonts/inter";
+import { ThemeProvider } from "../contexts/ThemeContext";
+import { FavoritesProvider } from "../contexts/FavouriteContext";
 
-import { useEffect } from "react";
+SplashScreen.preventAutoHideAsync().catch(() => { });
 
-SplashScreen.preventAutoHideAsync();
+// Inner shell: safe place to use useAuth (we are inside AuthProvider here)
+function AppShell() {
+    const { booted } = useAuth(); // don't need userId here; CartProvider will read it
 
-// export default function RootLayout() {
-//   const { user} = useAuth();
-//   const router = useRouter();
+    if (!booted) {
+        return (
+            <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+                <ActivityIndicator size="large" />
+            </View>
+        );
+    }
 
-//   if (!booted) {
-//     return <OnboardingScreen/>;
-//   }
+    return (
+        <FavoritesProvider>
+            <CartProvider>
+                <Stack screenOptions={{ headerShown: false }} />
+            </CartProvider>
+        </FavoritesProvider>
+    );
+}
 
-//   if (!user) {
-//     router.replace("/Auth/Login");
-//   } else {
-//     router.replace("/Main/home");
-//   }
-
-//   return <Slot />;
-// }
 export default function RootLayout() {
-
     const [fontsLoaded] = useFonts({
-        DynaPuff_400Regular,
-        DynaPuff_600SemiBold,
-        DynaPuff_700Bold,
-        Orbitron_400Regular,
-        Orbitron_700Bold,
-        Poppins_400Regular,
-        Poppins_500Medium,
-        Poppins_600SemiBold,
-        Poppins_700Bold,
-        Inter_400Regular,
-        Inter_500Medium,
-        Inter_600SemiBold,
-        Inter_700Bold,
-        Fredoka_700Bold,
-        Fredoka_500Medium
+        DynaPuff_400Regular, DynaPuff_600SemiBold, DynaPuff_700Bold,
+        Orbitron_400Regular, Orbitron_700Bold,
+        Poppins_400Regular, Poppins_500Medium, Poppins_600SemiBold, Poppins_700Bold,
+        Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold,
+        Fredoka_700Bold, Fredoka_500Medium,
     });
 
-    useEffect(() => {
-        if (fontsLoaded) {
-            SplashScreen.hideAsync();
-        }
-    }, [fontsLoaded]);
-
+    useEffect(() => { if (fontsLoaded) SplashScreen.hideAsync().catch(() => { }); }, [fontsLoaded]);
     if (!fontsLoaded) return null;
 
     return (
-        <AuthProvider>
-            <Stack screenOptions={{
-                headerShown: false,
-            }}>
-            </Stack>
-        </AuthProvider>
-    )
+
+        <ThemeProvider>
+            <AuthProvider>
+
+                <AppShell />
+            </AuthProvider>
+        </ThemeProvider>
+    );
 }

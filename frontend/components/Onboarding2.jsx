@@ -11,6 +11,10 @@ const Onboarding2 = () => {
         router.push('/Main')
     }
 
+    const goToLogin = () => {
+        router.replace("/Auth/Login")
+    }
+
     const fallAnim = useRef(new Animated.Value(-300)).current;
 
     useEffect(() => {
@@ -26,7 +30,7 @@ const Onboarding2 = () => {
         <View style={styles.safe}>
             <ScrollView contentContainerStyle={styles.scroll}>
                 <View style={styles.container}>
-                    <Text style={styles.title} numberOfLines={2}>Welcome to Food Hut</Text>
+                    <Text style={styles.title} adjustsFontSizeToFit>Welcome to Food Hut</Text>
                     <Animated.Image
                         source={require("../assets/images/burger.png")}
                         style={[styles.image, { transform: [{ translateY: fallAnim }] }]}
@@ -34,7 +38,7 @@ const Onboarding2 = () => {
 
 
                     <View style={styles.buttonsContainer}>
-                        <TouchableOpacity style={styles.primaryButton} onPress={goToMain}>
+                        <TouchableOpacity style={styles.primaryButton} onPress={goToLogin}>
                             <MaterialIcons name="email" size={22} color={Colors.tintColorLight} style={{ marginRight: 8 }} />
                             <Text style={styles.primaryText}>Continue with Email</Text>
                         </TouchableOpacity>
@@ -81,7 +85,7 @@ const styles = StyleSheet.create({
         height: undefined,
         aspectRatio: 1,
         resizeMode: "contain",
-        marginTop: 130,
+        marginTop: 200,
         marginBottom: 40,
     },
 

@@ -1,0 +1,112 @@
+[
+  {
+    "_id": "eb27f99e4a0935fcd3f378d4",
+    "name": "Mama Spot 58",
+    "address": {
+      "street": "3 Sapele Road",
+      "city": "Abuja",
+      "state": "FCT"
+    },
+    "phone": "+2348030515843",
+    "isOpen": true
+  },
+  {
+    "_id": "b27cc1fa9717d7253ff491a0",
+    "name": "Urban Bistro 63",
+    "address": {
+      "street": "120 Herbert Macaulay Street",
+      "city": "Abuja",
+      "state": "FCT"
+    },
+    "phone": "+2348043046663",
+    "isOpen": true
+  },
+  {
+    "_id": "798824155446c7dd0d2d1fbc",
+    "name": "Urban Express 31",
+    "address": {
+      "street": "4 Bourdillon Street",
+      "city": "Enugu",
+      "state": "Enugu"
+    },
+    "phone": "+2348066549170",
+    "isOpen": true
+  },
+  {
+    "_id": "be92509fe64ec8e4594e5d0c",
+    "name": "Tasty Bistro 53",
+    "address": {
+      "street": "182 Bourdillon Street",
+      "city": "Benin City",
+      "state": "Edo"
+    },
+    "phone": "+2348018203483",
+    "isOpen": true
+  },
+  {
+    "_id": "5e1c7fe73707f804af1f3c2b",
+    "name": "Naija Express 9",
+    "address": {
+      "street": "119 Adetokunbo Avenue",
+      "city": "Port Harcourt",
+      "state": "Rivers"
+    },
+    "phone": "+2348050137293",
+    "isOpen": true
+  },
+  {
+    "_id": "913ff0b3ef70c5faf4d7eb14",
+    "name": "Tasty Corner 81",
+    "address": {
+      "street": "34 Bourdillon Street",
+      "city": "Benin City",
+      "state": "Edo"
+    },
+    "phone": "+2348048789520",
+    "isOpen": true
+  },
+  {
+    "_id": "7aab804eb84daec7619e13f6",
+    "name": "Tasty Bistro 41",
+    "address": {
+      "street": "14 Awolowo Street",
+      "city": "Enugu",
+      "state": "Enugu"
+    },
+    "phone": "+2348088839763",
+    "isOpen": true
+  },
+  {
+    "_id": "ff6c3a727993c17c3913d22f",
+    "name": "Chef Corner 45",
+    "address": {
+      "street": "150 Awolowo Avenue",
+      "city": "Benin City",
+      "state": "Edo"
+    },
+    "phone": "+2348035943810",
+    "isOpen": true
+  },
+  {
+    "_id": "828890c1e531e13d8d3a2ae7",
+    "name": "Naija Express 16",
+    "address": {
+      "street": "148 Adeola Street",
+      "city": "Benin City",
+      "state": "Edo"
+    },
+    "phone": "+2348078725220",
+    "isOpen": true
+  },
+  {
+    "_id": "beef970a492a118b70a7bb61",
+    "name": "Savory Corner 72",
+    "address": {
+      "street": "75 Awolowo Street",
+      "city": "Uyo",
+      "state": "Akwa Ibom"
+    },
+    "phone": "+2348082644252",
+    "isOpen": true
+  }
+]

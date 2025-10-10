@@ -1,30 +1,69 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 import * as SecureStore from "expo-secure-store";
 import axios from "axios";
 
 const API_URL = "http://192.168.121.224:5000";
-
 const AuthContext = createContext(null);
+
+function normalizeUser(u) {
+  if (!u) return null;
+  const id = u.id || u._id || u.userId || u.sub || null;
+  return id ? { ...u, id } : null;
+}
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [access, setAccess] = useState(null);
+  const [cart, setCart] = useState(null);
   const [booted, setBooted] = useState(false);
 
-  // Load refresh token on app start
+  const userId = user?.id || null;
+
+  // Attach interceptors ONCE
+  useEffect(() => {
+    const reqInt = axios.interceptors.request.use((config) => {
+      if (access) config.headers.Authorization = `Bearer ${access}`;
+      return config;
+    });
+
+    const resInt = axios.interceptors.response.use(
+      (res) => res,
+      async (err) => {
+        if (err.response?.status === 401) {
+          const refresh = await SecureStore.getItemAsync("refresh");
+          if (refresh) {
+            try {
+              const { data } = await axios.post(`${API_URL}/refresh`, { refresh });
+              setAccess(data.access);
+              err.config.headers.Authorization = `Bearer ${data.access}`;
+              return axios(err.config);
+            } catch {
+              await SecureStore.deleteItemAsync("refresh");
+              setUser(null);
+              setAccess(null);
+            }
+          }
+        }
+        throw err;
+      }
+    );
+
+    return () => {
+      axios.interceptors.request.eject(reqInt);
+      axios.interceptors.response.eject(resInt);
+    };
+  }, [access]);
+
+  // Boot: try refresh token → set access + user
   useEffect(() => {
     (async () => {
       const refresh = await SecureStore.getItemAsync("refresh");
-      console.log("🔑 Refresh token from SecureStore:", refresh);
-
       if (refresh) {
         try {
           const { data } = await axios.post(`${API_URL}/refresh`, { refresh });
           setAccess(data.access);
-
           const payload = JSON.parse(atob(data.access.split(".")[1]));
-          setUser({ id: payload.sub, role: payload.role });
-
+          setUser(normalizeUser({ id: payload.sub, role: payload.role }));
         } catch {
           await SecureStore.deleteItemAsync("refresh");
         }
@@ -33,65 +72,59 @@ export function AuthProvider({ children }) {
     })();
   }, []);
 
-  // attach token to all axios requests
-  axios.interceptors.request.use((config) => {
-    if (access) config.headers.Authorization = `Bearer ${access}`;
-    return config;
-  });
-
-  // auto-refresh when token expires
-  axios.interceptors.response.use(
-    (res) => res,
-    async (err) => {
-      if (err.response?.status === 401) {
-        const refresh = await SecureStore.getItemAsync("refresh");
-        if (refresh) {
-          try {
-            const { data } = await axios.post(`${API_URL}/refresh`, { refresh });
-            setAccess(data.access);
-            err.config.headers.Authorization = `Bearer ${data.access}`;
-            return axios(err.config); // retry once
-          } catch {
-            await SecureStore.deleteItemAsync("refresh");
-            setUser(null);
-            setAccess(null);
-          }
-        }
+  // Keep it simple: load cart whenever we have a userId
+  useEffect(() => {
+    if (!userId) return;
+    (async () => {
+      try {
+        const res = await fetch(`${API_URL}/cart?userId=${encodeURIComponent(userId)}`);
+        const data = await res.json();
+        setCart(data);
+        console.log("Cart gotten / Created");
+      } catch (e) {
+        console.warn("loadCart failed:", e.message);
       }
-      throw err;
-    }
-  );
+    })();
+  }, [userId]);
 
   const login = async (email, password) => {
     const { data } = await axios.post(`${API_URL}/login`, { email, password });
-    setUser(data.user);
     setAccess(data.access);
-    console.log('Saving Refresh: ', data.refresh);
+    setUser(normalizeUser(data.user)); // ✅ ensures .id exists
     await SecureStore.setItemAsync("refresh", data.refresh);
-    const saved = await SecureStore.getItemAsync("refresh");
-    console.log("📦 Saved refresh token:", saved);
   };
 
   const signup = async (name, email, password) => {
     const { data } = await axios.post(`${API_URL}/signup`, { name, email, password });
-    setUser(data.user);
     setAccess(data.access);
+    setUser(normalizeUser(data.user));
     await SecureStore.setItemAsync("refresh", data.refresh);
   };
 
   const logout = async () => {
     const refresh = await SecureStore.getItemAsync("refresh");
-    await axios.post(`${API_URL}/logout`, { refresh }).catch(() => { });
+    await axios.post(`${API_URL}/logout`, { refresh }).catch(() => {});
     await SecureStore.deleteItemAsync("refresh");
     setUser(null);
     setAccess(null);
+    setCart(null);
   };
 
-  return (
-    <AuthContext.Provider value={{ user, access, booted, login, signup, logout }}>
-      {children}
-    </AuthContext.Provider>
+  const value = useMemo(
+    () => ({
+      user,
+      userId,
+      access,
+      cart,
+      booted,
+      login,
+      signup,
+      logout,
+    }),
+    [user, userId, access, cart, booted]
   );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export const useAuth = () => useContext(AuthContext);

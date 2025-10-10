@@ -1,5 +1,19 @@
 const mongoose = require("mongoose");
 
+const addOnSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  price: {
+    type: Number,
+    required: true,
+    min: 0,
+  },
+});
+
+
 const foodItemSchema = new mongoose.Schema(
   {
     restaurantId: {
@@ -27,8 +41,7 @@ const foodItemSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      enum: ["Snacks", "Meals", "Drinks", "Desserts", "Others"],
-      default: "Snacks",
+      default: "Others",
     },
     ingredients: {
       type: [String], // array of strings
@@ -39,7 +52,6 @@ const foodItemSchema = new mongoose.Schema(
       default: true,
     },
 
-    // ⭐ Extras
     rating: {
       average: { type: Number, default: 0, min: 0, max: 5 },
       count: { type: Number, default: 0 }, // number of ratings
@@ -60,8 +72,22 @@ const foodItemSchema = new mongoose.Schema(
       type: Boolean, // highlight in promotions
       default: false,
     },
+    addOns: {
+      type: [addOnSchema],
+      default: [],
+    },
   },
-  { timestamps: true, collection: "fooditems" }
+  {
+    timestamps: true, collection: "fooditems", toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
 );
+
+foodItemSchema.virtual("addons", {
+  ref: "AddOn",
+  localField: "_id",
+  foreignField: "foodId",
+  justOne: false,
+});
 
 module.exports = mongoose.model("FoodItem", foodItemSchema);

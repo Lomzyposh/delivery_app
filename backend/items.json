@@ -1,0 +1,3728 @@
+[
+  {
+    "restaurantId": "913ff0b3ef70c5faf4d7eb14",
+    "name": "Moussaka",
+    "description": "Heat the grill to high. Brown the beef in a deep ovenproof frying pan over a high heat for 5 mins. Meanwhile, prick the aubergine with a fork, then microwave on High for 3-5 mins until soft. Mix the yogurt, egg and parmesan together, then add a little seasoning. ",
+    "price": 4200,
+    "image": "https://www.themealdb.com/images/media/meals/ctg8jd1585563097.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Beef (500g)",
+      "Aubergine (1 large)",
+      "Greek Yogurt (150g)",
+      "Egg (1 beaten)",
+      "Parmesan (3 tbs)",
+      "Tomato (400g)",
+      "Tomato Puree (4 tbs)",
+      "Potatoes (350g)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "greek"
+    ],
+    "rating": {
+      "average": 4.8,
+      "count": 715
+    },
+    "prepTime": 30
+  },
+  {
+    "restaurantId": "798824155446c7dd0d2d1fbc",
+    "name": "Egyptian Fatteh",
+    "description": "To prepare bread for bottom of dish: Take pita bread and rip into bite size pieces. In a frying pan, add about a 1/4 stick of butter, add bread pieces and fry until golden brown and crisp. Put these pieces in a glass baking dish, preferably a square sized dish. Set aside. Then add to same pan, a little more butter, salt, approximately 2 cloves of crushed fresh garlic, and a teaspoon or so of cumin stir around a bit until you can smell aroma, then add fried bread pieces to this mixture, stir to coat bread and put back into glass baking dish. Set aside.",
+    "price": 4250,
+    "image": "https://www.themealdb.com/images/media/meals/rlwcc51598734603.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Beef (1lb)",
+      "Onion (1)",
+      "Chicken Stock Cube (1)",
+      "Tomatoes (2)",
+      "Garlic Clove (4)",
+      "Tomato Puree (1 tbs)",
+      "Rice (2 cups)",
+      "Noodles (1/4 cup)",
+      "Butter (1/4 cup)",
+      "Olive Oil (2 cups)",
+      "Pita Bread (1)",
+      "Cumin (1 tbs)",
+      "White Wine Vinegar (3 tbs)",
+      "Salt (To taste)",
+      "Pepper (To taste)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "egyptian"
+    ],
+    "rating": {
+      "average": 3.5,
+      "count": 1037
+    },
+    "prepTime": 24
+  },
+  {
+    "restaurantId": "beef970a492a118b70a7bb61",
+    "name": "Minced Beef Pie",
+    "description": "Preheat the oven to 200C/400F/Gas 6. Heat the oil in a deep frying pan and fry the beef mince for 4-5 minutes, breaking it up with a wooden spoon as it browns.",
+    "price": 3050,
+    "image": "https://www.themealdb.com/images/media/meals/xwutvy1511555540.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Vegetable Oil (2 tbs)",
+      "Minced Beef (500g)",
+      "Onion (1 chopped)",
+      "Tomato Puree (1 tbls)",
+      "Plain Flour (1 ½ tbsp)",
+      "Mushrooms (75g)",
+      "Beef Stock (250ml)",
+      "Worcestershire Sauce (Dash)",
+      "Shortcrust Pastry (400g)",
+      "Egg Yolks (1)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "sweet",
+      "british"
+    ],
+    "rating": {
+      "average": 4,
+      "count": 209
+    },
+    "prepTime": 29
+  },
+  {
+    "restaurantId": "be92509fe64ec8e4594e5d0c",
+    "name": "Traditional Croatian Goulash",
+    "description": "Clean the meat from the veins if there are some and cut it into smaller pieces, 3 × 3 cm. Marinate the meat in the mustard and spices and let it sit in the refrigerator for one hour Heat one tablespoon of pork fat or vegetable oil in a pot and fry the meat on all sides until it gets browned. Once the meat is cooked, transfer it to a plate and add another tablespoon of fat to the pot",
+    "price": 600,
+    "image": "https://www.themealdb.com/images/media/meals/n1hcou1628770088.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Beef (500g)",
+      "Onions (2 chopped)",
+      "Carrots (2 chopped)",
+      "Garlic (2 cloves)",
+      "Bay Leaf (2)",
+      "Red Wine (200ml)",
+      "Water (2 Litres)",
+      "Mustard (3 tbs)",
+      "Salt (1tbsp)",
+      "Pepper (1/2 tsp)",
+      "Paprika (1/2 tsp)",
+      "Vegetable Oil (2 tbs)"
+    ],
+    "isAvailable": false,
+    "tags": [
+      "croatian"
+    ],
+    "rating": {
+      "average": 4.6,
+      "count": 969
+    },
+    "prepTime": 14
+  },
+  {
+    "restaurantId": "ff6c3a727993c17c3913d22f",
+    "name": "Roti john",
+    "description": "Mix all the ingredients in a bowl. Heat a pan or griddle with a little vegetable oil.",
+    "price": 2100,
+    "image": "https://www.themealdb.com/images/media/meals/hx335q1619789561.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Minced Beef (1/4 lb)",
+      "Onion (1)",
+      "Eggs (3)",
+      "Chilli (1 tbs)",
+      "Baguette (1/2)",
+      "Salt (To taste)",
+      "Pepper (To taste)",
+      "Mayonnaise (Top)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "malaysian"
+    ],
+    "rating": {
+      "average": 4.3,
+      "count": 654
+    },
+    "prepTime": 12
+  },
+
+  
+  {
+    "restaurantId": "828890c1e531e13d8d3a2ae7",
+    "name": "Beef stroganoff",
+    "description": "Heat the olive oil in a non-stick frying pan then add the sliced onion and cook on a medium heat until completely softened, so around 15 mins, adding a little splash of water if they start to stick at all. Crush in the garlic and cook for a 2-3 mins further, then add the butter. Once the butter is foaming a little, add the mushrooms and cook for around 5 mins until completely softened. Season everything well, then tip onto a plate. Tip the flour into a bowl with a big pinch of salt and pepper, then toss the steak in the seasoned flour. Add the steak pieces to the pan, splashing in a little oil if the pan looks particularly dry, and fry for 3-4 mins, until well coloured. Tip the onions and mushrooms back into the pan. Whisk the crème fraîche, mustard and beef stock together, then pour into the pan. Cook over a medium heat for around 5 mins. Scatter with parsley, then serve with pappardelle or rice.",
+    "price": 4150,
+    "image": "https://www.themealdb.com/images/media/meals/svprys1511176755.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Olive Oil (1 tbls)",
+      "Onions (1)",
+      "Garlic (1 clove)",
+      "Butter (1 tbsp)",
+      "Mushrooms (250g)",
+      "Beef Fillet (500g)",
+      "Plain Flour (1tbsp)",
+      "Creme Fraiche (150g)",
+      "English Mustard (1 tbsp)",
+      "Beef Stock (100ml)",
+      "Parsley (Topping)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "russian"
+    ],
+    "rating": {
+      "average": 4.7,
+      "count": 181
+    },
+    "prepTime": 40
+  },
+  {
+    "restaurantId": "be92509fe64ec8e4594e5d0c",
+    "name": "Beef Wellington",
+    "description": "Put the mushrooms into a food processor with some seasoning and pulse to a rough paste. Scrape the paste into a pan and cook over a high heat for about 10 mins, tossing frequently, to cook out the moisture from the mushrooms. Spread out on a plate to cool. Heat in a frying pan and add a little olive oil. Season the beef and sear in the hot pan for 30 secs only on each side. (You don't want to cook it at this stage, just colour it). Remove the beef from the pan and leave to cool, then brush all over with the mustard.",
+    "price": 2900,
+    "image": "https://www.themealdb.com/images/media/meals/vvpprx1487325699.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "mushrooms (400g)",
+      "English Mustard (1-2tbsp)",
+      "Olive Oil (Dash)",
+      "Beef Fillet (750g piece)",
+      "Parma ham (6-8 slices)",
+      "Puff Pastry (500g)",
+      "Flour (Dusting)",
+      "Egg Yolks (2 Beaten)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "british"
+    ],
+    "rating": {
+      "average": 4.3,
+      "count": 492
+    },
+    "prepTime": 12
+  },
+  {
+    "restaurantId": "828890c1e531e13d8d3a2ae7",
+    "name": "Oxtail with broad beans",
+    "description": "Toss the oxtail with the onion, spring onion, garlic, ginger, chilli, soy sauce, thyme, salt and pepper. Heat the vegetable oil in a large frying pan over medium-high heat. Brown the oxtail in the pan until browned all over, about 10 minutes. Place into a pressure cooker, and pour in 375ml water. Cook at pressure for 25 minutes, then remove from heat, and remove the lid according to manufacturer's directions. Add the broad beans and pimento berries, and bring to a simmer over medium-high heat. Dissolve the cornflour in 2 tablespoons water, and stir into the simmering oxtail. Cook and stir a few minutes until the sauce has thickened, and the broad beans are tender.",
+    "price": 1350,
+    "image": "https://www.themealdb.com/images/media/meals/1520083578.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Oxtail (450g)",
+      "Onion (1 chopped)",
+      "Spring Onions (1)",
+      "Garlic (2 cloves minced)",
+      "Ginger (1 tsp)",
+      "Scotch Bonnet (1 chopped)",
+      "Soy Sauce (2 tbs)",
+      "Fresh Thyme (1 chopped)",
+      "Vegetable Oil (2 tbs)",
+      "Water (350ml)",
+      "Broad Beans (200g)",
+      "Corn Flour (1 tbs)",
+      "Water (2 tbs)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "jamaican"
+    ],
+    "rating": {
+      "average": 4.5,
+      "count": 1151
+    },
+    "prepTime": 40
+  },
+  {
+    "restaurantId": "5e1c7fe73707f804af1f3c2b",
+    "name": "Big Mac",
+    "description": "For the Big Mac sauce, combine all the ingredients in a bowl, season with salt and chill until ready to use. 2. To make the patties, season the mince with salt and pepper and form into 4 balls using about 1/3 cup mince each. Place each onto a square of baking paper and flatten to form into four x 15cm circles. Heat oil in a large frypan over high heat. In 2 batches, cook beef patties for 1-2 minutes each side until lightly charred and cooked through. Remove from heat and keep warm. Repeat with remaining two patties.",
+    "price": 1250,
+    "image": "https://www.themealdb.com/images/media/meals/urzj1d1587670726.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Minced Beef (400g)",
+      "Olive Oil (2 tbs)",
+      "Sesame Seed Burger Buns (2)",
+      "Onion (Chopped)",
+      "Iceberg Lettuce (1/4)",
+      "Cheese (2 sliced)",
+      "Dill Pickles (2 large)",
+      "Mayonnaise (1 cup)",
+      "White Wine Vinegar (2 tsp)",
+      "Pepper (Pinch)",
+      "Mustard (2 tsp)",
+      "Onion Salt (1 1/2 tsp)",
+      "Garlic Powder (1 1/2 tsp)",
+      "Paprika (1/2 tsp)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "american"
+    ],
+    "rating": {
+      "average": 4.5,
+      "count": 619
+    },
+    "prepTime": 42
+  },
+  {
+    "restaurantId": "798824155446c7dd0d2d1fbc",
+    "name": "Beef Lo Mein",
+    "description": "STEP 1 - MARINATING THE BEEF In a bowl, add the beef, salt, 1 pinch white pepper, 1 Teaspoon sesame seed oil, 1/2 egg, corn starch,1 Tablespoon of oil and mix together.",
+    "price": 3100,
+    "image": "https://www.themealdb.com/images/media/meals/1529444830.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Beef (1/2 lb)",
+      "Salt (pinch)",
+      "Pepper (pinch)",
+      "Sesame Seed Oil (2 tsp)",
+      "Egg (1/2)",
+      "Starch (3 tbs)",
+      "Oil (5 tbs)",
+      "Noodles (1/4 lb)",
+      "Onion (1/2 cup)",
+      "Minced Garlic (1 tsp)",
+      "Ginger (1 tsp)",
+      "Bean Sprouts (1 cup)",
+      "Mushrooms (1 cup)",
+      "Water (1 cup)",
+      "Oyster Sauce (1 tbs)",
+      "Sugar (1 tsp)",
+      "Soy Sauce (1 tsp)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "chinese"
+    ],
+    "rating": {
+      "average": 3.9,
+      "count": 1086
+    },
+    "prepTime": 23
+  },
+  {
+    "restaurantId": "eb27f99e4a0935fcd3f378d4",
+    "name": "Beef Banh Mi Bowls with Sriracha Mayo, Carrot & Pickled Cucumber",
+    "description": "Add'l ingredients: mayonnaise, siracha ",
+    "price": 4050,
+    "image": "https://www.themealdb.com/images/media/meals/z0ageb1583189517.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Rice (White)",
+      "Onion (1)",
+      "Lime (1)",
+      "Garlic Clove (3)",
+      "Cucumber (1)",
+      "Carrots (3 oz)",
+      "Ground Beef (1 lb)",
+      "Soy Sauce (2 oz)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "vietnamese"
+    ],
+    "rating": {
+      "average": 4.8,
+      "count": 128
+    },
+    "prepTime": 33
+  },
+  {
+    "restaurantId": "7aab804eb84daec7619e13f6",
+    "name": "Mulukhiyah",
+    "description": "Saute the onions in the 3-4 tablespoons olive oil Add the beef cubes or the chicken cutlets, sear for 3-4 min on each side",
+    "price": 3350,
+    "image": "https://www.themealdb.com/images/media/meals/x372ug1598733932.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Mulukhiyah (800g)",
+      "Onion (1 chopped)",
+      "Beef (300g)",
+      "Salt (1 tsp)",
+      "Water (1 Litre)",
+      "Garlic Clove (1)",
+      "Olive Oil (1/2 cup)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "egyptian"
+    ],
+    "rating": {
+      "average": 3.9,
+      "count": 390
+    },
+    "prepTime": 14
+  },
+  {
+    "restaurantId": "beef970a492a118b70a7bb61",
+    "name": "Steak and Kidney Pie",
+    "description": "Preheat the oven to 220C/425F/Gas 7 Heat the vegetable oil in a large frying pan, and brown the beef all over. (You may need to do this in batches.) Set aside, then brown the kidneys on both sides in the same pan. Add the onions and cook for 3-4 minutes.",
+    "price": 4950,
+    "image": "https://www.themealdb.com/images/media/meals/qysyss1511558054.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Puff Pastry (300g)",
+      "Egg White (Beaten)",
+      "Egg Yolks (Beaten)",
+      "Vegetable Oil (2 tbs)",
+      "Beef (70 ml)",
+      "Lamb Kidney (200g)",
+      "Onions (2 chopped)",
+      "Plain Flour (30g)",
+      "Beef Stock (85 ml)",
+      "Salt (pinch)",
+      "Pepper (pinch)",
+      "Worcestershire Sauce (Dash)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "sweet",
+      "british"
+    ],
+    "rating": {
+      "average": 4,
+      "count": 492
+    },
+    "prepTime": 20
+  },
+  {
+    "restaurantId": "ff6c3a727993c17c3913d22f",
+    "name": "Irish stew",
+    "description": "Heat the oven to 180C/350F/gas mark 4. Drain and rinse the soaked wheat, put it in a medium pan with lots of water, bring to a boil and simmer for an hour, until cooked. Drain and set aside. ",
+    "price": 3000,
+    "image": "https://www.themealdb.com/images/media/meals/sxxpst1468569714.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "whole wheat (300g soaked overnight in water)",
+      "lamb loin chops (2kg cut into 3cm cubes)",
+      "olive oil (120ml)",
+      "shallots (24 Skinned)",
+      "Carrots (4 large)",
+      "turnips (2)",
+      "celeriac (1)",
+      "charlotte potatoes (350g)",
+      "white wine (150ml)",
+      "caster sugar (1 tsp)",
+      "fresh thyme (4 sprigs)",
+      "oregano (4 sprigs)",
+      "chicken stock (450ml)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "irish"
+    ],
+    "rating": {
+      "average": 4.2,
+      "count": 289
+    },
+    "prepTime": 42
+  },
+  {
+    "restaurantId": "5e1c7fe73707f804af1f3c2b",
+    "name": "Red Peas Soup",
+    "description": "Wash and rinse the dried kidney beans.. then cover with water in a deep bowl. Remember as they soak they will expand to at least triple the size they were originally so add a lot of water to the bowl. Soak them overnight or for at least 2 hrs to make the cooking step go quicker. I tossed out the water they were soaked in after it did the job. ",
+    "price": 1650,
+    "image": "https://www.themealdb.com/images/media/meals/sqpqtp1515365614.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Kidney Beans (2 cups)",
+      "Carrots (1 large)",
+      "Spring Onions (2 chopped)",
+      "Thyme (4 sprigs)",
+      "Onion (1 Diced)",
+      "Black Pepper (1/2 tsp)",
+      "Red Pepper (2 chopped)",
+      "Garlic Clove (4 Mashed)",
+      "Allspice (1 tbs)",
+      "Beef (2 Lbs)",
+      "Water (2L)",
+      "Potatoes (4)",
+      "Plain Flour (1 cup)",
+      "Water (1/4 cup)",
+      "Coconut Milk (1 cup)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "jamaican"
+    ],
+    "rating": {
+      "average": 3.6,
+      "count": 129
+    },
+    "prepTime": 33
+  },
+  {
+    "restaurantId": "913ff0b3ef70c5faf4d7eb14",
+    "name": "Braised Beef Chilli",
+    "description": "Preheat the oven to 120C/225F/gas mark 1. ",
+    "price": 2750,
+    "image": "https://www.themealdb.com/images/media/meals/uuqvwu1504629254.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Beef (1kg)",
+      "Onions (3)",
+      "Garlic (4 cloves)",
+      "Olive oil (Dash)",
+      "Chorizo (300g)",
+      "Cumin (2 tsp)",
+      "Allspice (2 tsp)",
+      "Cloves (1 tsp)",
+      "Cinnamon stick (1 large)",
+      "Bay Leaves (3)",
+      "Oregano (2 tsp dried)",
+      "Ancho Chillies (2 ancho)",
+      "Balsamic Vinegar (3 tbsp)",
+      "Plum Tomatoes (2 x 400g)",
+      "Tomato Ketchup (2 tbsp)",
+      "Dark Brown Sugar (2 tbsp)",
+      "Borlotti Beans (2 x 400g tins)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "spicy",
+      "mexican"
+    ],
+    "rating": {
+      "average": 4.8,
+      "count": 791
+    },
+    "prepTime": 30
+  },
+  {
+    "restaurantId": "be92509fe64ec8e4594e5d0c",
+    "name": "Beef and Oyster pie",
+    "description": "Season the beef cubes with salt and black pepper. Heat a tablespoon of oil in the frying pan and fry the meat over a high heat. Do this in three batches so that you don’t overcrowd the pan, transferring the meat to a large flameproof casserole dish once it is browned all over. Add extra oil if the pan seems dry. In the same pan, add another tablespoon of oil and cook the shallots for 4-5 minutes, then add the garlic and fry for 30 seconds. Add the bacon and fry until slightly browned. Transfer the onion and bacon mixture to the casserole dish and add the herbs.",
+    "price": 1900,
+    "image": "https://www.themealdb.com/images/media/meals/wrssvt1511556563.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Beef (900g)",
+      "Olive Oil (3 tbs)",
+      "Shallots (3)",
+      "Garlic (2 cloves minced)",
+      "Bacon (125g)",
+      "Thyme (1 tbs chopped)",
+      "Bay Leaf (2)",
+      "Stout (330ml)",
+      "Beef Stock (400ml)",
+      "Corn Flour (2 tbs)",
+      "Oysters (8)",
+      "Plain Flour (400g)",
+      "Salt (pinch)",
+      "Butter (250g)",
+      "Eggs (To Glaze)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "sweet",
+      "british"
+    ],
+    "rating": {
+      "average": 3.6,
+      "count": 618
+    },
+    "prepTime": 40
+  },
+  {
+    "restaurantId": "eb27f99e4a0935fcd3f378d4",
+    "name": "Beef Mechado",
+    "description": "0.\tMake the beef tenderloin marinade by combining soy sauce, vinegar, ginger, garlic, sesame oil, olive oil, sugar, salt, and ground black pepper in a large bowl. Mix well. 1.\tAdd the cubed beef tenderloin to the bowl with the beef tenderloin marinade. Gently toss to coat the beef. Let it stay for 1 hour.",
+    "price": 3200,
+    "image": "https://www.themealdb.com/images/media/meals/cgl60b1683206581.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Garlic (3 cloves)",
+      "Onion (1 sliced)",
+      "Beef (2 Lbs)",
+      "Tomato Puree (8 ounces)",
+      "Water (1 cup)",
+      "Olive Oil (3 tbs)",
+      "Lemon (1 Slice)",
+      "Potatoes (1 large)",
+      "Soy Sauce (1/4 cup)",
+      "Black Pepper (1/2 tsp)",
+      "Bay Leaves (2)",
+      "Salt (To taste)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "filipino"
+    ],
+    "rating": {
+      "average": 4,
+      "count": 1113
+    },
+    "prepTime": 14
+  },
+  {
+    "restaurantId": "eb27f99e4a0935fcd3f378d4",
+    "name": "Montreal Smoked Meat",
+    "description": "To make the cure, in a small bowl mix together salt, pink salt, black pepper, coriander, sugar, bay leaf, and cloves. Coat entire brisket with the cure and place in an extra-large resealable plastic bag. Place in the coldest part of the refrigerator and cure for 4 days, flipping brisket twice a day. Remove brisket from bag and wash as much cure off as possible under cold running water. Place brisket in a large container and fill with water and let soak for 2 hours, replacing water every 30 minutes. Remove from water and pat dry with paper towels.",
+    "price": 4900,
+    "image": "https://www.themealdb.com/images/media/meals/uttupv1511815050.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Beef Brisket (1)",
+      "Salt (3 tbs)",
+      "Black Pepper (3 tbs)",
+      "Coriander (1 tbs)",
+      "Sugar (1 tbs)",
+      "Bay Leaf (1 tsp)",
+      "Cloves (1 tsp)",
+      "Black Pepper (3 tbs)",
+      "Coriander (1 tbs)",
+      "Paprika (1 tbs)",
+      "Garlic (1 tbs)",
+      "Onion (1 tbs)",
+      "Dill (1 tbs)",
+      "English Mustard (1 tsp)",
+      "Celery Salt (1 tbs)",
+      "Red Pepper Flakes (1 tsp)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "canadian"
+    ],
+    "rating": {
+      "average": 4.7,
+      "count": 1041
+    },
+    "prepTime": 25
+  },
+  {
+    "restaurantId": "ff6c3a727993c17c3913d22f",
+    "name": "Croatian Bean Stew",
+    "description": "Heat the oil in a pan. Add the chopped vegetables and sauté until tender. Take a pot, empty the beans together with the vegetables into it, put the sausages inside and cook for further 20 minutes on a low heat. Or, put it in an oven and bake it at a temperature of 180ºC/350ºF for 30 minutes. This dish is even better reheated the next day.",
+    "price": 650,
+    "image": "https://www.themealdb.com/images/media/meals/tnwy8m1628770384.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Cannellini Beans (2 cans)",
+      "Vegetable Oil (3 tbs)",
+      "Tomatoes (2 cups)",
+      "Challots (5)",
+      "Garlic (2 cloves)",
+      "Parsley (Pinch)",
+      "Chorizo (1/2 kg chopped)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "croatian"
+    ],
+    "rating": {
+      "average": 3.6,
+      "count": 158
+    },
+    "prepTime": 17
+  },
+  {
+    "restaurantId": "beef970a492a118b70a7bb61",
+    "name": "Beef Sunday Roast",
+    "description": "Cook the Broccoli and Carrots in a pan of boiling water until tender. ",
+    "price": 1600,
+    "image": "https://www.themealdb.com/images/media/meals/ssrrrs1503664277.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Beef (8 slices)",
+      "Broccoli (12 florets)",
+      "Potatoes (1 Packet)",
+      "Carrots (1 Packet)",
+      "plain flour (140g)",
+      "Eggs (4)",
+      "milk (200ml)",
+      "sunflower oil (drizzle (for cooking))"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "british"
+    ],
+    "rating": {
+      "average": 4.2,
+      "count": 792
+    },
+    "prepTime": 17
+  },
+  {
+    "restaurantId": "ff6c3a727993c17c3913d22f",
+    "name": "Beef Brisket Pot Roast",
+    "description": "1 Prepare the brisket for cooking: On one side of the brisket there should be a layer of fat, which you want. If there are any large chunks of fat, cut them off and discard them. Large pieces of fat will not be able to render out completely. Using a sharp knife, score the fat in parallel lines, about 3/4-inch apart. Slice through the fat, not the beef. Repeat in the opposite direction to make a cross-hatch pattern.",
+    "price": 3750,
+    "image": "https://www.themealdb.com/images/media/meals/ursuup1487348423.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Beef Brisket (4-5 pound)",
+      "Salt (Dash)",
+      "Onion (3)",
+      "Garlic (5 cloves)",
+      "Thyme (1 Sprig)",
+      "Rosemary (1 sprig)",
+      "Bay Leaves (4)",
+      "beef stock (2 cups)",
+      "Carrots (3 Large)",
+      "Mustard (1 Tbsp)",
+      "Potatoes (4 Mashed)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "american"
+    ],
+    "rating": {
+      "average": 4.7,
+      "count": 855
+    },
+    "prepTime": 16
+  },
+  {
+    "restaurantId": "be92509fe64ec8e4594e5d0c",
+    "name": "Beef Rendang",
+    "description": "Chop the spice paste ingredients and then blend it in a food processor until fine. Heat the oil in a stew pot, add the spice paste, cinnamon, cloves, star anise, and cardamom and stir-fry until aromatic. Add the beef and the pounded lemongrass and stir for 1 minute. Add the coconut milk, tamarind juice, water, and simmer on medium heat, stirring frequently until the meat is almost cooked. Add the kaffir lime leaves, kerisik (toasted coconut), sugar or palm sugar, stirring to blend well with the meat.",
+    "price": 3200,
+    "image": "https://www.themealdb.com/images/media/meals/bc8v651619789840.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Beef (1lb)",
+      "Vegetable Oil (5 tbs)",
+      "Cinnamon Stick (1)",
+      "Cloves (3)",
+      "Star Anise (3)",
+      "Cardamom (3)",
+      "Coconut Cream (1 cup)",
+      "Water (1 cup)",
+      "Tamarind Paste (2 tbs)",
+      "Lime (6)",
+      "Sugar (1 tbs)",
+      "Challots (5)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "malaysian"
+    ],
+    "rating": {
+      "average": 4.6,
+      "count": 882
+    },
+    "prepTime": 25
+  },
+  {
+    "restaurantId": "7aab804eb84daec7619e13f6",
+    "name": "Beef Dumpling Stew",
+    "description": "Preheat the oven to 180C/350F/Gas 4. ",
+    "price": 3050,
+    "image": "https://www.themealdb.com/images/media/meals/uyqrrv1511553350.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Olive Oil (2 tbs)",
+      "Butter (25g)",
+      "Beef (750g)",
+      "Plain Flour (2 tblsp)",
+      "Garlic (2 cloves minced)",
+      "Onions (175g)",
+      "Celery (150g)",
+      "Carrots (150g)",
+      "Leek (2 chopped)",
+      "Swede (200g)",
+      "Red Wine (150ml)",
+      "Beef Stock (500g)",
+      "Bay Leaf (2)",
+      "Thyme (3 tbs)",
+      "Parsley (3 tblsp chopped)",
+      "Plain Flour (125g)",
+      "Baking Powder (1 tsp)",
+      "Suet (60g)",
+      "Water (Splash)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "british"
+    ],
+    "rating": {
+      "average": 4.8,
+      "count": 996
+    },
+    "prepTime": 37
+  },
+  {
+    "restaurantId": "b27cc1fa9717d7253ff491a0",
+    "name": "Beef Caldereta",
+    "description": "0.\tHeat oil in a cooking pot. Saute onion and garlic until onion softens 1.\tAdd beef. Saute until the outer part turns light brown.",
+    "price": 2900,
+    "image": "https://www.themealdb.com/images/media/meals/41cxjh1683207682.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Beef (2kg cut cubes)",
+      "Beef Stock (1)",
+      "Soy Sauce (1 tbs)",
+      "Water (2 cups)",
+      "Green Pepper (1 sliced)",
+      "Red Pepper (1 sliced)",
+      "Potatoes (1 sliced)",
+      "Carrots (1 sliced)",
+      "Tomato Puree (8 ounces)",
+      "Peanut Butter (3  tablespoons)",
+      "Chilli Powder (5)",
+      "Onion (1 chopped)",
+      "Garlic (5 cloves)",
+      "Olive Oil (3 tbs)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "filipino"
+    ],
+    "rating": {
+      "average": 4.9,
+      "count": 253
+    },
+    "prepTime": 12
+  },
+  {
+    "restaurantId": "913ff0b3ef70c5faf4d7eb14",
+    "name": "Jamaican Beef Patties",
+    "description": "Make the Pastry Dough ",
+    "price": 3100,
+    "image": "https://www.themealdb.com/images/media/meals/wsqqsw1515364068.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Plain Flour (4 cups)",
+      "Salt (1 tsp)",
+      "Curry Powder (1 tsp)",
+      "Butter (250g)",
+      "Water (1 cup)",
+      "Minced Beef (900g)",
+      "Allspice (1 tsp)",
+      "Black Pepper (1/2 tsp)",
+      "Vegetable Oil (2 tbs)",
+      "Onions (1 cup)",
+      "Red Pepper (Ground)",
+      "Garlic (2 tsp ground)",
+      "Thyme (1 tbs)",
+      "Salt (1/4 tsp)",
+      "Tomato Ketchup (2 tbs)",
+      "Water (2 cups)",
+      "Onions (1/2 cup)",
+      "Egg (1 beaten)",
+      "Water (1 tbs)",
+      "Water (1/4 cup)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "jamaican"
+    ],
+    "rating": {
+      "average": 3.5,
+      "count": 532
+    },
+    "prepTime": 14
+  },
+  {
+    "restaurantId": "be92509fe64ec8e4594e5d0c",
+    "name": "Croatian lamb peka",
+    "description": "Preheat oven to 200°C fan / 220°C / 425°F / Gas mark 7 If you have not bought diced lamb, cut your lamb shoulder or leg into large chunks and place to one side.",
+    "price": 2300,
+    "image": "https://www.themealdb.com/images/media/meals/pn59o51628769837.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Potatoes (600g)",
+      "Courgettes (1 chopped)",
+      "Carrots (1 chopped)",
+      "Green Pepper (1 chopped)",
+      "Aubergine (1 small)",
+      "Onion (1 Large Chopped)",
+      "Lamb Shoulder (800g)",
+      "Garlic Sauce (1 tbs)",
+      "Tomato Puree (1 tbs)",
+      "Olive Oil (80 ml)",
+      "Thyme (Sprinking)",
+      "White Wine (250ml)",
+      "Pepper (Pinch)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "croatian"
+    ],
+    "rating": {
+      "average": 4.9,
+      "count": 325
+    },
+    "prepTime": 35
+  },
+  {
+    "restaurantId": "eb27f99e4a0935fcd3f378d4",
+    "name": "Massaman Beef curry",
+    "description": "Heat oven to 200C/180C fan/gas 6, then roast the peanuts on a baking tray for 5 mins until golden brown. When cool enough to handle, roughly chop. Reduce oven to 180C/160C fan/gas 4. Heat 2 tbsp coconut cream in a large casserole dish with a lid. Add the curry paste and fry for 1 min, then stir in the beef and fry until well coated and sealed. Stir in the rest of the coconut with half a can of water, the potatoes, onion, lime leaves, cinnamon, tamarind, sugar, fish sauce and most of the peanuts. Bring to a simmer, then cover and cook for 2 hrs in the oven until the beef is tender.",
+    "price": 3450,
+    "image": "https://www.themealdb.com/images/media/meals/tvttqv1504640475.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Peanuts (85g)",
+      "Coconut cream (400ml can)",
+      "Massaman curry paste (4 tbsp)",
+      "Beef (600g stewing cut into strips)",
+      "Potatoes (450g waxy)",
+      "Onion (1 cut thin wedges)",
+      "Lime (4 leaves)",
+      "Cinnamon stick (1)",
+      "Tamarind paste (1 tbsp)",
+      "Brown sugar (1 tbsp palm or soft light)",
+      "Fish Sauce (1 tbsp)",
+      "chilli (1 red deseeded and finely sliced, to serve)",
+      "Jasmine Rice (to serve)"
+    ],
+    "isAvailable": false,
+    "tags": [
+      "spicy",
+      "thai"
+    ],
+    "rating": {
+      "average": 4.5,
+      "count": 335
+    },
+    "prepTime": 32
+  },
+  {
+    "restaurantId": "798824155446c7dd0d2d1fbc",
+    "name": "Steak Diane",
+    "description": "Heat oil in a 12\" skillet over medium-high heat. Season steaks with salt and pepper, and add to skillet; cook, turning once, until browned on both sides and cooked to desired doneness, about 4 to 5 minutes for medium-rare. Transfer steaks to a plate, and set aside. Return skillet to high heat, and add stock; cook until reduced until to 1⁄2 cup, about 10 minutes. Pour into a bowl, and set aside. Return skillet to heat, and add butter; add garlic and shallots, and cook, stirring, until soft, about 2 minutes. Add mushrooms, and cook, stirring, until they release any liquid and it evaporates and mushrooms begin to brown, about 2 minutes. Add cognac, and light with a match to flambée; cook until flame dies down. Stir in reserved stock, cream, Dijon, Worcestershire, and hot sauce, and then return steaks to skillet; cook, turning in sauce, until warmed through and sauce is thickened, about 4 minutes. Transfer steak to serving plates and stir parsley and chives into sauce; pour sauce over steaks to serve.",
+    "price": 4700,
+    "image": "https://www.themealdb.com/images/media/meals/vussxq1511882648.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Canola Oil (2 tbs)",
+      "Beef Fillet (4)",
+      "Beef Stock (1 1/2 cup)",
+      "Butter (2 tbs)",
+      "Garlic (2 cloves minced)",
+      "Challots (1 medium finely diced)",
+      "Mushrooms (4 oz)",
+      "Brandy (¼ cup)",
+      "Heavy Cream (¼ cup)",
+      "Dijon Mustard (1 tbs)",
+      "Worcestershire Sauce (1 tbs)",
+      "Tabasco Sauce (Dash)",
+      "Parsley (1 tbs minced)",
+      "Chives (1 tbs minced)",
+      "Salt (to taste)",
+      "Pepper (to taste)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "french"
+    ],
+    "rating": {
+      "average": 3.7,
+      "count": 690
+    },
+    "prepTime": 30
+  },
+  {
+    "restaurantId": "798824155446c7dd0d2d1fbc",
+    "name": "Soy-Glazed Meatloaves with Wasabi Mashed Potatoes & Roasted Carrots",
+    "description": "1. Preheat oven to 425 degrees. Wash and dry all produce. Dice potatoes into 1/2-inch pieces. Trim, peel, and cut carrots on a diagonal into 1/2-inch-thick pieces. Trim and thinly slice scallions, separating whites from greens; finely chop whites. Peel and finely chop garlic. ",
+    "price": 4250,
+    "image": "https://www.themealdb.com/images/media/meals/o2wb6p1581005243.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Potatoes (5)",
+      "Carrots (12 ounces)",
+      "Scallions (1)",
+      "Garlic (2 cloves)",
+      "Bread (1 Slice)",
+      "Garlic Powder (1)",
+      "Soy Sauce (2)",
+      "Ground Beef (1)",
+      "Vegetable Oil (1 tsp)",
+      "Sugar (2 tsp)",
+      "Butter (2 tbsp)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "american"
+    ],
+    "rating": {
+      "average": 4.5,
+      "count": 426
+    },
+    "prepTime": 18
+  },
+  {
+    "restaurantId": "ff6c3a727993c17c3913d22f",
+    "name": "Chivito uruguayo",
+    "description": "Crush the meat so that it is finite and we put it on a griddle to brown. Put the eggs, bacon and ham to fry. Cut the bread in half, put the beef brisket, the fried eggs, the bacon, the ham, the mozzarella, the tomato and the lettuce. Cover with the other half of the bread and serve.",
+    "price": 4150,
+    "image": "https://www.themealdb.com/images/media/meals/n7qnkb1630444129.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Beef Brisket (2)",
+      "Bread (2)",
+      "Lettuce (1)",
+      "Tomato (1)",
+      "Ham (100g)",
+      "Mozzarella (100g)",
+      "Bacon (100g)",
+      "Egg (1)",
+      "Onion (1)",
+      "Pepper (1)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "uruguayan"
+    ],
+    "rating": {
+      "average": 4.5,
+      "count": 76
+    },
+    "prepTime": 31
+  },
+  {
+    "restaurantId": "913ff0b3ef70c5faf4d7eb14",
+    "name": "Beef and Mustard Pie",
+    "description": "Preheat the oven to 150C/300F/Gas 2. Toss the beef and flour together in a bowl with some salt and black pepper.",
+    "price": 3600,
+    "image": "https://www.themealdb.com/images/media/meals/sytuqu1511553755.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Beef (1kg)",
+      "Plain Flour (2 tbs)",
+      "Rapeseed Oil (2 tbs)",
+      "Red Wine (200ml)",
+      "Beef Stock (400ml)",
+      "Onion (1 finely sliced)",
+      "Carrots (2 chopped)",
+      "Thyme (3 sprigs)",
+      "Mustard (2 tbs)",
+      "Egg Yolks (2 free-range)",
+      "Puff Pastry (400g)",
+      "Green Beans (300g)",
+      "Butter (25g)",
+      "Salt (pinch)",
+      "Pepper (pinch)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "sweet",
+      "british"
+    ],
+    "rating": {
+      "average": 4,
+      "count": 627
+    },
+    "prepTime": 27
+  },
+  {
+    "restaurantId": "798824155446c7dd0d2d1fbc",
+    "name": "Ma Po Tofu",
+    "description": "Add a small pinch of salt and sesame oil to minced beef. Mix well and set aside. Mix 1 tablespoon of cornstarch with 2 and ½ tablespoons of water in a small bowl to make water starch.",
+    "price": 2300,
+    "image": "https://www.themealdb.com/images/media/meals/1525874812.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Tofu (450g)",
+      "Minced Beef (100g)",
+      "Sesame Seed Oil (1/2 tbs)",
+      "Doubanjiang (1 1/2 tsp)",
+      "Fermented Black Beans (1/2 tsp)",
+      "Pepper (1 tbs)",
+      "Salt (1/2 tsp)",
+      "Sichuan pepper (1/2 tsp)",
+      "Soy Sauce (1 tbs)",
+      "Water (400ml)",
+      "Olive Oil (2 tbs)",
+      "Scallions (2 chopped)",
+      "Spring Onions (4)",
+      "Garlic (2 cloves chopped)",
+      "Ginger (4 sliced)",
+      "Water (2 1/2 tbs)",
+      "Cornstarch (1 tbs)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "chinese"
+    ],
+    "rating": {
+      "average": 5,
+      "count": 953
+    },
+    "prepTime": 24
+  },
+  {
+    "restaurantId": "798824155446c7dd0d2d1fbc",
+    "name": "Golabki (cabbage roll)",
+    "description": "Bring a large pot of lightly salted water to a boil. Place cabbage head into water, cover pot, and cook until cabbage leaves are slightly softened enough to remove from head, 3 minutes. Remove cabbage from pot and let cabbage sit until leaves are cool enough to handle, about 10 minutes. ",
+    "price": 1500,
+    "image": "https://www.themealdb.com/images/media/meals/q8sp3j1593349686.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Cabbage (1)",
+      "Butter (2 tbs)",
+      "Onion (1 chopped)",
+      "Ground Beef (1 lb)",
+      "Ground Pork (1/2 lb)",
+      "Rice (1 1/2 cups)",
+      "Garlic (1 tsp)",
+      "Salt (1 tsp)",
+      "Black Pepper (1/4 tsp)",
+      "Tomato Puree (3 cans)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "polish"
+    ],
+    "rating": {
+      "average": 3.6,
+      "count": 209
+    },
+    "prepTime": 32
+  },
+  {
+    "restaurantId": "ff6c3a727993c17c3913d22f",
+    "name": "Corned Beef and Cabbage",
+    "description": "1 ",
+    "price": 1650,
+    "image": "https://www.themealdb.com/images/media/meals/xb97a81583266727.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Beef Brisket (3 Lbs)",
+      "Small Potatoes (10)",
+      "Carrots (5)",
+      "Cabbage (1 head)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "irish"
+    ],
+    "rating": {
+      "average": 4.7,
+      "count": 11
+    },
+    "prepTime": 27
+  },
+  {
+    "restaurantId": "828890c1e531e13d8d3a2ae7",
+    "name": "Cevapi Sausages",
+    "description": "Place the ground meat in a bowl. Chop the onion very finely and grate the garlic cloves. Add to the bowl. Add the chopped parsley, all sorts of paprika, baking soda, dried breadcrumbs, water, Vegeta, salt, and pepper. Mix well with the hand mixer fitted with the dough hooks. Cover the bowl with cling film/ plastic foil and leave to rest for 1 or 2 hours in the refrigerator.",
+    "price": 4150,
+    "image": "https://www.themealdb.com/images/media/meals/vc08jn1628769553.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Minced Beef (500g)",
+      "Minced Pork (250g)",
+      "Onion (1)",
+      "Garlic (4 cloves)",
+      "Parsley (3 tblsp chopped)",
+      "Paprika (1 tbs)",
+      "Baking Powder (3/4 teaspoon)",
+      "Breadcrumbs (2 tbs)",
+      "Water (3 tbs)",
+      "Vegetable Stock Cube (1)",
+      "Salt (1 tsp)",
+      "Pepper (1 tsp)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "croatian"
+    ],
+    "rating": {
+      "average": 3.7,
+      "count": 11
+    },
+    "prepTime": 20
+  },
+  {
+    "restaurantId": "b27cc1fa9717d7253ff491a0",
+    "name": "Beef Asado",
+    "description": "0.\tCombine beef, crushed peppercorn, soy sauce, vinegar, dried bay leaves, lemon, and tomato sauce. Mix well. Marinate beef for at least 30 minutes. 1.\tPut the marinated beef in a cooking pot along with remaining marinade. Add water. Let boil.",
+    "price": 1400,
+    "image": "https://www.themealdb.com/images/media/meals/pkopc31683207947.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Beef (1.5kg)",
+      "Beef Stock Concentrate (1)",
+      "Tomato Puree (8 ounces)",
+      "Water (3 cups)",
+      "Soy Sauce (6 tablespoons)",
+      "White Wine Vinegar (1 tbs)",
+      "Pepper (2 tbs)",
+      "Bay Leaf (4)",
+      "Lemon (1/2)",
+      "Tomato Sauce (2 tbs)",
+      "Butter (3 tbs)",
+      "Olive Oil (1/2 cup)",
+      "Onion (1 chopped)",
+      "Garlic (4 cloves)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "filipino"
+    ],
+    "rating": {
+      "average": 3.7,
+      "count": 440
+    },
+    "prepTime": 12
+  },
+  {
+    "restaurantId": "beef970a492a118b70a7bb61",
+    "name": "Vegetable Shepherds Pie",
+    "description": "Add Ingredients: ",
+    "price": 1000,
+    "image": "https://www.themealdb.com/images/media/meals/w8umt11583268117.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Potatoes (3 Lbs)",
+      "Small Potatoes (3 Lbs)",
+      "Salted Butter (1/2 cup)",
+      "Mushrooms (1 oz)",
+      "Brown Lentils (3/4 cup)",
+      "Garlic (6 cloves)",
+      "Kosher Salt (1 tsp)",
+      "Onion (3 cups)",
+      "Tomato Puree (2 tbsp)",
+      "Bay Leaves",
+      "Olive Oil",
+      "Dry White Wine (2 cups)",
+      "Vegetable Stock (8 cups)",
+      "Cornstarch (2 tbsp)",
+      "Soy Sauce (2 tsp)",
+      "Rosemary (2 sprigs)",
+      "Parsley",
+      "Sage",
+      "Chives"
+    ],
+    "isAvailable": false,
+    "tags": [
+      "sweet",
+      "irish"
+    ],
+    "rating": {
+      "average": 4.8,
+      "count": 961
+    },
+    "prepTime": 39
+  },
+  {
+    "restaurantId": "913ff0b3ef70c5faf4d7eb14",
+    "name": "Bistek",
+    "description": "0.\tMarinate beef in soy sauce, lemon (or calamansi), and ground black pepper for at least 1 hour. Note: marinate overnight for best result 1.\tHeat the cooking oil in a pan then pan-fry half of the onions until the texture becomes soft. Set aside",
+    "price": 1600,
+    "image": "https://www.themealdb.com/images/media/meals/4pqimk1683207418.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Beef (1 lb)",
+      "Soy Sauce (5 tablespoons)",
+      "Lemon (1)",
+      "Garlic (3 cloves)",
+      "Onion (3 parts)",
+      "Olive Oil (4 tbs)",
+      "Water (1 cup)",
+      "Salt (1 pinch)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "filipino"
+    ],
+    "rating": {
+      "average": 4.7,
+      "count": 793
+    },
+    "prepTime": 13
+  },
+  {
+    "restaurantId": "b27cc1fa9717d7253ff491a0",
+    "name": "Szechuan Beef",
+    "description": "STEP 1 - MARINATING THE BEEF In a bowl, add the beef, salt, sesame seed oil, white pepper, egg white, 2 Tablespoon of corn starch and 1 Tablespoon of oil.",
+    "price": 2250,
+    "image": "https://www.themealdb.com/images/media/meals/1529443236.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Beef (1/2 lb)",
+      "Salt (1/2 tsp)",
+      "Sesame Seed Oil (1 tsp)",
+      "Pepper (1 pinch)",
+      "Egg White (1)",
+      "Starch (3 tbs)",
+      "Oil (4 tbs)",
+      "Ginger (1 tsp)",
+      "Garlic (1 tsp)",
+      "Onion (3/4 cup)",
+      "Carrots (1/2 cup)",
+      "Green Pepper (3/4 cup)",
+      "Celery (1 cup)",
+      "Mushrooms (1 cup)",
+      "Cooking wine (1 tbs)",
+      "Water (1 cup)",
+      "Oyster Sauce (1 tbs)",
+      "Hotsauce (1/2 tsp)",
+      "Sugar (1 tsp)",
+      "Soy Sauce (1 tbs)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "chinese"
+    ],
+    "rating": {
+      "average": 3.7,
+      "count": 758
+    },
+    "prepTime": 15
+  },
+  {
+    "restaurantId": "eb27f99e4a0935fcd3f378d4",
+    "name": "Paszteciki (Polish Pasties)",
+    "description": "Sift flour and salt into a large mixing bowl. Use a spoon to push the egg yolk through a fine sieve into the flour.",
+    "price": 1000,
+    "image": "https://www.themealdb.com/images/media/meals/c9a3l31593261890.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Flour (1 cup)",
+      "Salt (1/4 tsp)",
+      "Egg (1 Yolk)",
+      "Egg (1)",
+      "Butter (5 tbs)",
+      "Butter (6 tblsp)",
+      "Onion (1/3 cup)",
+      "Swede (1/2 cup)",
+      "Beef Brisket (1/2 lb)",
+      "Eggs (2 Beaten)",
+      "Salt (1 tsp)",
+      "Pepper (1/4 tsp)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "polish"
+    ],
+    "rating": {
+      "average": 4.5,
+      "count": 1199
+    },
+    "prepTime": 37
+  },
+  {
+    "restaurantId": "913ff0b3ef70c5faf4d7eb14",
+    "name": "Spaghetti Bolognese",
+    "description": "Put the onion and oil in a large pan and fry over a fairly high heat for 3-4 mins. Add the garlic and mince and fry until they both brown. Add the mushrooms and herbs, and cook for another couple of mins. ",
+    "price": 3550,
+    "image": "https://www.themealdb.com/images/media/meals/sutysw1468247559.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "onions (2)",
+      "olive oil (1tbsp)",
+      "garlic (1 clove)",
+      "lean minced beef (500g)",
+      "mushrooms (90g)",
+      "dried oregano (1tsp)",
+      "tomatoes (400g can)",
+      "hot beef stock (300ml)",
+      "tomato puree (1tbsp)",
+      "worcestershire sauce (1tbsp)",
+      "spaghetti (350g)",
+      "parmesan (Topping)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "italian"
+    ],
+    "rating": {
+      "average": 4.1,
+      "count": 134
+    },
+    "prepTime": 31
+  },
+  {
+    "restaurantId": "5e1c7fe73707f804af1f3c2b",
+    "name": "Beef Bourguignon",
+    "description": "Heat a large casserole pan and add 1 tbsp goose fat. Season the beef and fry until golden brown, about 3-5 mins, then turn over and fry the other side until the meat is browned all over, adding more fat if necessary. Do this in 2-3 batches, transferring the meat to a colander set over a bowl when browned. In the same pan, fry the bacon, shallots or pearl onions, mushrooms, garlic and bouquet garni until lightly browned. Mix in the tomato purée and cook for a few mins, stirring into the mixture. This enriches the bourguignon and makes a great base for the stew. Then return the beef and any drained juices to the pan and stir through.",
+    "price": 2400,
+    "image": "https://www.themealdb.com/images/media/meals/vtqxtu1511784197.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Goose Fat (3 tsp)",
+      "Beef Shin (600g)",
+      "Bacon (100g)",
+      "Challots (350g)",
+      "Chestnut Mushroom (250g)",
+      "Garlic Clove (2 sliced)",
+      "Bouquet Garni (1)",
+      "Tomato Puree (1 tbs)",
+      "Red Wine (750 ml)",
+      "Celeriac (600g)",
+      "Olive Oil (2 tbs)",
+      "Thyme (sprigs of fresh)",
+      "Rosemary (sprigs of fresh)",
+      "Bay Leaf (2)",
+      "Cardamom (4)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "french"
+    ],
+    "rating": {
+      "average": 3.9,
+      "count": 986
+    },
+    "prepTime": 44
+  },
+  {
+    "restaurantId": "913ff0b3ef70c5faf4d7eb14",
+    "name": "Portuguese prego with green piri-piri",
+    "description": "STEP 1 ",
+    "price": 1400,
+    "image": "https://www.themealdb.com/images/media/meals/ewcikl1614348364.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Garlic (1 clove)",
+      "Beef Fillet (2 small)",
+      "Olive Oil (2 tbs)",
+      "Vinegar (1 tbs)",
+      "Parsley (Leaves)",
+      "Ciabatta (2)",
+      "Rocket (2 handfulls)",
+      "Basil Leaves (Small bunch)",
+      "Parsley (Small bunch)",
+      "Jalapeno (1)",
+      "Vinegar (1 tbs)",
+      "Spring Onions (2 chopped)",
+      "Garlic (1/2)",
+      "Caster Sugar (1/2 tsp)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "portuguese"
+    ],
+    "rating": {
+      "average": 4.3,
+      "count": 107
+    },
+    "prepTime": 44
+  },
+  {
+    "restaurantId": "b27cc1fa9717d7253ff491a0",
+    "name": "Bitterballen (Dutch meatballs)",
+    "description": "Melt the butter in a skillet or pan. When melted, add the flour little by little and stir into a thick paste. Slowly stir in the stock, making sure the roux absorbs the liquid. Simmer for a couple of minutes on a low heat while you stir in the onion, parsley and the shredded meat. The mixture should thicken and turn into a heavy, thick sauce. ",
+    "price": 1350,
+    "image": "https://www.themealdb.com/images/media/meals/lhqev81565090111.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Butter (100g)",
+      "Flour (150g)",
+      "Beef Stock (700ml)",
+      "Onion (30g)",
+      "Parsley (1 tbs)",
+      "Beef (400g)",
+      "Salt (Pinch)",
+      "Pepper (Pinch)",
+      "Nutmeg (Pinch)",
+      "Flour (50g)",
+      "Eggs (2 Beaten)",
+      "Breadcrumbs (50g)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "dutch"
+    ],
+    "rating": {
+      "average": 4.3,
+      "count": 189
+    },
+    "prepTime": 36
+  },
+  {
+    "restaurantId": "798824155446c7dd0d2d1fbc",
+    "name": "Pate Chinois",
+    "description": "In a large pot of salted water, cook the potatoes until they are very tender. Drain. With a masher, coarsely crush the potatoes with at least 30 ml (2 tablespoons) of butter. With an electric mixer, purée with the milk. Season with salt and pepper. Set aside.",
+    "price": 1300,
+    "image": "https://www.themealdb.com/images/media/meals/yyrrxr1511816289.jpg",
+    "category": "Beef",
+    "ingredients": [
+      "Potatoes (4 cups)",
+      "Butter (60ml)",
+      "Milk (½ cup)",
+      "Minced Beef (450g)",
+      "Onion (1 finely chopped)",
+      "Creamed Corn (500ml)",
+      "Paprika (to taste)",
+      "Parsley (to taste)",
+      "Salt (Dash)",
+      "Pepper (Dash)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "canadian"
+    ],
+    "rating": {
+      "average": 3.9,
+      "count": 980
+    },
+    "prepTime": 29
+  },
+  {
+    "restaurantId": "7aab804eb84daec7619e13f6",
+    "name": "Breakfast Potatoes",
+    "description": "Before you do anything, freeze your bacon slices that way when you're ready to prep, it'll be so much easier to chop! Wash the potatoes and cut medium dice into square pieces. To prevent any browning, place the already cut potatoes in a bowl filled with water.",
+    "price": 4100,
+    "image": "https://www.themealdb.com/images/media/meals/1550441882.jpg",
+    "category": "Breakfast",
+    "ingredients": [
+      "Potatoes (3 Medium)",
+      "Olive Oil (1 tbs)",
+      "Bacon (2 strips)",
+      "Garlic Clove (Minced)",
+      "Maple Syrup (1 tbs)",
+      "Parsley (Garnish)",
+      "Salt (Pinch)",
+      "Pepper (Pinch)",
+      "Allspice (To taste)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "canadian"
+    ],
+    "rating": {
+      "average": 4,
+      "count": 995
+    },
+    "prepTime": 15
+  },
+  {
+    "restaurantId": "ff6c3a727993c17c3913d22f",
+    "name": "Fruit and Cream Cheese Breakfast Pastries",
+    "description": "Preheat oven to 400ºF (200ºC), and prepare two cookie sheets with parchment paper. In a bowl, mix cream cheese, sugar, and vanilla until fully combined. Lightly flour the surface and roll out puff pastry on top to flatten. Cut each sheet of puff pastry into 9 equal squares. On the top right and bottom left of the pastry, cut an L shape approximately ½ inch (1 cm) from the edge. NOTE: This L shape should reach all the way down and across the square, however both L shapes should not meet at the ends. Your pastry should look like a picture frame with two corners still intact.",
+    "price": 4650,
+    "image": "https://www.themealdb.com/images/media/meals/1543774956.jpg",
+    "category": "Breakfast",
+    "ingredients": [
+      "Cream Cheese (1 1/4 oz)",
+      "Sugar (1 1/4 cup)",
+      "Vanilla Extract (1 teaspoon)",
+      "Flour",
+      "Puff Pastry (2)",
+      "Strawberries",
+      "Raspberries",
+      "Blackberries"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "american"
+    ],
+    "rating": {
+      "average": 3.7,
+      "count": 386
+    },
+    "prepTime": 24
+  },
+  {
+    "restaurantId": "828890c1e531e13d8d3a2ae7",
+    "name": "Home-made Mandazi",
+    "description": "This is one recipe a lot of people have requested and I have tried to make it as simple as possible and I hope it will work for you. Make sure you use the right flour which is basically one with raising agents. Adjust the amount of sugar to your taste and try using different flavours to have variety whenever you have them. You can use Coconut milk instead of regular milk, you can also add desiccated coconut to the dry flour or other spices like powdered cloves or cinnamon.",
+    "price": 2200,
+    "image": "https://www.themealdb.com/images/media/meals/thazgm1555350962.jpg",
+    "category": "Breakfast",
+    "ingredients": [
+      "Self-raising Flour (750g)",
+      "Sugar (6 tablespoons)",
+      "Eggs (2)",
+      "Milk (1 cup)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "kenyan"
+    ],
+    "rating": {
+      "average": 3.8,
+      "count": 1120
+    },
+    "prepTime": 32
+  },
+  {
+    "restaurantId": "5e1c7fe73707f804af1f3c2b",
+    "name": "Salmon Eggs Eggs Benedict",
+    "description": "First make the Hollandaise sauce. Put the lemon juice and vinegar in a small bowl, add the egg yolks and whisk with a balloon whisk until light and frothy. Place the bowl over a pan of simmering water and whisk until mixture thickens. Gradually add the butter, whisking constantly until thick – if it looks like it might be splitting, then whisk off the heat for a few mins. Season and keep warm. ",
+    "price": 4400,
+    "image": "https://www.themealdb.com/images/media/meals/1550440197.jpg",
+    "category": "Breakfast",
+    "ingredients": [
+      "Eggs (4)",
+      "White Wine Vinegar (2 tbs)",
+      "English Muffins (2)",
+      "Butter (To serve)",
+      "Smoked Salmon (8 slices)",
+      "Lemon Juice (2 tsp)",
+      "White Wine Vinegar (2 tsp)",
+      "Egg (3 Yolkes)",
+      "Unsalted Butter (125g)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "american"
+    ],
+    "rating": {
+      "average": 4.4,
+      "count": 32
+    },
+    "prepTime": 34
+  },
+  {
+    "restaurantId": "913ff0b3ef70c5faf4d7eb14",
+    "name": "Bread omelette",
+    "description": "Make and enjoy",
+    "price": 4650,
+    "image": "https://www.themealdb.com/images/media/meals/hqaejl1695738653.jpg",
+    "category": "Breakfast",
+    "ingredients": [
+      "Bread (2)",
+      "Egg (2)",
+      "Salt (0.5)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "indian"
+    ],
+    "rating": {
+      "average": 4.8,
+      "count": 1021
+    },
+    "prepTime": 27
+  },
+  {
+    "restaurantId": "913ff0b3ef70c5faf4d7eb14",
+    "name": "English Breakfast",
+    "description": "Heat the flat grill plate over a low heat, on top of 2 rings/flames if it fits, and brush sparingly with light olive oil. Cook the sausages first. Add the sausages to the hot grill plate/the coolest part if there is one and allow to cook slowly for about 15-20 minutes, turning occasionally, until golden. After the first 10 minutes, increase the heat to medium before beginning to cook the other ingredients. If you are struggling for space, completely cook the sausages and keep hot on a plate in the oven.",
+    "price": 3900,
+    "image": "https://www.themealdb.com/images/media/meals/utxryw1511721587.jpg",
+    "category": "Breakfast",
+    "ingredients": [
+      "Sausages (2)",
+      "Bacon (3)",
+      "Mushrooms (2)",
+      "Tomatoes (2)",
+      "Black Pudding (1 Slice)",
+      "Eggs (2)",
+      "Bread (1 Slice)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "british"
+    ],
+    "rating": {
+      "average": 4.8,
+      "count": 141
+    },
+    "prepTime": 24
+  },
+  {
+    "restaurantId": "ff6c3a727993c17c3913d22f",
+    "name": "Full English Breakfast",
+    "description": "Heat the flat grill plate over a low heat, on top of 2 rings/flames if it fits, and brush sparingly with light olive oil. Cook the sausages first. Add the sausages to the hot grill plate/the coolest part if there is one and allow to cook slowly for about 15-20 minutes, turning occasionally, until golden. After the first 10 minutes, increase the heat to medium before beginning to cook the other ingredients. If you are struggling for space, completely cook the sausages and keep hot on a plate in the oven.",
+    "price": 2650,
+    "image": "https://www.themealdb.com/images/media/meals/sqrtwu1511721265.jpg",
+    "category": "Breakfast",
+    "ingredients": [
+      "Sausages (4)",
+      "Bacon (4)",
+      "Mushrooms (4)",
+      "Tomatoes (3)",
+      "Black Pudding (2 sliced)",
+      "Eggs (2)",
+      "Bread (1 Slice)",
+      "Baked Beans (100g)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "british"
+    ],
+    "rating": {
+      "average": 3.7,
+      "count": 724
+    },
+    "prepTime": 42
+  },
+  {
+    "restaurantId": "913ff0b3ef70c5faf4d7eb14",
+    "name": "Smoked Haddock Kedgeree",
+    "description": "Melt 50g butter in a large saucepan (about 20cm across), add 1 finely chopped medium onion and cook gently over a medium heat for 5 minutes, until softened but not browned. ",
+    "price": 2350,
+    "image": "https://www.themealdb.com/images/media/meals/1550441275.jpg",
+    "category": "Breakfast",
+    "ingredients": [
+      "Butter (50g)",
+      "Onion (1 chopped)",
+      "Cardamom (3 Pods)",
+      "Turmeric (1/4 tsp)",
+      "Cinnamon Stick (1 small)",
+      "Bay Leaf (Sprigs of fresh)",
+      "Basmati Rice (450g)",
+      "Chicken Stock (1 Litre)",
+      "Smoked Haddock (750g)",
+      "Eggs (3)",
+      "Parsley (3 tblsp chopped)",
+      "Lemon (1 chopped)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "indian"
+    ],
+    "rating": {
+      "average": 4.4,
+      "count": 1134
+    },
+    "prepTime": 26
+  },
+  {
+    "restaurantId": "7aab804eb84daec7619e13f6",
+    "name": "15-minute chicken & halloumi burgers",
+    "description": "STEP 1 ",
+    "price": 1750,
+    "image": "https://www.themealdb.com/images/media/meals/vdwloy1713225718.jpg",
+    "category": "Chicken",
+    "ingredients": [
+      "Chicken Breasts (2)",
+      "Oil (1 tbsp)",
+      "Hotsauce (4 tbsp)",
+      "Lemon Juice (½)",
+      "Buns (2)",
+      "Cheese (250g)",
+      "Cabbage (¼)",
+      "Mayonnaise (2 tbsp)",
+      "Sour Cream (4 tbsp)",
+      "Lettuce (4 leaves)",
+      "Red Pepper (2)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "american"
+    ],
+    "rating": {
+      "average": 4,
+      "count": 924
+    },
+    "prepTime": 25
+  },
+  {
+    "restaurantId": "913ff0b3ef70c5faf4d7eb14",
+    "name": "Chicken Handi",
+    "description": "Take a large pot or wok, big enough to cook all the chicken, and heat the oil in it. Once the oil is hot, add sliced onion and fry them until deep golden brown. Then take them out on a plate and set aside. To the same pot, add the chopped garlic and sauté for a minute. Then add the chopped tomatoes and cook until tomatoes turn soft. This would take about 5 minutes.",
+    "price": 2200,
+    "image": "https://www.themealdb.com/images/media/meals/wyxwsp1486979827.jpg",
+    "category": "Chicken",
+    "ingredients": [
+      "Chicken (1.2 kg)",
+      "Onion (5 thinly sliced)",
+      "Tomatoes (2 finely chopped)",
+      "Garlic (8 cloves chopped)",
+      "Ginger paste (1 tbsp)",
+      "Vegetable oil (¼ cup)",
+      "Cumin seeds (2 tsp)",
+      "Coriander seeds (3 tsp)",
+      "Turmeric powder (1 tsp)",
+      "Chilli powder (1 tsp)",
+      "Green chilli (2)",
+      "Yogurt (1 cup)",
+      "Cream (¾ cup)",
+      "fenugreek (3 tsp Dried)",
+      "Garam masala (1 tsp)",
+      "Salt (To taste)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "indian"
+    ],
+    "rating": {
+      "average": 3.9,
+      "count": 417
+    },
+    "prepTime": 21
+  },
+  {
+    "restaurantId": "5e1c7fe73707f804af1f3c2b",
+    "name": "Ayam Percik",
+    "description": "In a blender, add the ingredients for the spice paste and blend until smooth. Over medium heat, pour the spice paste in a skillet or pan and fry for 10 minutes until fragrant. Add water or oil 1 tablespoon at a time if the paste becomes too dry. Don't burn the paste. Lower the fire slightly if needed.",
+    "price": 2100,
+    "image": "https://www.themealdb.com/images/media/meals/020z181619788503.jpg",
+    "category": "Chicken",
+    "ingredients": [
+      "Chicken Thighs (6)",
+      "Challots (16)",
+      "Ginger (1 1/2)",
+      "Garlic Clove (6)",
+      "Cayenne Pepper (8)",
+      "Turmeric (2 tbs)",
+      "Cumin (1 1/2)",
+      "Coriander (1 1/2)",
+      "Fennel (1 1/2)",
+      "Tamarind Paste (2 tbs)",
+      "Coconut Milk (1 can)",
+      "Sugar (1 tsp)",
+      "Water (1 cup)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "malaysian"
+    ],
+    "rating": {
+      "average": 4.2,
+      "count": 109
+    },
+    "prepTime": 40
+  },
+  {
+    "restaurantId": "798824155446c7dd0d2d1fbc",
+    "name": "Kentucky Fried Chicken",
+    "description": "Preheat fryer to 350°F. Thoroughly mix together all the spice mix ingredients. Combine spice mix with flour, brown sugar and salt.",
+    "price": 1200,
+    "image": "https://www.themealdb.com/images/media/meals/xqusqy1487348868.jpg",
+    "category": "Chicken",
+    "ingredients": [
+      "Chicken (1 whole)",
+      "Oil (2 quarts neutral frying)",
+      "Egg White (1)",
+      "Flour (1 1/2 cups)",
+      "Brown Sugar (1 tablespoon)",
+      "Salt (1 tablespoon)",
+      "paprika (1 tablespoon)",
+      "onion salt (2 teaspoons)",
+      "chili powder (1 teaspoon)",
+      "black pepper (1 teaspoon)",
+      "celery salt (1/2 teaspoon)",
+      "sage (1/2 teaspoon)",
+      "garlic powder (1/2 teaspoon)",
+      "allspice (1/2 teaspoon)",
+      "oregano (1/2 teaspoon)",
+      "basil (1/2 teaspoon)",
+      "marjoram (1/2 teaspoon)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "american"
+    ],
+    "rating": {
+      "average": 4.4,
+      "count": 785
+    },
+    "prepTime": 13
+  },
+  {
+    "restaurantId": "eb27f99e4a0935fcd3f378d4",
+    "name": "Chicken Marengo",
+    "description": "Heat the oil in a large flameproof casserole dish and stir-fry the mushrooms until they start to soften. Add the chicken legs and cook briefly on each side to colour them a little. Pour in the passata, crumble in the stock cube and stir in the olives. Season with black pepper – you shouldn’t need salt. Cover and simmer for 40 mins until the chicken is tender. Sprinkle with parsley and serve with pasta and a salad, or mash and green veg, if you like.",
+    "price": 2850,
+    "image": "https://www.themealdb.com/images/media/meals/qpxvuq1511798906.jpg",
+    "category": "Chicken",
+    "ingredients": [
+      "Olive Oil (1 tbs)",
+      "Mushrooms (300g)",
+      "Chicken Legs (4)",
+      "Passata (500g)",
+      "Chicken Stock Cube (1)",
+      "Black Olives (100g)",
+      "Parsley (Chopped)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "french"
+    ],
+    "rating": {
+      "average": 4.7,
+      "count": 160
+    },
+    "prepTime": 22
+  },
+  {
+    "restaurantId": "be92509fe64ec8e4594e5d0c",
+    "name": "Coq au vin",
+    "description": "Heat 1 tbsp of the oil in a large, heavy-based saucepan or flameproof dish. Tip in the bacon and fry until crisp. Remove and drain on kitchen paper. Add the shallots to the pan and fry, stirring or shaking the pan often, for 5-8 mins until well browned all over. Remove and set aside with the bacon. Pat the chicken pieces dry with kitchen paper. Pour the remaining oil into the pan, then fry half the chicken pieces, turning regularly, for 5-8 mins until well browned. Remove, then repeat with the remaining chicken. Remove and set aside.",
+    "price": 3600,
+    "image": "https://www.themealdb.com/images/media/meals/qstyvs1505931190.jpg",
+    "category": "Chicken",
+    "ingredients": [
+      "Olive Oil (1½ tbsp)",
+      "Bacon (3 rashers (100g) chopped dry-cured)",
+      "Shallots (12 small)",
+      "Chicken Legs (2 (460g))",
+      "Chicken Thighs (4 (650g))",
+      "Chicken Breasts (2 (280g))",
+      "Garlic (3 finely chopped)",
+      "Brandy (3 tbsp)",
+      "Red Wine (600ml)",
+      "Chicken Stock (150ml)",
+      "tomato puree (2 tsp)",
+      "thyme (3 sprigs)",
+      "Rosemary (2 sprigs)",
+      "bay leaves (2)",
+      "parsley (garnish)",
+      "chestnut mushroom (250g)",
+      "plain flour (2 tbsp)",
+      "butter (1 tsp)"
+    ],
+    "isAvailable": false,
+    "tags": [
+      "french"
+    ],
+    "rating": {
+      "average": 3.8,
+      "count": 859
+    },
+    "prepTime": 30
+  },
+  {
+    "restaurantId": "5e1c7fe73707f804af1f3c2b",
+    "name": "Chicken Fajita Mac and Cheese",
+    "description": "Fry your onion, peppers and garlic in olive oil until nicely translucent. Make a well in your veg and add your chicken. Add your seasoning and salt. Allow to colour slightly. Add your cream, stock and macaroni.",
+    "price": 2250,
+    "image": "https://www.themealdb.com/images/media/meals/qrqywr1503066605.jpg",
+    "category": "Chicken",
+    "ingredients": [
+      "macaroni (500g)",
+      "chicken stock (2 cups)",
+      "heavy cream (1/2 cup)",
+      "fajita seasoning (1 packet)",
+      "salt (1 tsp)",
+      "chicken breast (3 diced)",
+      "olive oil (2 tbsp)",
+      "onion (1 small finely diced)",
+      "red pepper (2 finely diced)",
+      "garlic (2 cloves minced)",
+      "cheddar cheese (1 cup)",
+      "parsley (garnish chopped)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "american"
+    ],
+    "rating": {
+      "average": 3.9,
+      "count": 808
+    },
+    "prepTime": 20
+  },
+  {
+    "restaurantId": "5e1c7fe73707f804af1f3c2b",
+    "name": "Chicken & mushroom Hotpot",
+    "description": "Heat oven to 200C/180C fan/gas 6. Put the butter in a medium-size saucepan and place over a medium heat. Add the onion and leave to cook for 5 mins, stirring occasionally. Add the mushrooms to the saucepan with the onions. ",
+    "price": 3850,
+    "image": "https://www.themealdb.com/images/media/meals/uuuspp1511297945.jpg",
+    "category": "Chicken",
+    "ingredients": [
+      "Butter (50g)",
+      "Onion (1 chopped)",
+      "Mushrooms (100g)",
+      "Plain Flour (40g)",
+      "Chicken Stock Cube (1)",
+      "Nutmeg (pinch)",
+      "Mustard Powder (pinch)",
+      "Chicken (250g)",
+      "Sweetcorn (2 Handfuls)",
+      "Potatoes (2 large)",
+      "Butter (1 knob)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "british"
+    ],
+    "rating": {
+      "average": 4.4,
+      "count": 867
+    },
+    "prepTime": 24
+  },
+  {
+    "restaurantId": "ff6c3a727993c17c3913d22f",
+    "name": "Jerk chicken with rice & peas",
+    "description": "To make the jerk marinade, combine all the ingredients in a food processor along with 1 tsp salt, and blend to a purée. If you’re having trouble getting it to blend, just keep turning off the blender, stirring the mixture, and trying again. Eventually it will start to blend up – don’t be tempted to add water, as you want a thick paste. ",
+    "price": 4800,
+    "image": "https://www.themealdb.com/images/media/meals/tytyxu1515363282.jpg",
+    "category": "Chicken",
+    "ingredients": [
+      "Chicken Thighs (12)",
+      "Lime (1/2)",
+      "Spring Onions (1  bunch)",
+      "Ginger (1 tbs chopped)",
+      "Garlic (3 cloves)",
+      "Onion (1/2)",
+      "Red Chilli (3 chopped)",
+      "Thyme (1/2 teaspoon)",
+      "Lime (Juice of 1)",
+      "Soy Sauce (2 tbs)",
+      "Vegetable Oil (2 tbs)",
+      "Brown Sugar (3 tbs)",
+      "Allspice (1 tbs)",
+      "Basmati Rice (200g)",
+      "Coconut Milk (400g)",
+      "Spring Onions (1  bunch)",
+      "Thyme (2 sprigs)",
+      "Garlic (2 cloves chopped)",
+      "Allspice (1 tbs)",
+      "Kidney Beans (800g)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "jamaican"
+    ],
+    "rating": {
+      "average": 3.7,
+      "count": 68
+    },
+    "prepTime": 33
+  },
+  {
+    "restaurantId": "b27cc1fa9717d7253ff491a0",
+    "name": "Chicken Alfredo Primavera",
+    "description": "Heat 1 tablespoon of butter and 2 tablespoons of olive oil in a large skillet over medium-high heat. Season both sides of each chicken breast with seasoned salt and a pinch of pepper. Add the chicken to the skillet and cook for 5-7 minutes on each side, or until cooked through.  While the chicken is cooking, bring a large pot of water to a boil. Season the boiling water with a few generous pinches of kosher salt. Add the pasta and give it a stir. Cook, stirring occasionally, until al dente, about 12 minutes. Reserve 1/2 cup of  pasta water before draining the pasta.  Remove the chicken from the pan and transfer it to a cutting board; allow it to rest. Turn the heat down to medium and dd the remaining 1 tablespoon of butter and olive oil to the same pan you used to cook the chicken. Add the veggies (minus the garlic) and red pepper flakes to the pan and stir to coat with the oil and butter (refrain from seasoning with salt until the veggies are finished browning). Cook, stirring often, until the veggies are tender, about 5 minutes. Add the garlic and a generous pinch of salt and pepper to the pan and cook for 1 minute.  Deglaze the pan with the white wine. Continue to cook until the wine has reduced by half, about 3 minutes. Stir in the milk, heavy cream, and reserved pasta water. Bring the mixture to a gentle boil and allow to simmer and reduce for 2-3 minutes. Turn off the heat and add the Parmesan cheese and cooked pasta. Season with salt and pepper to taste. Garnish with Parmesan cheese and chopped parsley, if desired.",
+    "price": 2100,
+    "image": "https://www.themealdb.com/images/media/meals/syqypv1486981727.jpg",
+    "category": "Chicken",
+    "ingredients": [
+      "Butter (2 tablespoons)",
+      "Olive Oil (3 tablespoons)",
+      "Chicken (5 boneless)",
+      "Salt (1 teaspoon)",
+      "Squash (1 cut into 1/2-inch cubes)",
+      "Broccoli (1 Head chopped)",
+      "mushrooms (8-ounce sliced)",
+      "Pepper (1 red)",
+      "onion (1 chopped)",
+      "garlic (3 cloves)",
+      "red pepper flakes (1/2 teaspoon)",
+      "white wine (1/2 cup)",
+      "milk (1/2 cup)",
+      "heavy cream (1/2 cup)",
+      "Parmesan cheese (1 cup grated)",
+      "bowtie pasta (16 ounces)",
+      "Salt (pinch)",
+      "Pepper (pinch)",
+      "Parsley (chopped)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "italian"
+    ],
+    "rating": {
+      "average": 4.4,
+      "count": 540
+    },
+    "prepTime": 40
+  },
+  {
+    "restaurantId": "798824155446c7dd0d2d1fbc",
+    "name": "Chicken Parmentier",
+    "description": "For the topping, boil the potatoes in salted water until tender. Drain and push through a potato ricer, or mash thoroughly. Stir in the butter, cream and egg yolks. Season and set aside. For the filling, melt the butter in a large pan. Add the shallots, carrots and celery and gently fry until soft, then add the garlic. Pour in the wine and cook for 1 minute. Stir in the tomato purée, chopped tomatoes and stock and cook for 10–15 minutes, until thickened. Add the shredded chicken, olives and parsley. Season to taste with salt and pepper.",
+    "price": 4950,
+    "image": "https://www.themealdb.com/images/media/meals/uwvxpv1511557015.jpg",
+    "category": "Chicken",
+    "ingredients": [
+      "Potatoes (1.5kg)",
+      "Butter (30g)",
+      "Double Cream (5 tblsp)",
+      "Egg Yolks (2)",
+      "Butter (30g)",
+      "Shallots (7)",
+      "Carrots (3 chopped)",
+      "Celery (2 sticks)",
+      "Garlic Clove (1 finely chopped)",
+      "White Wine (4 tbsp)",
+      "Tomato Puree (1 tbls)",
+      "Tinned Tomatos (400g)",
+      "Chicken Stock (350ml)",
+      "Chicken (600g)",
+      "Black Olives (16)",
+      "Parsley (2 tbs)",
+      "Gruyere cheese (50g)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "french"
+    ],
+    "rating": {
+      "average": 4.4,
+      "count": 529
+    },
+    "prepTime": 35
+  },
+  {
+    "restaurantId": "eb27f99e4a0935fcd3f378d4",
+    "name": "French Onion Chicken with Roasted Carrots & Mashed Potatoes",
+    "description": "1 ",
+    "price": 2300,
+    "image": "https://www.themealdb.com/images/media/meals/b5ft861583188991.jpg",
+    "category": "Chicken",
+    "ingredients": [
+      "Chicken Breasts (2)",
+      "Carrots (12 ounces)",
+      "Potatoes (5)",
+      "Onion (1)",
+      "Beef Stock (1)",
+      "Mozzarella (1 1/2 cup)",
+      "Sour Cream (2 tbsp)",
+      "Butter",
+      "Sugar",
+      "Vegetable Oil",
+      "Salt",
+      "Pepper"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "american"
+    ],
+    "rating": {
+      "average": 4.5,
+      "count": 451
+    },
+    "prepTime": 22
+  },
+  {
+    "restaurantId": "b27cc1fa9717d7253ff491a0",
+    "name": "Chicken Karaage",
+    "description": "Add the ginger, garlic, soy sauce, sake and sugar to a bowl and whisk to combine. Add the chicken, then stir to coat evenly. Cover and refrigerate for at least 1 hour. ",
+    "price": 4450,
+    "image": "https://www.themealdb.com/images/media/meals/tyywsw1505930373.jpg",
+    "category": "Chicken",
+    "ingredients": [
+      "Chicken (450 grams Boneless skin)",
+      "Ginger (1 tablespoon)",
+      "Garlic (1 clove)",
+      "Soy sauce (2 tablespoons)",
+      "Sake (1 tablespoon)",
+      "Granulated sugar (2 teaspoon)",
+      "Potato starch (1/3 cup)",
+      "Vegetable oil (1/3 cup)",
+      "Lemon (1/3 cup)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "japanese"
+    ],
+    "rating": {
+      "average": 3.7,
+      "count": 904
+    },
+    "prepTime": 22
+  },
+  {
+    "restaurantId": "ff6c3a727993c17c3913d22f",
+    "name": "Tandoori chicken",
+    "description": "Mix the lemon juice with the paprika and red onions in a large shallow dish. Slash each chicken thigh three times, then turn them in the juice and set aside for 10 mins. Mix all of the marinade ingredients together and pour over the chicken. Give everything a good mix, then cover and chill for at least 1 hr. This can be done up to a day in advance.",
+    "price": 2350,
+    "image": "https://www.themealdb.com/images/media/meals/qptpvt1487339892.jpg",
+    "category": "Chicken",
+    "ingredients": [
+      "lemons (2 Juice)",
+      "paprika (4 tsp)",
+      "red onions (2 finely chopped)",
+      "chicken thighs (16 skinnless)",
+      "vegetable oil (For brushing)",
+      "Greek yogurt (300ml)",
+      "ginger (large piece)",
+      "garlic clove (4)",
+      "garam masala (¾ tsp)",
+      "ground cumin (¾ tsp)",
+      "chilli powder (½ tsp)",
+      "turmeric (¼ tsp)"
+    ],
+    "isAvailable": false,
+    "tags": [
+      "indian"
+    ],
+    "rating": {
+      "average": 4.3,
+      "count": 801
+    },
+    "prepTime": 33
+  },
+  {
+    "restaurantId": "ff6c3a727993c17c3913d22f",
+    "name": "Thai Green Curry",
+    "description": "Put the potatoes in a pan of boiling water and cook for 5 minutes. Throw in the beans and cook for a further 3 minutes, by which time both should be just tender but not too soft. Drain and put to one side. In a wok or large frying pan, heat the oil until very hot, then drop in the garlic and cook until golden, this should take only a few seconds. Don’t let it go very dark or it will spoil the taste. Spoon in the curry paste and stir it around for a few seconds to begin to cook the spices and release all the flavours. Next, pour in the coconut milk and let it come to a bubble.",
+    "price": 3200,
+    "image": "https://www.themealdb.com/images/media/meals/sstssx1487349585.jpg",
+    "category": "Chicken",
+    "ingredients": [
+      "Potatoes (225g new)",
+      "green beans (100g)",
+      "sunflower oil (1 tbsp)",
+      "garlic (1 clove)",
+      "Thai green curry paste (4 tsp)",
+      "coconut milk (400ml)",
+      "Thai fish sauce (2 tsp)",
+      "Sugar (1 tsp)",
+      "Chicken (450g boneless)",
+      "lime (2 fresh kaffir leaves)",
+      "basil (handfull)",
+      "Rice (Boiled)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "spicy",
+      "thai"
+    ],
+    "rating": {
+      "average": 4.7,
+      "count": 1092
+    },
+    "prepTime": 35
+  },
+  {
+    "restaurantId": "beef970a492a118b70a7bb61",
+    "name": "General Tsos Chicken",
+    "description": "DIRECTIONS: STEP 1 - SAUCE",
+    "price": 1000,
+    "image": "https://www.themealdb.com/images/media/meals/1529444113.jpg",
+    "category": "Chicken",
+    "ingredients": [
+      "Chicken Breast (1 1/2)",
+      "Plain Flour (3/4 cup)",
+      "Egg (1)",
+      "Starch (2 tbs)",
+      "Baking Powder (1 tbs)",
+      "Salt (1 tsp)",
+      "Onion Salt (1/2 tsp)",
+      "Garlic Powder (1/4 tsp)",
+      "Water (3/4 cup)",
+      "Chicken Stock (1/2 cup)",
+      "Duck Sauce (1/4 cup)",
+      "Soy Sauce (3 tbs)",
+      "Honey (2 tbs)",
+      "Rice Vinegar (1 tbs)",
+      "Sesame Seed Oil (2 tbs)",
+      "Gochujang (1/2 tbs)",
+      "Starch (2 tbs)",
+      "Garlic (1 clove)",
+      "Spring Onions (2 chopped)",
+      "Ginger (1 tsp)"
+    ],
+    "isAvailable": false,
+    "tags": [
+      "chinese"
+    ],
+    "rating": {
+      "average": 3.8,
+      "count": 239
+    },
+    "prepTime": 24
+  },
+  {
+    "restaurantId": "828890c1e531e13d8d3a2ae7",
+    "name": "Chicken Congee",
+    "description": "STEP 1 - MARINATING THE CHICKEN In a bowl, add chicken, salt, white pepper, ginger juice and then mix it together well.",
+    "price": 3500,
+    "image": "https://www.themealdb.com/images/media/meals/1529446352.jpg",
+    "category": "Chicken",
+    "ingredients": [
+      "Chicken (8 oz)",
+      "Salt (pinch)",
+      "Pepper (pinch)",
+      "Ginger Cordial (1 tsp)",
+      "Ginger (1 tsp)",
+      "Spring Onions (1 tbs)",
+      "Rice (1/2 cup)",
+      "Water (8 cups)",
+      "Coriander (2 oz)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "chinese"
+    ],
+    "rating": {
+      "average": 4,
+      "count": 868
+    },
+    "prepTime": 16
+  },
+  {
+    "restaurantId": "798824155446c7dd0d2d1fbc",
+    "name": "Katsu Chicken curry",
+    "description": "Prep:15min  ›  Cook:30min  ›  Ready in:45min  ",
+    "price": 850,
+    "image": "https://www.themealdb.com/images/media/meals/vwrpps1503068729.jpg",
+    "category": "Chicken",
+    "ingredients": [
+      "chicken breast (4 pounded to 1cm thickness)",
+      "plain flour (2 tablespoons)",
+      "egg (1 beaten)",
+      "breadcrumbs (100g fine)",
+      "vegetable oil (230ml frying)",
+      "sunflower oil (2 tablespoons)",
+      "onions (2 sliced)",
+      "garlic (5 chopped cloves)",
+      "carrot (2 sliced)",
+      "plain flour (2 tablespoons)",
+      "curry powder (4 teaspoons)",
+      "chicken stock (600ml)",
+      "honey (2 teaspoons)",
+      "soy sauce (4 teaspoons)",
+      "bay leaf (1)",
+      "garam masala (1 teaspoon)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "spicy",
+      "japanese"
+    ],
+    "rating": {
+      "average": 4.7,
+      "count": 200
+    },
+    "prepTime": 10
+  },
+  {
+    "restaurantId": "be92509fe64ec8e4594e5d0c",
+    "name": "Rosol (Polish Chicken Soup)",
+    "description": "Add chicken to a large Dutch oven or stock pot  Cover with water",
+    "price": 4450,
+    "image": "https://www.themealdb.com/images/media/meals/lx1kkj1593349302.jpg",
+    "category": "Chicken",
+    "ingredients": [
+      "Chicken Legs (4 Chopped)",
+      "Onions (2 large)",
+      "Carrots (5 chopped)",
+      "Leek (1 chopped)",
+      "Celery (1 small)",
+      "Cabbage (1/4)",
+      "Cloves (1 whole)",
+      "Allspice (1tsp)",
+      "Bay Leaf (2)",
+      "Parsley (4 sprigs)",
+      "Dill (4 sprigs)",
+      "Pepper (1 tsp)",
+      "Salt (1 tbs)"
+    ],
+    "isAvailable": false,
+    "tags": [
+      "polish"
+    ],
+    "rating": {
+      "average": 4.8,
+      "count": 158
+    },
+    "prepTime": 30
+  },
+  {
+    "restaurantId": "beef970a492a118b70a7bb61",
+    "name": "Piri-piri chicken and slaw",
+    "description": "STEP 1 ",
+    "price": 1900,
+    "image": "https://www.themealdb.com/images/media/meals/hglsbl1614346998.jpg",
+    "category": "Chicken",
+    "ingredients": [
+      "Chicken (1.5kg)",
+      "Red Chilli (3 chopped)",
+      "Garlic (2 cloves)",
+      "Ginger (1 tsp)",
+      "Dried Oregano (1 tsp)",
+      "Coriander (1 tsp)",
+      "Paprika (1 tsp)",
+      "Red Wine Vinegar (2 tbs)",
+      "Oil (2 tbs)",
+      "Red Onions (1 sliced)",
+      "Carrots (2)",
+      "Beetroot (1)",
+      "Cabbage (4 leaves)",
+      "Mayonnaise (2 tbs)",
+      "Greek Yogurt (2 tbs)",
+      "Red Wine Vinegar (2 tbs)",
+      "Cumin Seeds (1 tsp)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "portuguese"
+    ],
+    "rating": {
+      "average": 4.1,
+      "count": 749
+    },
+    "prepTime": 38
+  },
+  {
+    "restaurantId": "828890c1e531e13d8d3a2ae7",
+    "name": "Potato Gratin with Chicken",
+    "description": "15 minute potato gratin with chicken and bacon greens: a gratin always seems more effort and more indulgent than ordinary boiled or roasts, but it doesn't have to take 45mins, it's nice for a change and you can control the calorie content by going with full fat to low fat creme fraiche. (It's always tastes better full fat though obviously!) to serve 4: use 800g of potatoes, finely slice and boil in a pan for about 5-8 mins till firmish, not soft. Finely slice 3 onions and place in an oven dish with 2 tblsp of olive oil and 100ml of chicken stock. Cook till the onions are soft then drain the potatoes and pour onto the onions. Season and spoon over cream or creme fraiche till all is covered but not swimming. Grate Parmesan over the top then finish under the grill till nicely golden. serve with chicken and bacon, peas and spinach.",
+    "price": 3650,
+    "image": "https://www.themealdb.com/images/media/meals/qwrtut1468418027.jpg",
+    "category": "Chicken",
+    "ingredients": [
+      "Potatoes (800g)",
+      "Onions (3)",
+      "Olive Oil (2 tblsp)",
+      "Chicken Stock (100ml)",
+      "Creme Fraiche (1 pot)",
+      "Parmesan (Topping)",
+      "Chicken Breasts (4)",
+      "Bacon (4)",
+      "Spinach (Topping)",
+      "Peas (Topping)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "italian"
+    ],
+    "rating": {
+      "average": 3.9,
+      "count": 745
+    },
+    "prepTime": 31
+  },
+  {
+    "restaurantId": "be92509fe64ec8e4594e5d0c",
+    "name": "Nutty Chicken Curry",
+    "description": "Finely slice a quarter of the chilli, then put the rest in a food processor with the ginger, garlic, coriander stalks and one-third of the leaves. Whizz to a rough paste with a splash of water if needed. Heat the oil in a frying pan, then quickly brown the chicken chunks for 1 min. Stir in the paste for another min, then add the peanut butter, stock and yogurt. When the sauce is gently bubbling, cook for 10 mins until the chicken is just cooked through and sauce thickened. Stir in most of the remaining coriander, then scatter the rest on top with the chilli, if using. Eat with rice or mashed sweet potato.",
+    "price": 1550,
+    "image": "https://www.themealdb.com/images/media/meals/yxsurp1511304301.jpg",
+    "category": "Chicken",
+    "ingredients": [
+      "Red Chilli (1 large)",
+      "Ginger (0.5)",
+      "Garlic (1 large)",
+      "Coriander (Bunch)",
+      "Sunflower Oil (1 tbsp)",
+      "Chicken Breasts (4)",
+      "Peanut Butter (5 tblsp)",
+      "Chicken Stock (150ml)",
+      "Greek Yogurt (200g)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "spicy",
+      "indian"
+    ],
+    "rating": {
+      "average": 4.1,
+      "count": 785
+    },
+    "prepTime": 22
+  },
+  {
+    "restaurantId": "b27cc1fa9717d7253ff491a0",
+    "name": "Honey Balsamic Chicken with Crispy Broccoli & Potatoes",
+    "description": "2 Servings ",
+    "price": 2250,
+    "image": "https://www.themealdb.com/images/media/meals/kvbotn1581012881.jpg",
+    "category": "Chicken",
+    "ingredients": [
+      "Potatoes (5)",
+      "Broccoli (1)",
+      "Garlic (2 cloves)",
+      "Chicken Breast (2)",
+      "Balsamic Vinegar",
+      "Honey",
+      "Chicken Stock",
+      "Butter (1 tbsp)",
+      "Vegetable Oil (1 tbsp)",
+      "Olive Oil (1 tbsp)"
+    ],
+    "isAvailable": false,
+    "tags": [
+      "american"
+    ],
+    "rating": {
+      "average": 3.6,
+      "count": 904
+    },
+    "prepTime": 22
+  },
+  {
+    "restaurantId": "ff6c3a727993c17c3913d22f",
+    "name": "Teriyaki Chicken Casserole",
+    "description": "Preheat oven to 350° F. Spray a 9x13-inch baking pan with non-stick spray. Combine soy sauce, ½ cup water, brown sugar, ginger and garlic in a small saucepan and cover. Bring to a boil over medium heat. Remove lid and cook for one minute once boiling.",
+    "price": 3350,
+    "image": "https://www.themealdb.com/images/media/meals/wvpsxx1468256321.jpg",
+    "category": "Chicken",
+    "ingredients": [
+      "soy sauce (3/4 cup)",
+      "water (1/2 cup)",
+      "brown sugar (1/4 cup)",
+      "ground ginger (1/2 teaspoon)",
+      "minced garlic (1/2 teaspoon)",
+      "cornstarch (4 Tablespoons)",
+      "chicken breasts (2)",
+      "stir-fry vegetables (1 (12 oz.))",
+      "brown rice (3 cups)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "japanese"
+    ],
+    "rating": {
+      "average": 4.4,
+      "count": 652
+    },
+    "prepTime": 20
+  },
+  {
+    "restaurantId": "798824155446c7dd0d2d1fbc",
+    "name": "Kung Pao Chicken",
+    "description": "Combine the sake or rice wine, soy sauce, sesame oil and cornflour dissolved in water. Divide mixture in half. In a glass dish or bowl, combine half of the sake mixture with the chicken pieces and toss to coat. Cover dish and place in refrigerator for about 30 minutes.",
+    "price": 750,
+    "image": "https://www.themealdb.com/images/media/meals/1525872624.jpg",
+    "category": "Chicken",
+    "ingredients": [
+      "Sake (2 tbs)",
+      "Soy Sauce (2 tbs)",
+      "Sesame Seed Oil (2 tbs)",
+      "Corn Flour (2 tbs)",
+      "Water (2 tbs)",
+      "Chicken (500g)",
+      "Chilli Powder (1 tbs)",
+      "Rice Vinegar (1 tsp)",
+      "Brown Sugar (1 tbs)",
+      "Spring Onions (4 Chopped)",
+      "Garlic Clove (6 cloves)",
+      "Water Chestnut (220g)",
+      "Peanuts (100g)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "chinese"
+    ],
+    "rating": {
+      "average": 3.8,
+      "count": 1003
+    },
+    "prepTime": 19
+  },
+  {
+    "restaurantId": "7aab804eb84daec7619e13f6",
+    "name": "Crock Pot Chicken Baked Tacos",
+    "description": "Put the uncooked chicken breasts in the crock pot. Pour the full bottle of salad dressing over the chicken. Sprinkle the rest of the ingredients over the top and mix them in a bit with a spoon. Cover your crock pot with the lid and cook on high for 4 hours.",
+    "price": 4750,
+    "image": "https://www.themealdb.com/images/media/meals/ypxvwv1505333929.jpg",
+    "category": "Chicken",
+    "ingredients": [
+      "Chicken Breasts (4 - 6)",
+      "Vinaigrette Dressing (1 bottle)",
+      "Cumin (1½ tablespoon)",
+      "Smoked Paprika (1 tablespoon)",
+      "Garlic (1 teaspoon)",
+      "Refried Beans (1 can)",
+      "Hard Taco Shells (12)",
+      "Shredded Mexican Cheese (2 cups)",
+      "Grape Tomatoes (Halved)",
+      "Jalapeno (Sliced and Seeded)",
+      "Avocado (Peeled and Sliced)",
+      "Green Salsa (2 tablespoons)",
+      "Sour Cream (3 tablespoons)",
+      "Milk (1 tablespoon)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "mexican"
+    ],
+    "rating": {
+      "average": 4.4,
+      "count": 610
+    },
+    "prepTime": 39
+  },
+  {
+    "restaurantId": "be92509fe64ec8e4594e5d0c",
+    "name": "Chicken Quinoa Greek Salad",
+    "description": "Cook the quinoa following the pack instructions, then rinse in cold water and drain thoroughly. ",
+    "price": 2900,
+    "image": "https://www.themealdb.com/images/media/meals/k29viq1585565980.jpg",
+    "category": "Chicken",
+    "ingredients": [
+      "Quinoa (225g)",
+      "Butter (25g)",
+      "Red Chilli (1 chopped)",
+      "Garlic (1 clove finely chopped)",
+      "Chicken Breast (400g)",
+      "Olive Oil (2 tbs)",
+      "Black Olives (Handful)",
+      "Red Onions (1 chopped)",
+      "Feta (100g)",
+      "Mint (Chopped)",
+      "Lemon (Juice of 1/2)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "veggie",
+      "greek"
+    ],
+    "rating": {
+      "average": 4.9,
+      "count": 143
+    },
+    "prepTime": 16
+  },
+  {
+    "restaurantId": "5e1c7fe73707f804af1f3c2b",
+    "name": "Chicken Enchilada Casserole",
+    "description": "Cut each chicken breast in about 3 pieces, so that it cooks faster and put it in a small pot. Pour Enchilada sauce over it and cook covered on low to medium heat until chicken is cooked through, about 20 minutes. No water is needed, the chicken will cook in the Enchilada sauce. Make sure you stir occasionally so that it doesn't stick to the bottom. Remove chicken from the pot and shred with two forks.",
+    "price": 2900,
+    "image": "https://www.themealdb.com/images/media/meals/qtuwxu1468233098.jpg",
+    "category": "Chicken",
+    "ingredients": [
+      "Enchilada sauce (14 oz jar)",
+      "shredded Monterey Jack cheese (3 Cups)",
+      "corn tortillas (6)",
+      "chicken breasts (2)"
+    ],
+    "isAvailable": false,
+    "tags": [
+      "mexican"
+    ],
+    "rating": {
+      "average": 4.8,
+      "count": 725
+    },
+    "prepTime": 29
+  },
+  {
+    "restaurantId": "b27cc1fa9717d7253ff491a0",
+    "name": "Chick-Fil-A Sandwich",
+    "description": "Wrap the chicken loosely between plastic wrap and pound gently with the flat side of a meat tenderizer until about 1/2 inch thick all around. Cut into two pieces, as even as possible.",
+    "price": 3650,
+    "image": "https://www.themealdb.com/images/media/meals/sbx7n71587673021.jpg",
+    "category": "Chicken",
+    "ingredients": [
+      "Chicken Breast (1)",
+      "Pickle Juice (1/4 cup)",
+      "Egg (1)",
+      "Milk (1/4 cup)",
+      "Flour (1/2 cup)",
+      "Icing Sugar (1 tbs)",
+      "Paprika (1/2 tsp)",
+      "Salt (1/2 tsp)",
+      "Black Pepper (1/4 tsp)",
+      "Garlic Powder (1/4 tsp)",
+      "Celery Salt (1/4 tsp)",
+      "Cayenne Pepper (1/2 tsp)",
+      "Olive Oil (1 cup)",
+      "Sesame Seed Burger Buns (1)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "american"
+    ],
+    "rating": {
+      "average": 4.5,
+      "count": 389
+    },
+    "prepTime": 24
+  },
+  {
+    "restaurantId": "b27cc1fa9717d7253ff491a0",
+    "name": "Brown Stew Chicken",
+    "description": "Squeeze lime over chicken and rub well. Drain off excess lime juice. Combine tomato, scallion, onion, garlic, pepper, thyme, pimento and soy sauce in a large bowl with the chicken pieces. Cover and marinate at least one hour.",
+    "price": 1750,
+    "image": "https://www.themealdb.com/images/media/meals/sypxpx1515365095.jpg",
+    "category": "Chicken",
+    "ingredients": [
+      "Chicken (1 whole)",
+      "Tomato (1 chopped)",
+      "Onions (2 chopped)",
+      "Garlic Clove (2 chopped)",
+      "Red Pepper (1 chopped)",
+      "Carrots (1 chopped)",
+      "Lime (1)",
+      "Thyme (2 tsp)",
+      "Allspice (1 tsp)",
+      "Soy Sauce (2 tbs)",
+      "Cornstarch (2 tsp)",
+      "Coconut Milk (2 cups)",
+      "Vegetable Oil (1 tbs)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "jamaican"
+    ],
+    "rating": {
+      "average": 4,
+      "count": 559
+    },
+    "prepTime": 39
+  },
+  {
+    "restaurantId": "beef970a492a118b70a7bb61",
+    "name": "Chicken Couscous",
+    "description": "Heat the olive oil in a large frying pan and cook the onion for 1-2 mins just until softened. Add the chicken and fry for 7-10 mins until cooked through and the onions have turned golden. Grate over the ginger, stir through the harissa to coat everything and cook for 1 min more. ",
+    "price": 3850,
+    "image": "https://www.themealdb.com/images/media/meals/qxytrx1511304021.jpg",
+    "category": "Chicken",
+    "ingredients": [
+      "Olive Oil (1 tbsp)",
+      "Onion (1 chopped)",
+      "Chicken Breast (200g)",
+      "Ginger (pinch)",
+      "Harissa Spice (2 tblsp)",
+      "Dried Apricots (10)",
+      "Chickpeas (220g)",
+      "Couscous (200g)",
+      "Chicken Stock (200ml)",
+      "Coriander (Handful)"
+    ],
+    "isAvailable": false,
+    "tags": [
+      "moroccan"
+    ],
+    "rating": {
+      "average": 4.4,
+      "count": 767
+    },
+    "prepTime": 14
+  },
+  {
+    "restaurantId": "913ff0b3ef70c5faf4d7eb14",
+    "name": "Chicken Ham and Leek Pie",
+    "description": "Heat the chicken stock in a lidded saucepan. Add the chicken breast and bring to a low simmer. Cover with a lid and cook for 10 minutes. Remove the chicken breasts from the water with tongs and place on a plate. Pour the cooking liquor into a large jug. Melt 25g/1oz of the butter in a large heavy-based saucepan over a low heat. Stir in the leeks and fry gently for two minutes, stirring occasionally until just softened. Add the garlic and cook for a further minute. Add the remaining butter and stir in the flour as soon as the butter has melted. Cook for 30 seconds, stirring constantly.",
+    "price": 4600,
+    "image": "https://www.themealdb.com/images/media/meals/xrrtss1511555269.jpg",
+    "category": "Chicken",
+    "ingredients": [
+      "Chicken Stock (450ml)",
+      "Chicken Breast (3)",
+      "Butter (75g)",
+      "Leek (2 sliced)",
+      "Garlic (2 cloves minced)",
+      "Plain Flour (50g)",
+      "Milk (200ml)",
+      "White Wine (3 tbs)",
+      "Double Cream (150ml)",
+      "Ham (150g)",
+      "Sea Salt (spinkling)",
+      "Pepper (pinch)",
+      "Plain Flour (350g)",
+      "Butter (200g)",
+      "Free-range Egg, Beaten (1)",
+      "Cold Water (1 tbls)",
+      "Free-range Egg, Beaten (1)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "sweet",
+      "british"
+    ],
+    "rating": {
+      "average": 3.6,
+      "count": 160
+    },
+    "prepTime": 25
+  },
+  {
+    "restaurantId": "beef970a492a118b70a7bb61",
+    "name": "Shawarma",
+    "description": "Combine the marinade ingredients in a large ziplock bag (or bowl). Add the chicken and use your hands to make sure each piece is coated. If using a ziplock bag, I find it convenient to close the bag then massage the bag to disperse the rub all over each chicken piece.",
+    "price": 3950,
+    "image": "https://www.themealdb.com/images/media/meals/kcv6hj1598733479.jpg",
+    "category": "Chicken",
+    "ingredients": [
+      "Chicken Thighs (1 kg)",
+      "Coriander (1 tbs)",
+      "Cumin (1 tbs)",
+      "Cardamom (1 tbs)",
+      "Cayenne Pepper (1 tsp)",
+      "Paprika (2 tsp)",
+      "Lemon Juice (2 tbs)",
+      "Olive Oil (3 tbs)",
+      "Greek Yogurt (1 cup)",
+      "Garlic Clove (1)",
+      "Cumin (1 tsp)",
+      "Lemon Juice (Splash)",
+      "Lettuce (Sliced)",
+      "Tomato (Sliced)",
+      "Pita Bread (6)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "egyptian"
+    ],
+    "rating": {
+      "average": 4.2,
+      "count": 160
+    },
+    "prepTime": 31
+  },
+  {
+    "restaurantId": "be92509fe64ec8e4594e5d0c",
+    "name": "Chicken Basquaise",
+    "description": "Preheat the oven to 180°C/Gas mark 4. Have the chicken joints ready to cook. Heat the butter and 3 tbsp olive oil in a flameproof casserole or large frying pan. Brown the chicken pieces in batches on both sides, seasoning them with salt and pepper as you go. Don't crowd the pan - fry the chicken in small batches, removing the pieces to kitchen paper as they are done. ",
+    "price": 1550,
+    "image": "https://www.themealdb.com/images/media/meals/wruvqv1511880994.jpg",
+    "category": "Chicken",
+    "ingredients": [
+      "Chicken (1.5kg)",
+      "Butter (25g)",
+      "Olive Oil (6 tblsp)",
+      "Red Onions (2 sliced)",
+      "Red Pepper (3 Large)",
+      "Chorizo (130g)",
+      "Sun-Dried Tomatoes (8)",
+      "Garlic (6 cloves sliced)",
+      "Basmati Rice (300g)",
+      "Tomato Puree (drizzle)",
+      "Paprika (½ tsp)",
+      "Bay Leaves (4)",
+      "Thyme (Handful)",
+      "Chicken Stock (350ml)",
+      "Dry White Wine (180g)",
+      "Lemons (2)",
+      "Black Olives (100g)",
+      "Salt (to serve)",
+      "Pepper (to serve)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "french"
+    ],
+    "rating": {
+      "average": 3.6,
+      "count": 365
+    },
+    "prepTime": 12
+  },
+  {
+    "restaurantId": "eb27f99e4a0935fcd3f378d4",
+    "name": "Rappie Pie",
+    "description": "Preheat oven to 400 degrees F (200 degrees C). Grease a 10x14x2-inch baking pan. Heat margarine in a skillet over medium heat; stir in onion. Cook and stir until onion has softened and turned translucent, about 5 minutes. Reduce heat to low and continue to cook and stir until onion is very tender and dark brown, about 40 minutes more.",
+    "price": 2050,
+    "image": "https://www.themealdb.com/images/media/meals/ruwpww1511817242.jpg",
+    "category": "Chicken",
+    "ingredients": [
+      "Butter (2 tbs)",
+      "Onions (2 chopped)",
+      "Chicken Stock (4 qt)",
+      "Chicken Breast (1.5kg)",
+      "Potatoes (4kg)",
+      "Salt (2 tbs)",
+      "Black Pepper (1tbsp)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "sweet",
+      "canadian"
+    ],
+    "rating": {
+      "average": 3.6,
+      "count": 654
+    },
+    "prepTime": 15
+  },
+  {
+    "restaurantId": "b27cc1fa9717d7253ff491a0",
+    "name": "Pad See Ew",
+    "description": "Mix Sauce in small bowl. Mince garlic into wok with oil. Place over high heat, when hot, add chicken and Chinese broccoli stems, cook until chicken is light golden.",
+    "price": 4450,
+    "image": "https://www.themealdb.com/images/media/meals/uuuspp1468263334.jpg",
+    "category": "Chicken",
+    "ingredients": [
+      "rice stick noodles (6oz/180g)",
+      "dark soy sauce (2 tbsp)",
+      "oyster sauce (2 tbsp)",
+      "soy sauce (2 tsp)",
+      "white vinegar (2 tsp)",
+      "sugar (2 tsp)",
+      "water (2 tbsp)",
+      "peanut oil (2 tbsp)",
+      "garlic (2 cloves)",
+      "Chicken (1 cup)",
+      "Egg (1)",
+      "Chinese broccoli (4 cups)"
+    ],
+    "isAvailable": false,
+    "tags": [
+      "thai"
+    ],
+    "rating": {
+      "average": 4.1,
+      "count": 1076
+    },
+    "prepTime": 39
+  },
+  {
+    "restaurantId": "eb27f99e4a0935fcd3f378d4",
+    "name": "Pancakes",
+    "description": "Put the flour, eggs, milk, 1 tbsp oil and a pinch of salt into a bowl or large jug, then whisk to a smooth batter. Set aside for 30 mins to rest if you have time, or start cooking straight away. Set a medium frying pan or crêpe pan over a medium heat and carefully wipe it with some oiled kitchen paper. When hot, cook your pancakes for 1 min on each side until golden, keeping them warm in a low oven as you go.",
+    "price": 4500,
+    "image": "https://www.themealdb.com/images/media/meals/rwuyqx1511383174.jpg",
+    "category": "Dessert",
+    "ingredients": [
+      "Flour (100g)",
+      "Eggs (2 large)",
+      "Milk (300ml)",
+      "Sunflower Oil (1 tbls)",
+      "Sugar (to serve)",
+      "Raspberries (to serve)",
+      "Blueberries (to serve)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "sweet",
+      "american"
+    ],
+    "rating": {
+      "average": 4.3,
+      "count": 189
+    },
+    "prepTime": 19
+  },
+  {
+    "restaurantId": "be92509fe64ec8e4594e5d0c",
+    "name": "Chocolate Raspberry Brownies",
+    "description": "Heat oven to 180C/160C fan/gas 4. Line a 20 x 30cm baking tray tin with baking parchment. Put the chocolate, butter and sugar in a pan and gently melt, stirring occasionally with a wooden spoon. Remove from the heat. Stir the eggs, one by one, into the melted chocolate mixture. Sieve over the flour and cocoa, and stir in. Stir in half the raspberries, scrape into the tray, then scatter over the remaining raspberries. Bake on the middle shelf for 30 mins or, if you prefer a firmer texture, for 5 mins more. Cool before slicing into squares. Store in an airtight container for up to 3 days.",
+    "price": 4950,
+    "image": "https://www.themealdb.com/images/media/meals/yypvst1511386427.jpg",
+    "category": "Dessert",
+    "ingredients": [
+      "Dark Chocolate (200g)",
+      "Milk Chocolate (100g)",
+      "Salted Butter (250g)",
+      "Light Brown Soft Sugar (400g)",
+      "Eggs (4 large)",
+      "Plain Flour (140g)",
+      "Cocoa (50g)",
+      "Raspberries (200g)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "sweet",
+      "american"
+    ],
+    "rating": {
+      "average": 4.9,
+      "count": 386
+    },
+    "prepTime": 29
+  },
+  {
+    "restaurantId": "828890c1e531e13d8d3a2ae7",
+    "name": "Classic Christmas pudding",
+    "description": "Get everything for the pudding prepared. Chop the almonds coarsely. Peel, core and chop the cooking apples. Sharpen your knife and chop the candied peel. (You can chop the almonds and apples in a food processor, but the peel must be done by hand.) Grate three quarters of the nutmeg (sounds a lot but it's correct). ",
+    "price": 2200,
+    "image": "https://www.themealdb.com/images/media/meals/1d85821576790598.jpg",
+    "category": "Dessert",
+    "ingredients": [
+      "Almonds (50g)",
+      "Bramley Apples (2 large)",
+      "Candied Peel (200g)",
+      "Nutmeg (1 whole)",
+      "Raisins (1kg)",
+      "Plain Flour (140g)",
+      "Breadcrumbs (100g)",
+      "Muscovado Sugar (100g)",
+      "Eggs (3 Large)",
+      "Brandy (2 tbs)",
+      "Butter (250g)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "sweet",
+      "british"
+    ],
+    "rating": {
+      "average": 4,
+      "count": 182
+    },
+    "prepTime": 23
+  },
+  {
+    "restaurantId": "ff6c3a727993c17c3913d22f",
+    "name": "Canadian Butter Tarts",
+    "description": "Preheat the oven to fan 170C/ conventional 190C/gas 5. Roll out the pastry on a lightly floured surface so it’s slightly thinner than straight from the pack. Then cut out 18-20 rounds with a 7.5cm fluted cutter, re-rolling the trimmings. Use the rounds to line two deep 12-hole tart tins (not muffin tins). If you only have a regular-sized, 12-hole tart tin you will be able to make a few more slightly shallower tarts. Beat the eggs in a large bowl and combine with the rest of the ingredients except the walnuts. Tip this mixture into a pan and stir continuously for 3-4 minutes until the butter melts, and the mixture bubbles and starts to thicken. It should be thick enough to coat the back of a wooden spoon. Don’t overcook, and be sure to stir all the time as the mixture can easily burn. Remove from the heat and stir in the nuts.",
+    "price": 2000,
+    "image": "https://www.themealdb.com/images/media/meals/wpputp1511812960.jpg",
+    "category": "Dessert",
+    "ingredients": [
+      "Shortcrust Pastry (375g)",
+      "Eggs (2 large)",
+      "Muscovado Sugar (175g)",
+      "Raisins (100g)",
+      "Vanilla Extract (1 tsp)",
+      "Butter (50g)",
+      "Single Cream (4 tsp)",
+      "Walnuts (50g)"
+    ],
+    "isAvailable": false,
+    "tags": [
+      "sweet",
+      "canadian"
+    ],
+    "rating": {
+      "average": 4.3,
+      "count": 12
+    },
+    "prepTime": 38
+  },
+  {
+    "restaurantId": "b27cc1fa9717d7253ff491a0",
+    "name": "Apam balik",
+    "description": "Mix milk, oil and egg together. Sift flour, baking powder and salt into the mixture. Stir well until all ingredients are combined evenly. ",
+    "price": 2200,
+    "image": "https://www.themealdb.com/images/media/meals/adxcbq1619787919.jpg",
+    "category": "Dessert",
+    "ingredients": [
+      "Milk (200ml)",
+      "Oil (60ml)",
+      "Eggs (2)",
+      "Flour (1600g)",
+      "Baking Powder (3 tsp)",
+      "Salt (1/2 tsp)",
+      "Unsalted Butter (25g)",
+      "Sugar (45g)",
+      "Peanut Butter (3 tbs)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "sweet",
+      "malaysian"
+    ],
+    "rating": {
+      "average": 3.9,
+      "count": 222
+    },
+    "prepTime": 12
+  },
+  {
+    "restaurantId": "828890c1e531e13d8d3a2ae7",
+    "name": "BeaverTails",
+    "description": "In the bowl of a stand mixer, add warm water, a big pinch of sugar and yeast. Allow to sit until frothy. Into the same bowl, add 1/2 cup sugar, warm milk, melted butter, eggs and salt, and whisk until combined.",
+    "price": 4150,
+    "image": "https://www.themealdb.com/images/media/meals/ryppsv1511815505.jpg",
+    "category": "Dessert",
+    "ingredients": [
+      "Water (1/2 cup)",
+      "Yeast (2 parts)",
+      "Sugar (1/2 cup)",
+      "Milk (1/2 cup)",
+      "Butter (6 tblsp)",
+      "Eggs (2)",
+      "Salt (1 ½ tsp)",
+      "Flour (2-1/2 cups)",
+      "Oil (for frying)",
+      "Lemon (garnish)",
+      "Sugar (garnish)",
+      "Cinnamon (garnish)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "sweet",
+      "canadian"
+    ],
+    "rating": {
+      "average": 4.5,
+      "count": 810
+    },
+    "prepTime": 32
+  },
+  {
+    "restaurantId": "828890c1e531e13d8d3a2ae7",
+    "name": "Bakewell tart",
+    "description": "To make the pastry, measure the flour into a bowl and rub in the butter with your fingertips until the mixture resembles fine breadcrumbs. Add the water, mixing to form a soft dough. Roll out the dough on a lightly floured work surface and use to line a 20cm/8in flan tin. Leave in the fridge to chill for 30 minutes.",
+    "price": 1900,
+    "image": "https://www.themealdb.com/images/media/meals/wyrqqq1468233628.jpg",
+    "category": "Dessert",
+    "ingredients": [
+      "plain flour (175g/6oz)",
+      "chilled butter (75g/2½oz)",
+      "cold water (2-3 tbsp)",
+      "raspberry jam (1 tbsp)",
+      "butter (125g/4½oz)",
+      "caster sugar (125g/4½oz)",
+      "ground almonds (125g/4½oz)",
+      "free-range egg, beaten (1)",
+      "almond extract (½ tsp)",
+      "flaked almonds (50g/1¾oz)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "sweet",
+      "british"
+    ],
+    "rating": {
+      "average": 4.3,
+      "count": 158
+    },
+    "prepTime": 33
+  },
+  {
+    "restaurantId": "beef970a492a118b70a7bb61",
+    "name": "Christmas Pudding Trifle",
+    "description": "Peel the oranges using a sharp knife, ensuring all the pith is removed. Slice as thinly as possible and arrange over a dinner plate. Sprinkle with the demerara sugar followed by the Grand Marnier and set aside. ",
+    "price": 1500,
+    "image": "https://www.themealdb.com/images/media/meals/r33cud1576791081.jpg",
+    "category": "Dessert",
+    "ingredients": [
+      "Orange (3)",
+      "Demerara Sugar (1 tbs)",
+      "Grand Marnier (2 tbs)",
+      "Christmas Pudding (300g)",
+      "Custard (500g)",
+      "Mascarpone (250g)",
+      "Double Cream (284ml)",
+      "Flaked Almonds (Handful)",
+      "Dark Chocolate (Grated)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "sweet",
+      "british"
+    ],
+    "rating": {
+      "average": 4.2,
+      "count": 895
+    },
+    "prepTime": 44
+  },
+  {
+    "restaurantId": "ff6c3a727993c17c3913d22f",
+    "name": "Chinon Apple Tarts",
+    "description": "To make the red wine jelly, put the red wine, jam sugar, star anise, clove, cinnamon stick, allspice, split vanilla pod and seeds in a medium saucepan. Stir together, then heat gently to dissolve the sugar. Turn up the heat and boil for 20 mins until reduced and syrupy. Strain into a small, sterilised jam jar and leave to cool completely. Will keep in the fridge for up to 1 month. ",
+    "price": 3200,
+    "image": "https://www.themealdb.com/images/media/meals/qtqwwu1511792650.jpg",
+    "category": "Dessert",
+    "ingredients": [
+      "Puff Pastry (320g)",
+      "Dark Brown Soft Sugar (4 tbs)",
+      "Braeburn Apples (3)",
+      "Red Wine Jelly (4 tbs)",
+      "Creme Fraiche (100ml)",
+      "Icing Sugar (1 tbs)",
+      "Cardamom (3)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "sweet",
+      "french"
+    ],
+    "rating": {
+      "average": 4.1,
+      "count": 865
+    },
+    "prepTime": 34
+  },
+  {
+    "restaurantId": "be92509fe64ec8e4594e5d0c",
+    "name": "Chocolate Avocado Mousse",
+    "description": "1. Blend all the mousse ingredients together in your food processor until smooth. Add the cacao powder first and, as you blend, have all the ingredients to hand in order to adjust the ratios slightly as the size of avocados and bananas varies so much. The perfect ratio in order to avoid the dish tasting too much of either is to use equal amounts of both. ",
+    "price": 1350,
+    "image": "https://www.themealdb.com/images/media/meals/uttuxy1511382180.jpg",
+    "category": "Dessert",
+    "ingredients": [
+      "Banana (1)",
+      "Cacao (3 tbsp)",
+      "Avocado (1)",
+      "Honey (2 tblsp)",
+      "Lemon Juice (1 tsp)",
+      "Vanilla (1 tsp)",
+      "Water (2 tbsp)",
+      "Sea Salt (pinch)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "sweet",
+      "british"
+    ],
+    "rating": {
+      "average": 3.8,
+      "count": 830
+    },
+    "prepTime": 23
+  },
+  {
+    "restaurantId": "beef970a492a118b70a7bb61",
+    "name": "Hot Chocolate Fudge",
+    "description": "Line an 8-inch-square baking pan with wax paper or foil, and coat with non-stick spray. In a microwave-safe bowl, combine the dark chocolate chips, heavy cream and half of the sweetened condensed milk. Microwave the dark chocolate mixture in 20-second intervals, stirring in between each interval, until the chocolate is melted.",
+    "price": 4650,
+    "image": "https://www.themealdb.com/images/media/meals/xrysxr1483568462.jpg",
+    "category": "Dessert",
+    "ingredients": [
+      "Chocolate Chips (2 cups)",
+      "Heavy Cream (2 tbs)",
+      "Condensed Milk (1 – 14-ounce can)",
+      "Vanilla Extract (1 tsp)",
+      "White Chocolate Chips (1-⅓ cups)",
+      "Miniature Marshmallows (1-½ cups)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "sweet",
+      "american"
+    ],
+    "rating": {
+      "average": 4.2,
+      "count": 79
+    },
+    "prepTime": 15
+  },
+  {
+    "restaurantId": "5e1c7fe73707f804af1f3c2b",
+    "name": "Blackberry Fool",
+    "description": "For the biscuits, preheat the oven to 200C/180C (fan)/Gas 6 and line two large baking trays with baking parchment. Scatter the nuts over a baking tray and roast in the oven for 6-8 minutes, or until golden-brown. Watch them carefully so that they don’t have a chance to burn. Remove from the oven, tip onto a board and leave to cool. Put the butter and sugar in a large bowl and beat with a wooden spoon until light and creamy. Roughly chop the cooled nuts and add to the creamed butter and sugar, along with the lemon zest, flour and baking powder. Stir well until the mixture comes together and forms a ball – you may need to use your hands.",
+    "price": 1150,
+    "image": "https://www.themealdb.com/images/media/meals/rpvptu1511641092.jpg",
+    "category": "Dessert",
+    "ingredients": [
+      "Hazlenuts (50g)",
+      "Butter (125g)",
+      "Caster Sugar (150g)",
+      "Lemon (Grated)",
+      "Plain Flour (150g)",
+      "Baking Powder (½ tsp)",
+      "Blackberries (600g)",
+      "Sugar (75g)",
+      "Caster Sugar (2 tbs)",
+      "Lemon Juice (1 tbs)",
+      "Double Cream (300ml)",
+      "Yogurt (100ml)",
+      "Mint (Garnish with)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "sweet",
+      "british"
+    ],
+    "rating": {
+      "average": 4.1,
+      "count": 654
+    },
+    "prepTime": 38
+  },
+  {
+    "restaurantId": "913ff0b3ef70c5faf4d7eb14",
+    "name": "Key Lime Pie",
+    "description": "Heat the oven to 160C/fan 140C/gas 3. Whizz the biscuits to crumbs in a food processor (or put in a strong plastic bag and bash with a rolling pin). Mix with the melted butter and press into the base and up the sides of a 22cm loose-based tart tin. Bake in the oven for 10 minutes. Remove and cool. Put the egg yolks in a large bowl and whisk for a minute with electric beaters. Add the condensed milk and whisk for 3 minutes then add the zest and juice and whisk again for 3 minutes. Pour the filling into the cooled base then put back in the oven for 15 minutes. Cool then chill for at least 3 hours or overnight if you like.",
+    "price": 4850,
+    "image": "https://www.themealdb.com/images/media/meals/qpqtuu1511386216.jpg",
+    "category": "Dessert",
+    "ingredients": [
+      "Digestive Biscuits (300g)",
+      "Butter (150g)",
+      "Condensed Milk (400g)",
+      "Egg Yolks (3)",
+      "Lime (4)",
+      "Double Cream (300ml)",
+      "Icing Sugar (1 tbls)",
+      "Lime (to serve)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "sweet",
+      "american"
+    ],
+    "rating": {
+      "average": 3.5,
+      "count": 373
+    },
+    "prepTime": 28
+  },
+  {
+    "restaurantId": "828890c1e531e13d8d3a2ae7",
+    "name": "Chocolate Caramel Crispy",
+    "description": "Grease and line a 20 x 20cm/8\" x 8\" baking tin with parchment paper. Put the mars bars and butter in a heat proof bowl and place over a pan of barely simmering water. Mixing with a whisk, melt until the mixture is smooth.",
+    "price": 4700,
+    "image": "https://www.themealdb.com/images/media/meals/1550442508.jpg",
+    "category": "Dessert",
+    "ingredients": [
+      "Mars Bar (6 chopped)",
+      "Butter (150g)",
+      "Rice Krispies (120g)",
+      "Milk Chocolate (150g)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "sweet",
+      "british"
+    ],
+    "rating": {
+      "average": 3.6,
+      "count": 1104
+    },
+    "prepTime": 33
+  },
+  {
+    "restaurantId": "913ff0b3ef70c5faf4d7eb14",
+    "name": "Chocolate Souffle",
+    "description": "Heat oven to 220C/fan 200C/gas 7 and place a baking tray on the top shelf. For the sauce, heat the cream and sugar until boiling. Remove from the heat, stir in the chocolate and butter until melted, then keep warm. Brush 6 x 150ml ramekins with melted butter, sprinkle with the 2 tbsp caster sugar, then tip out any excess. Melt the chocolate and cream in a bowl over a pan of simmering water, cool, then mix in the egg yolks. Whisk the egg whites until they hold their shape, then add the sugar, 1 tbsp at a time, whisking back to the same consistency. Mix a spoonful into the chocolate, then gently fold in the rest.",
+    "price": 2950,
+    "image": "https://www.themealdb.com/images/media/meals/twspvx1511784937.jpg",
+    "category": "Dessert",
+    "ingredients": [
+      "Single Cream (142ml)",
+      "Caster Sugar (25g)",
+      "Dark Chocolate (100g)",
+      "Butter (25g)",
+      "Butter (drizzle)",
+      "Caster Sugar (50g)",
+      "Dark Chocolate (175g)",
+      "Double Cream (2 tbs)",
+      "Egg Yolks (4)",
+      "Egg White (5)",
+      "Double Cream (2 tbs)",
+      "Icing Sugar (to serve)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "sweet",
+      "french"
+    ],
+    "rating": {
+      "average": 4.4,
+      "count": 469
+    },
+    "prepTime": 36
+  },
+  {
+    "restaurantId": "828890c1e531e13d8d3a2ae7",
+    "name": "Christmas cake",
+    "description": "Heat oven to 160C/fan 140C/gas 3. Line the base and sides of a 20 cm round, 7.5 cm deep cake tin. Beat the butter and sugar with an electric hand mixer for 1-2 mins until very creamy and pale in colour, scraping down the sides of the bowl half way through. Stir in a spoonful of the flour, then stir in the beaten egg and the rest of the flour alternately, a quarter at a time, beating well each time with a wooden spoon. Stir in the almonds. ",
+    "price": 1800,
+    "image": "https://www.themealdb.com/images/media/meals/ldnrm91576791881.jpg",
+    "category": "Dessert",
+    "ingredients": [
+      "Butter (200g)",
+      "Muscovado Sugar (200g)",
+      "Plain Flour (200g)",
+      "Eggs (4 Beaten)",
+      "Ground Almonds (50g)",
+      "Sherry (100ml)",
+      "Candied Peel (85g)",
+      "Glace Cherry (85g)",
+      "Raisins (250g)",
+      "Currants (250g)",
+      "Pecan Nuts (100g)",
+      "Lemon (Grated zest of 1)",
+      "Mixed Spice (1 ½ tbsp)",
+      "Rose water (1 ½ tbsp)",
+      "Vanilla Extract (1/2 tsp)",
+      "Baking Powder (1/2 tsp)"
+    ],
+    "isAvailable": false,
+    "tags": [
+      "sweet",
+      "british"
+    ],
+    "rating": {
+      "average": 3.5,
+      "count": 544
+    },
+    "prepTime": 42
+  },
+  {
+    "restaurantId": "eb27f99e4a0935fcd3f378d4",
+    "name": "Battenberg Cake",
+    "description": "Heat oven to 180C/160C fan/gas 4 and line the base and sides of a 20cm square tin with baking parchment (the easiest way is to cross 2 x 20cm-long strips over the base). To make the almond sponge, put the butter, sugar, flour, ground almonds, baking powder, eggs, vanilla and almond extract in a large bowl. Beat with an electric whisk until the mix comes together smoothly. Scrape into the tin, spreading to the corners, and bake for 25-30 mins – when you poke in a skewer, it should come out clean. Cool in the tin for 10 mins, then transfer to a wire rack to finish cooling while you make the second sponge. For the pink sponge, line the tin as above. Mix all the ingredients together as above, but don’t add the almond extract. Fold in some pink food colouring. Then scrape it all into the tin and bake as before. Cool.",
+    "price": 1700,
+    "image": "https://www.themealdb.com/images/media/meals/ywwrsp1511720277.jpg",
+    "category": "Dessert",
+    "ingredients": [
+      "Butter (175g)",
+      "Caster Sugar (175g)",
+      "Self-raising Flour (140g)",
+      "Almonds (50g)",
+      "Baking Powder (½ tsp)",
+      "Eggs (3 Medium)",
+      "Vanilla Extract (½ tsp)",
+      "Almond Extract (¼ teaspoon)",
+      "Butter (175g)",
+      "Caster Sugar (175g)",
+      "Self-raising Flour (140g)",
+      "Almonds (50g)",
+      "Baking Powder (½ tsp)",
+      "Eggs (3 Medium)",
+      "Vanilla Extract (½ tsp)",
+      "Almond Extract (¼ teaspoon)",
+      "Pink Food Colouring (½ tsp)",
+      "Apricot (200g)",
+      "Marzipan (1kg)",
+      "Icing Sugar (Dusting)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "sweet",
+      "british"
+    ],
+    "rating": {
+      "average": 4,
+      "count": 754
+    },
+    "prepTime": 37
+  },
+  {
+    "restaurantId": "b27cc1fa9717d7253ff491a0",
+    "name": "Spotted Dick",
+    "description": "Put the flour and salt in a bowl. Add the suet, currants, sugar, lemon and orange zest. Pour in 150ml milk and mix to a firm but moist dough, adding the extra milk if necessary.",
+    "price": 850,
+    "image": "https://www.themealdb.com/images/media/meals/xqvyqr1511638875.jpg",
+    "category": "Dessert",
+    "ingredients": [
+      "Self-raising Flour (250g)",
+      "Salt (pinch)",
+      "Suet (125g)",
+      "Currants (175g)",
+      "Caster Sugar (80g)",
+      "Lemon (Zest of 1)",
+      "Orange (Zest of 1)",
+      "Milk (150ml)",
+      "Custard (to serve)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "sweet",
+      "british"
+    ],
+    "rating": {
+      "average": 4,
+      "count": 932
+    },
+    "prepTime": 12
+  },
+  {
+    "restaurantId": "798824155446c7dd0d2d1fbc",
+    "name": "Krispy Kreme Donut",
+    "description": "Dissolve yeast in warm water in 2 1/2-quart bowl. Add milk, sugar, salt, eggs, shortening and 2 cups flour. Beat on low for 30 seconds, scraping bowl constantly. Beat on medium speed for 2 minutes, scraping bowl occasionally. Stir in remaining flour until smooth. Cover and let rise until double, 50-60 minutes. (Dough is ready when indentation remains when touched.) Turn dough onto floured surface; roll around lightly to coat with flour. Gently roll dough 1/2-inch thick with floured rolling pin. Cut with floured doughnut cutter. Cover and let rise until double, 30-40 minutes. Heat vegetable oil in deep fryer to 350°. Slide doughnuts into hot oil with wide spatula. Turn doughnuts as they rise to the surface. Fry until golden brown, about 1 minute on each side. Remove carefully from oil (do not prick surface); drain. Dip the doughnuts into creamy glaze set on rack.",
+    "price": 1850,
+    "image": "https://www.themealdb.com/images/media/meals/4i5cnx1587672171.jpg",
+    "category": "Dessert",
+    "ingredients": [
+      "Yeast (1/4 ounce)",
+      "Water (1/4 cup)",
+      "Water (1 1/2 cups)",
+      "Sugar (1/2 cup)",
+      "Salt (1 tsp)",
+      "Eggs (2)",
+      "Shortening (1/3 cup)",
+      "Flour (5 drops)",
+      "Canola Oil (Sprinking)",
+      "Milk (1/2 cup)",
+      "Sugar (2 cups)",
+      "Vanilla (1 1/2 cups)",
+      "Boiling Water (6 tablespoons)",
+      "Butter (1/3 cup)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "sweet",
+      "american"
+    ],
+    "rating": {
+      "average": 3.9,
+      "count": 454
+    },
+    "prepTime": 35
+  },
+  {
+    "restaurantId": "7aab804eb84daec7619e13f6",
+    "name": "Walnut Roll Gužvara",
+    "description": "Mix all the ingredients for the dough together and knead well. Cover the dough and put to rise until doubled in size which should take about 2 hours. Knock back the dough and knead lightly. ",
+    "price": 2950,
+    "image": "https://www.themealdb.com/images/media/meals/u9l7k81628771647.jpg",
+    "category": "Dessert",
+    "ingredients": [
+      "Flour (450g)",
+      "Caster Sugar (55g)",
+      "Yeast (2 parts)",
+      "Salt (1/2 tsp)",
+      "Milk (6 oz)",
+      "Eggs (2 Beaten)",
+      "Butter (30g)",
+      "Walnuts (140g)",
+      "Butter (85g)",
+      "Brown Sugar (85g)",
+      "Cinnamon (1 tsp)",
+      "Milk (To Glaze)",
+      "Icing Sugar (To Glaze)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "sweet",
+      "croatian"
+    ],
+    "rating": {
+      "average": 3.7,
+      "count": 296
+    },
+    "prepTime": 34
+  },
+  {
+    "restaurantId": "b27cc1fa9717d7253ff491a0",
+    "name": "Eton Mess",
+    "description": "Purée half the strawberries in a blender. Chop the remaining strawberries, reserving four for decoration. Whip the double cream until stiff peaks form, then fold in the strawberry purée and crushed meringue. Fold in the chopped strawberries and ginger cordial, if using.",
+    "price": 1900,
+    "image": "https://www.themealdb.com/images/media/meals/uuxwvq1483907861.jpg",
+    "category": "Dessert",
+    "ingredients": [
+      "strawberries (500g)",
+      "double cream (400ml)",
+      "meringue nests (3 x 7.5cm)",
+      "ginger cordial (1 tbsp)",
+      "Mint (sprigs of fresh)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "sweet",
+      "british"
+    ],
+    "rating": {
+      "average": 5,
+      "count": 885
+    },
+    "prepTime": 42
+  },
+  {
+    "restaurantId": "5e1c7fe73707f804af1f3c2b",
+    "name": "Tarte Tatin",
+    "description": "Roll the pastry to a 3mm-thick round on a lightly floured surface and cut a 24cm circle, using a plate as a guide. Lightly prick all over with a fork, wrap in cling film on a baking sheet and freeze while preparing the apples. Heat oven to 180C/160C fan/gas 4. Peel, quarter and core the apples. Put the sugar in a flameproof 20cm ceramic Tatin dish or a 20cm ovenproof heavy-based frying pan and place over a medium-high heat. Cook the sugar for 5-7 mins to a dark amber caramel syrup that’s starting to smoke, then turn off the heat and stir in the 60g diced chilled butter.",
+    "price": 2350,
+    "image": "https://www.themealdb.com/images/media/meals/ryspuw1511786688.jpg",
+    "category": "Dessert",
+    "ingredients": [
+      "Puff Pastry (300g)",
+      "Plain Flour (Dusting)",
+      "Braeburn Apples (6)",
+      "Caster Sugar (100g)",
+      "Butter (85g)",
+      "Creme Fraiche (to serve)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "sweet",
+      "french"
+    ],
+    "rating": {
+      "average": 5,
+      "count": 1173
+    },
+    "prepTime": 32
+  },
+  {
+    "restaurantId": "beef970a492a118b70a7bb61",
+    "name": "Rock Cakes",
+    "description": "Preheat oven to 180C/350F/Gas 4 and line a baking tray with baking parchment. Mix the flour, sugar and baking powder in a bowl and rub in the cubed butter until the mixture looks like breadcrumbs, then mix in the dried fruit.",
+    "price": 4350,
+    "image": "https://www.themealdb.com/images/media/meals/tqrrsq1511723764.jpg",
+    "category": "Dessert",
+    "ingredients": [
+      "Self-raising Flour (225g)",
+      "Caster Sugar (75g)",
+      "Baking Powder (1 tsp)",
+      "Butter (125g)",
+      "Dried Fruit (150g)",
+      "Eggs (1)",
+      "Milk (1 tbs)",
+      "Vanilla Extract (2 tsp)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "sweet",
+      "british"
+    ],
+    "rating": {
+      "average": 3.6,
+      "count": 707
+    },
+    "prepTime": 30
+  },
+  {
+    "restaurantId": "ff6c3a727993c17c3913d22f",
+    "name": "Chelsea Buns",
+    "description": "Sift the flour and salt into a large bowl. Make a well in the middle and add the yeast. Meanwhile, warm the milk and butter in a saucepan until the butter melts and the mixture is lukewarm.",
+    "price": 3600,
+    "image": "https://www.themealdb.com/images/media/meals/vqpwrv1511723001.jpg",
+    "category": "Dessert",
+    "ingredients": [
+      "White Flour (500g)",
+      "Salt (1 tsp)",
+      "Yeast (7g)",
+      "Milk (300ml)",
+      "Butter (40g)",
+      "Eggs (1)",
+      "Vegetable Oil (Dash)",
+      "Butter (25g)",
+      "Brown Sugar (75g)",
+      "Cinnamon (2 tsp)",
+      "Dried Fruit (150g)",
+      "Milk (2 tbs)",
+      "Caster Sugar (2 tbs)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "sweet",
+      "british"
+    ],
+    "rating": {
+      "average": 4.9,
+      "count": 963
+    },
+    "prepTime": 14
+  },
+  {
+    "restaurantId": "7aab804eb84daec7619e13f6",
+    "name": "Choc Chip Pecan Pie",
+    "description": "First, make the pastry. Tip the ingredients into a food processor with 1 /4 tsp salt. Blend until the mixture resembles breadcrumbs. Drizzle 2-3 tsp cold water into the funnel while the blade is running – the mixture should start to clump together. Tip onto a work surface and bring together, kneading briefly into a ball. Pat into a disc, wrap in cling film, and chill for at least 20 mins. Heat oven to 200C/180C fan/gas 6. ",
+    "price": 3200,
+    "image": "https://www.themealdb.com/images/media/meals/rqvwxt1511384809.jpg",
+    "category": "Dessert",
+    "ingredients": [
+      "Plain Flour (300g)",
+      "Butter (75g)",
+      "Cream Cheese (100g)",
+      "Icing Sugar (1 tbls)",
+      "Butter (150g)",
+      "Maple Syrup (200ml)",
+      "Light Brown Soft Sugar (250g)",
+      "Dark Brown Soft Sugar (100g)",
+      "Eggs (4)",
+      "Vanilla Extract (1 tsp)",
+      "Pecan Nuts (400g)",
+      "Dark Chocolate Chips (200g)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "sweet",
+      "american"
+    ],
+    "rating": {
+      "average": 4,
+      "count": 1110
+    },
+    "prepTime": 27
+  },
+  {
+    "restaurantId": "beef970a492a118b70a7bb61",
+    "name": "Strawberries Romanoff",
+    "description": "In a medium bowl, combine hulled and quartered strawberries, 4 Tbsp sugar and 4 Tbsp liqueur, stir to combine then cover and refrigerate at least 1 hour and up to 2 hours, stirring once or twice. ",
+    "price": 1850,
+    "image": "https://www.themealdb.com/images/media/meals/oe8rg51699014028.jpg",
+    "category": "Dessert",
+    "ingredients": [
+      "Strawberries (2 pint)",
+      "Sugar (4 tbs)",
+      "Grand Marnier (4 tbs)",
+      "Cream (1 cup)",
+      "Sour Cream (1/4 cup)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "sweet",
+      "russian"
+    ],
+    "rating": {
+      "average": 4.9,
+      "count": 540
+    },
+    "prepTime": 26
+  },
+  {
+    "restaurantId": "913ff0b3ef70c5faf4d7eb14",
+    "name": "Chocolate Gateau",
+    "description": "Preheat the oven to 180°C/350°F/Gas Mark 4. Grease and line the base of an 8 in round spring form cake tin with baking parchment Break the chocolate into a heatproof bowl and place over a saucepan of gently simmering water and stir until it melts. (or melt in the microwave for 2-3 mins stirring occasionally)",
+    "price": 2250,
+    "image": "https://www.themealdb.com/images/media/meals/tqtywx1468317395.jpg",
+    "category": "Dessert",
+    "ingredients": [
+      "Plain chocolate (250g)",
+      "Butter (175g)",
+      "Milk (2 tablespoons)",
+      "Eggs (5)",
+      "Granulated Sugar (175g)",
+      "Flour (125g)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "sweet",
+      "french"
+    ],
+    "rating": {
+      "average": 4.9,
+      "count": 983
+    },
+    "prepTime": 22
+  },
+  {
+    "restaurantId": "7aab804eb84daec7619e13f6",
+    "name": "Apple & Blackberry Crumble",
+    "description": "Heat oven to 190C/170C fan/gas 5. Tip the flour and sugar into a large bowl. Add the butter, then rub into the flour using your fingertips to make a light breadcrumb texture. Do not overwork it or the crumble will become heavy. Sprinkle the mixture evenly over a baking sheet and bake for 15 mins or until lightly coloured. Meanwhile, for the compote, peel, core and cut the apples into 2cm dice. Put the butter and sugar in a medium saucepan and melt together over a medium heat. Cook for 3 mins until the mixture turns to a light caramel. Stir in the apples and cook for 3 mins. Add the blackberries and cinnamon, and cook for 3 mins more. Cover, remove from the heat, then leave for 2-3 mins to continue cooking in the warmth of the pan.",
+    "price": 2050,
+    "image": "https://www.themealdb.com/images/media/meals/xvsurr1511719182.jpg",
+    "category": "Dessert",
+    "ingredients": [
+      "Plain Flour (120g)",
+      "Caster Sugar (60g)",
+      "Butter (60g)",
+      "Braeburn Apples (300g)",
+      "Butter (30g)",
+      "Demerara Sugar (30g)",
+      "Blackberries (120g)",
+      "Cinnamon (¼ teaspoon)",
+      "Ice Cream (to serve)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "sweet",
+      "british"
+    ],
+    "rating": {
+      "average": 4.4,
+      "count": 252
+    },
+    "prepTime": 12
+  },
+  {
+    "restaurantId": "7aab804eb84daec7619e13f6",
+    "name": "Pouding chomeur",
+    "description": "In a large bowl, with an electric mixer, mix the butter and sugar till the mix is light. Add eggs and vanilla and mix.",
+    "price": 4600,
+    "image": "https://www.themealdb.com/images/media/meals/yqqqwu1511816912.jpg",
+    "category": "Dessert",
+    "ingredients": [
+      "Butter (½ cup)",
+      "Sugar (1 cup)",
+      "Eggs (2)",
+      "Vanilla Extract (1 tsp)",
+      "Flour (2 cups)",
+      "Baking Powder (1 tsp)",
+      "Milk (1 1/4 cup)",
+      "Maple Syrup (1 1/2 cup)",
+      "Brown Sugar (1 1/2 cup)",
+      "Single Cream (1 1/2 cup)",
+      "Butter (1/3 cup)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "sweet",
+      "canadian"
+    ],
+    "rating": {
+      "average": 4.7,
+      "count": 781
+    },
+    "prepTime": 13
+  },
+  {
+    "restaurantId": "eb27f99e4a0935fcd3f378d4",
+    "name": "Sticky Toffee Pudding Ultimate",
+    "description": "Stone and chop the dates quite small, put them in a bowl, then pour the boiling water over. Leave for about 30 mins until cool and well-soaked, then mash a bit with a fork. Stir in the vanilla extract. Butter and flour seven mini pudding tins (each about 200ml/7fl oz) and sit them on a baking sheet. Heat oven to 180C/fan 160C/gas 4. While the dates are soaking, make the puddings. Mix the flour and bicarbonate of soda together and beat the eggs in a separate bowl. Beat the butter and sugar together in a large bowl for a few mins until slightly creamy (the mixture will be grainy from the sugar). Add the eggs a little at a time, beating well between additions. Beat in the black treacle then, using a large metal spoon, gently fold in one-third of the flour, then half the milk, being careful not to overbeat. Repeat until all the flour and milk is used. Stir the soaked dates into the pudding batter. The mix may look a little curdled at this point and will be like a soft, thick batter. Spoon it evenly between the tins and bake for 20-25 mins, until risen and firm.",
+    "price": 2600,
+    "image": "https://www.themealdb.com/images/media/meals/xrptpq1483909204.jpg",
+    "category": "Dessert",
+    "ingredients": [
+      "Medjool dates (225g)",
+      "water (175ml Boiling)",
+      "vanilla extract (1 tsp)",
+      "self-raising flour (175g)",
+      "bicarbonate of soda (1 tsp)",
+      "eggs (2)",
+      "butter (85g)",
+      "demerara sugar (140g)",
+      "black treacle (2 tbsp)",
+      "milk (100ml)",
+      "ice cream (1 scoop)",
+      "muscovado sugar (175g)",
+      "butter (50g)",
+      "double cream (225ml)",
+      "black treacle (1 tbsp)"
+    ],
+    "isAvailable": true,
+    "tags": [
+      "sweet",
+      "british"
+    ],
+    "rating": {
+      "average": 4.7,
+      "count": 814
+    },
+    "prepTime": 37
+  }
+]

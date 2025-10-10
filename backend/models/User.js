@@ -7,17 +7,15 @@ const userSchema = new mongoose.Schema(
     email: { type: String, required: true, unique: true, lowercase: true, trim: true },
     passwordHash: { type: String, required: true },
     role: { type: String, enum: ["customer", "editor", "admin"], default: "customer" },
-    refreshTokens: [String], // store valid refresh tokens (one per device/session)
+    refreshTokens: [String], 
   },
   { timestamps: true, collection: "users" }
 );
 
-// hash helper
 userSchema.methods.setPassword = async function (plain) {
   this.passwordHash = await bcrypt.hash(plain, 10);
 };
 
-// verify helper
 userSchema.methods.validatePassword = function (plain) {
   return bcrypt.compare(plain, this.passwordHash);
 };

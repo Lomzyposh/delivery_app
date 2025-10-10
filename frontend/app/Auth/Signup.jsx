@@ -20,7 +20,7 @@ export default function SignupScreen() {
     setLoading(true);
     try {
       await signup(name.trim(), email.trim(), password);
-      router.replace('/Main/Home');
+      router.replace('/Main/home');
     } catch (e) {
       Alert.alert("Error", e.response?.data?.error || e.message);
     } finally {

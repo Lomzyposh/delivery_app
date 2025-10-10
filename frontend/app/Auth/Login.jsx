@@ -18,7 +18,7 @@ export default function LoginScreen() {
         setLoading(true);
         try {
             await login(email.trim(), password);
-            router.replace('/Main/Home');
+            router.replace('/Main/home');
         } catch (e) {
             Alert.alert("Error", e.response?.data?.error || e.message);
         } finally {
