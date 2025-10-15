@@ -25,7 +25,7 @@ SplashScreen.preventAutoHideAsync().catch(() => { });
 
 // Inner shell: safe place to use useAuth (we are inside AuthProvider here)
 function AppShell() {
-    const { booted } = useAuth(); // don't need userId here; CartProvider will read it
+    const { booted } = useAuth(); 
 
     if (!booted) {
         return (

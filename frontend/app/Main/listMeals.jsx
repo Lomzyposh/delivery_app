@@ -111,7 +111,6 @@ function MealCard({ meal }) {
                 {!!(price || price === 0) && (
                     <Text style={styles.cardPrice}>₦{Number(price).toLocaleString()}</Text>
                 )}
-                https://img.freepik.com/premium-photo/meat-grill_884653-187.jpg
             </View>
         </Pressable>
     );
