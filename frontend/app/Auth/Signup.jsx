@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, Alert } from "react-native";
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Alert } from "react-native";
+import { FontAwesome } from '@expo/vector-icons';
 import { useAuth } from "../../contexts/AuthContext";
 import { useRouter } from "expo-router";
 
 export default function SignupScreen() {
-
   const { signup } = useAuth();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -29,42 +30,129 @@ export default function SignupScreen() {
   };
 
   return (
-    <View style={{ padding: 20 }}>
-      <Text>Name</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>Create account</Text>
+      <Text style={styles.subtitle}>Join us — create an account to order delicious meals</Text>
+
+      <Text style={styles.label}>Name</Text>
       <TextInput
         value={name}
         onChangeText={setName}
-        style={{ borderWidth: 1, marginBottom: 10, padding: 8 }}
+        style={styles.input}
+        placeholder="Your full name"
       />
 
-      <Text>Email</Text>
+      <Text style={styles.label}>Email</Text>
       <TextInput
         value={email}
         onChangeText={setEmail}
         autoCapitalize="none"
-        style={{ borderWidth: 1, marginBottom: 10, padding: 8 }}
+        style={styles.input}
+        placeholder="you@example.com"
       />
 
-      <Text>Password</Text>
+      <Text style={styles.label}>Password</Text>
       <TextInput
         value={password}
         onChangeText={setPassword}
         secureTextEntry
-        style={{ borderWidth: 1, marginBottom: 10, padding: 8 }}
+        style={styles.input}
+        placeholder="Enter password"
       />
 
-      <Button
-        title={loading ? "Creating account..." : "Sign Up"}
-        onPress={handleSignup}
-        disabled={loading}
-      />
+      <TouchableOpacity style={styles.connectButton} onPress={handleSignup} disabled={loading}>
+        <Text style={styles.connectText}>{loading ? "Creating account..." : "Sign Up"}</Text>
+      </TouchableOpacity>
 
-      <View style={{ marginTop: 10 }}>
-        <Button
-          title="Already have an account? Login"
-          onPress={() => router.replace("Auth/Login")}
-        />
-      </View>
+      
+
+      <Text style={styles.footer}>
+        By creating an account you agree to our <Text style={styles.link}>Terms of Use</Text> and <Text style={styles.link}>Privacy Policy</Text>.
+      </Text>
     </View>
   );
 }
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: "#fff",
+      padding: 20,
+      justifyContent: "center",
+    },
+    title: {
+      fontSize: 32,
+      fontWeight: "bold",
+      marginBottom: 8,
+    },
+    subtitle: {
+      marginBottom: 20,
+      color: "#444",
+    },
+    label: {
+      fontWeight: "600",
+    },
+    input: {
+      borderWidth: 1,
+      borderColor: "#ccc",
+      borderRadius: 10,
+      padding: 12,
+      marginTop: 5,
+      marginBottom: 10,
+    },
+    hint: {
+      marginTop: 12,
+      marginBottom: 10,
+      color: "#666",
+      textAlign: 'center'
+    },
+    connectButton: {
+      backgroundColor: "#FF5A00",
+      padding: 15,
+      borderRadius: 15,
+      alignItems: "center",
+      marginBottom: 20,
+    },
+    connectText: {
+      color: "#fff",
+      fontWeight: "bold",
+    },
+    dividerContainer: {
+      flexDirection: "row",
+      alignItems: "center",
+      marginBottom: 20,
+    },
+    line: {
+      flex: 1,
+      height: 1,
+      backgroundColor: "#ddd",
+    },
+    or: {
+      marginHorizontal: 10,
+      color: "#999",
+    },
+    socialButton: {
+      borderWidth: 1,
+      borderColor: "#ddd",
+      padding: 12,
+      borderRadius: 15,
+      alignItems: "center",
+      marginBottom: 10,
+      flexDirection: 'row',
+      justifyContent: 'center'
+    },
+    socialIcon: {
+      marginRight: 10,
+    },
+    socialText: {
+      fontSize: 15,
+    },
+    footer: {
+      textAlign: "center",
+      marginTop: 20,
+      color: "#444",
+    },
+    link: {
+      fontWeight: "bold",
+    },
+  });

@@ -15,12 +15,14 @@ export default function App() {
         axios.get("http://192.168.177.224:5000/api/hello")
             .then(res => setMsg(res.data.message))
             .catch(err => console.error(err));
+            router.replace('/Auth/Login');
     }, []);
 
     return (
         // <OnboardingScreen buttonPosition="top" indicatorStyle="dash" />
         // <LoadingScreen />
-        <Onboarding2 />
+        // <Onboarding2 />
+        <></>
     );
 }
 
