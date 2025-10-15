@@ -1,6 +1,8 @@
 require('dotenv').config();
+const nodemailer = require('nodemailer');
 const express = require("express");
 const cors = require("cors");
+const bcrypt = require("bcryptjs");
 const User = require("./models/User");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
@@ -9,7 +11,106 @@ const Addon = require('./models/Addon');
 const Restaurant = require("./models/Restaurant");
 const Cart = require('./models/Cart');
 const Favorite = require('./models/Favourite');
+const Code = require('./models/Code');
 const { Types: { ObjectId } } = mongoose;
+
+const LIFESPAN_MIN = 15;            // code lifetime in minutes
+const MAX_ATTEMPTS = 5;
+const RESET_WINDOW_MIN = 15;        // how long after verifying code that password can be changed
+
+
+async function verifyResetCode(email, code, purpose = 'forgot') {
+    const normalized = String(email || '').trim().toLowerCase();
+    const codeStr = String(code || '').trim();
+    const now = new Date();
+
+    if (!normalized || !codeStr) {
+        return { success: false, message: 'Email and code are required.' };
+    }
+    if (!/^\d{6}$/.test(codeStr)) {
+        return { success: false, message: 'Invalid code format.' };
+    }
+
+    // Get the most recent active code
+    const doc = await Code.findOne({ email: normalized, purpose, used: false })
+        .sort({ updatedAt: -1 });
+
+    if (!doc) {
+        return { success: false, message: 'Invalid or expired code.' };
+    }
+    if (doc.expiresAt <= now) {
+        return { success: false, message: 'Code expired. Request a new one.' };
+    }
+    if ((doc.attempts ?? 0) >= MAX_ATTEMPTS) {
+        return { success: false, message: 'Too many attempts. Request a new code.' };
+    }
+
+    // Mismatch → count attempt
+    if (doc.code !== codeStr) {
+        await Code.updateOne({ _id: doc._id }, { $inc: { attempts: 1 } });
+        const left = Math.max(0, MAX_ATTEMPTS - ((doc.attempts ?? 0) + 1));
+        return {
+            success: false,
+            message: left ? `Incorrect code. ${left} attempt(s) left.` : 'Too many attempts. Request a new code.',
+        };
+    }
+
+    // ✅ Match: mark this code used
+    await Code.updateOne({ _id: doc._id }, { $set: { used: true, usedAt: now } });
+
+    // ✅ Open a reset window on the user (no JWT). You need a field on User for this.
+    const resetAllowedUntil = new Date(Date.now() + RESET_WINDOW_MIN * 60 * 1000);
+    await User.updateOne(
+        { email: normalized },
+        { $set: { resetAllowedUntil } },
+        { upsert: false }
+    );
+
+    return {
+        success: true,
+        message: 'Code verified. You can now reset your password.',
+        resetWindowMinutes: RESET_WINDOW_MIN,
+        resetAllowedUntil,
+    };
+}
+
+
+async function performPasswordReset(email, newPassword) {
+    const normalized = String(email || '').trim().toLowerCase();
+    const now = new Date();
+
+    if (!normalized || !newPassword) {
+        return { success: false, message: 'Email and new password are required.' };
+    }
+    if (newPassword.length < 8) {
+        return { success: false, message: 'Password must be at least 8 characters.' };
+    }
+
+    const user = await User.findOne({ email: normalized });
+    if (!user) return { success: false, message: 'User not found.' };
+
+    // ✅ Only allow if a recent verify opened the reset window
+    if (!user.resetAllowedUntil || user.resetAllowedUntil <= now) {
+        return { success: false, message: 'Reset window not active or expired. Verify your code again.' };
+    }
+
+
+    await user.setPassword(newPassword);
+
+    user.resetAllowedUntil = null;
+
+    await user.save();
+
+    await Code.updateMany(
+        { email: normalized, purpose: 'forgot', used: false },
+        { $set: { used: true, usedAt: now } }
+    );
+
+    return { success: true, message: 'Password reset successfully.' };
+}
+
+
+
 
 const app = express();
 app.use(cors());
@@ -213,6 +314,7 @@ app.delete("/cart/items/:itemId", async (req, res) => {
 const toId = (id) => new ObjectId(String(id));
 function validId(id) { return ObjectId.isValid(String(id)); }
 
+
 app.post('/api/favorites/add', async (req, res) => {
     try {
         const { userId, foodId } = req.body || {};
@@ -277,6 +379,131 @@ app.post('/api/favorites/toggle', async (req, res) => {
     res.json({ ok: true, isFavorite: true, foodId: String(foodId) });
 });
 
+async function processMail(to, subject, message) {
+    try {
+        const transporter = nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true,
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASSWORD,
+            },
+        });
+
+        await transporter.sendMail({
+            from: `FoodHut <${process.env.EMAIL_USER}>`,
+            to,
+            subject,
+            html: message,
+        });
+
+        return { success: true, message: 'Reset code sent.' };
+    } catch (err) {
+        console.error('Email sending error:', err?.response || err);
+        return {
+            success: false,
+            message: 'Email failed to send. Please try again.',
+            error: err?.message,
+        };
+    }
+}
+
+
+app.post('/api/forgot-password', async (req, res) => {
+    try {
+        const { email } = req.body;
+        if (!email) {
+            return res.status(400).json({ success: false, message: 'Email is required.' });
+        }
+
+        const normalized = email.trim().toLowerCase();
+
+        const user = await User.findOne({ email: normalized });
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'Email not found.' });
+        }
+
+        // Generate a new 6-digit code and expiration time
+        const code = Math.floor(100000 + Math.random() * 900000).toString();
+        const expiresAt = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes
+
+        // Replace any old code doc for this user
+        await Code.deleteMany({ email: normalized, purpose: 'forgot' });
+
+        await Code.create({
+            email: normalized,
+            purpose: 'forgot',
+            code,
+            expiresAt,
+            used: false,
+            attempts: 0,
+        });
+
+        // Send via your mailer
+        const subject = 'Your Password Reset Code';
+        const message = `
+      <h2>Password Reset Request</h2>
+      <p>Your password reset code is:</p>
+      <h1 style="color:#1a73e8; letter-spacing:2px;">${code}</h1>
+      <p>This code will expire in 15 minutes.</p>
+      <p>— Food Hut Team</p>
+    `;
+
+        const mailSent = await processMail(normalized, subject, message);
+        if (!mailSent?.success) {
+            return res.status(500).json({ success: false, message: 'Failed to send email.' });
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: 'Reset code sent successfully.',
+            expiresInMinutes: 15,
+            // devCode: code, // Uncomment only for testing
+        });
+    } catch (err) {
+        console.error('forgot-password error:', err);
+        return res.status(500).json({ success: false, message: 'Something went wrong. Please try again later.' });
+    }
+});
+
+
+app.post('/api/verify-reset-code', async (req, res) => {
+    try {
+        const { email, code } = req.body;
+        if (!email || !code) {
+            return res.status(400).json({ success: false, message: 'Email and code are required.' });
+        }
+        if (!/^\d{6}$/.test(String(code))) {
+            return res.status(400).json({ success: false, message: 'Invalid code format.' });
+        }
+
+        const result = await verifyResetCode(email, String(code), 'forgot');
+        if (!result.success) return res.status(400).json(result);
+
+        return res.status(200).json(result);
+    } catch (err) {
+        console.error('verify-reset-code error:', err);
+        return res.status(500).json({ success: false, message: 'Something went wrong. Please try again later.' });
+    }
+});
+
+app.post('/api/reset-password', async (req, res) => {
+    try {
+        const { email, newPassword } = req.body;
+        const result = await performPasswordReset(email, newPassword);
+        if (!result.success) return res.status(400).json(result);
+
+        return res.status(200).json(result);
+    } catch (err) {
+        console.error('reset-password error:', err);
+        return res.status(500).json({ success: false, message: 'Something went wrong. Please try again later.' });
+    }
+});
+
+
+
+
 
 // Clear cart
 app.delete("/cart/clear", async (req, res) => {
@@ -292,6 +519,107 @@ app.delete("/cart/clear", async (req, res) => {
         res.json(cart);
     } catch (e) {
         res.status(500).json({ error: e.message });
+    }
+});
+
+
+app.get('/api/meals', async (req, res) => {
+    console.log("req.query =>");
+
+    try {
+        const {
+            category,
+            q,
+            restaurant,
+            minPrice,
+            maxPrice,
+            sort = 'createdAt',
+            order = 'desc',
+            page = 1,
+            limit = 20,
+        } = req.query;
+
+        const andClauses = [];
+
+        // Case-insensitive exact match helper
+        const escape = (s) => String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const ciEq = (s) => new RegExp(`^${escape(s)}$`, 'i');
+
+        // Category filter (supports string field, array field, or nested slug)
+        if (category) {
+            andClauses.push({
+                $or: [
+                    { category: ciEq(category) },
+                    { categories: ciEq(category) },
+                    { 'category.slug': ciEq(category) },
+                ]
+            });
+        }
+
+        if (q && String(q).trim()) {
+            const rx = new RegExp(String(q).trim(), 'i');
+            andClauses.push({
+                $or: [{ name: rx }, { title: rx }, { description: rx }]
+            });
+        }
+
+        // Restaurant filter
+        if (restaurant && ObjectId.isValid(restaurant)) {
+            andClauses.push({ restaurantId: new ObjectId(restaurant) });
+        }
+
+        // Price range
+        const priceClause = {};
+        if (!Number.isNaN(Number(minPrice))) priceClause.$gte = Number(minPrice);
+        if (!Number.isNaN(Number(maxPrice))) priceClause.$lte = Number(maxPrice);
+        if (Object.keys(priceClause).length) {
+            andClauses.push({ price: priceClause });
+        }
+
+        const filter = andClauses.length ? { $and: andClauses } : {};
+
+        const sortMap = { price: 'price', createdAt: 'createdAt', name: 'name' };
+        const sortKey = sortMap[sort] || 'createdAt';
+        const sortDir = String(order).toLowerCase() === 'asc' ? 1 : -1;
+
+        const pageNum = Math.max(1, parseInt(page, 10) || 1);
+        const pageSize = Math.min(100, Math.max(1, parseInt(limit, 10) || 20));
+        const skip = (pageNum - 1) * pageSize;
+
+        const [meals, total] = await Promise.all([
+            FoodItem.find(filter)
+                .sort({ [sortKey]: sortDir })
+                .skip(skip)
+                .limit(pageSize)
+                .populate({
+                    path: 'restaurantId',
+                    select: 'name address logo rating',
+                })
+                .lean(),
+            FoodItem.countDocuments(filter),
+        ]);
+
+        res.json({
+            meals,
+            meta: {
+                page: pageNum,
+                pageSize,
+                total,
+                hasMore: skip + meals.length < total,
+                sort: sortKey,
+                order: sortDir === 1 ? 'asc' : 'desc',
+                applied: {
+                    category: category || null,
+                    q: q || null,
+                    restaurant: restaurant || null,
+                    minPrice: minPrice ?? null,
+                    maxPrice: maxPrice ?? null,
+                },
+            },
+        });
+    } catch (e) {
+        console.error('GET /api/meals error:', e);
+        res.status(500).json({ error: e.message || 'Server error' });
     }
 });
 

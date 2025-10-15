@@ -18,11 +18,13 @@ const Onboarding2 = () => {
     const fallAnim = useRef(new Animated.Value(-300)).current;
 
     useEffect(() => {
+        goToMain();
         Animated.spring(fallAnim, {
             toValue: 0,
             useNativeDriver: true,
             speed: 2,
             bounciness: 18,
+
         }).start();
     }, []);
 
@@ -35,7 +37,6 @@ const Onboarding2 = () => {
                         source={require("../assets/images/burger.png")}
                         style={[styles.image, { transform: [{ translateY: fallAnim }] }]}
                     />
-
 
                     <View style={styles.buttonsContainer}>
                         <TouchableOpacity style={styles.primaryButton} onPress={goToLogin}>
@@ -82,11 +83,11 @@ const styles = StyleSheet.create({
 
     image: {
         width: "80%",
+        // backgroundColor: '#000',
         height: undefined,
         aspectRatio: 1,
         resizeMode: "contain",
         marginTop: 200,
-        marginBottom: 40,
     },
 
     title: {

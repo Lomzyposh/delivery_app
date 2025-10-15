@@ -101,9 +101,25 @@ export function AuthProvider({ children }) {
     await SecureStore.setItemAsync("refresh", data.refresh);
   };
 
+  const checkEmail = async (email) => {
+    try {
+      const { data } = await axios.post(`${API_URL}/api/forgot-password`, { email: email.trim().toLowerCase() });
+      return data;
+
+    } catch (err) {
+      if (err.response) {
+        const { status, data } = err.response;
+        const msg = data?.message || (status === 404 ? 'Email not found. Please try again.' : 'Request failed.');
+        throw new Error(msg);
+      }
+      throw new Error('Network error. Please check your internet connection.');
+    }
+
+  }
+
   const logout = async () => {
     const refresh = await SecureStore.getItemAsync("refresh");
-    await axios.post(`${API_URL}/logout`, { refresh }).catch(() => {});
+    await axios.post(`${API_URL}/logout`, { refresh }).catch(() => { });
     await SecureStore.deleteItemAsync("refresh");
     setUser(null);
     setAccess(null);
@@ -120,6 +136,7 @@ export function AuthProvider({ children }) {
       login,
       signup,
       logout,
+      checkEmail
     }),
     [user, userId, access, cart, booted]
   );

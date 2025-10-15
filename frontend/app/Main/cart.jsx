@@ -3,8 +3,8 @@ import React from 'react'
 
 const cart = () => {
     return (
-        <View style={styles.container}>
-            <Text>Cart</Text>
+        <View style={{ flex: 1, padding: 16 }}>
+            <Text style={{ fontSize: 22 }}>Your Cart</Text>
         </View>
     )
 }
