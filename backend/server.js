@@ -14,9 +14,9 @@ const Favorite = require('./models/Favourite');
 const Code = require('./models/Code');
 const { Types: { ObjectId } } = mongoose;
 
-const LIFESPAN_MIN = 15;            // code lifetime in minutes
+const LIFESPAN_MIN = 15;         
 const MAX_ATTEMPTS = 5;
-const RESET_WINDOW_MIN = 15;        // how long after verifying code that password can be changed
+const RESET_WINDOW_MIN = 15;
 
 
 async function verifyResetCode(email, code, purpose = 'forgot') {
@@ -563,12 +563,10 @@ app.get('/api/meals', async (req, res) => {
             });
         }
 
-        // Restaurant filter
         if (restaurant && ObjectId.isValid(restaurant)) {
             andClauses.push({ restaurantId: new ObjectId(restaurant) });
         }
 
-        // Price range
         const priceClause = {};
         if (!Number.isNaN(Number(minPrice))) priceClause.$gte = Number(minPrice);
         if (!Number.isNaN(Number(maxPrice))) priceClause.$lte = Number(maxPrice);

@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 import * as SecureStore from "expo-secure-store";
 import axios from "axios";
+import { API_URL } from "../hooks/api";
 
-const API_URL = "http://192.168.121.224:5000";
 const AuthContext = createContext(null);
 
 function normalizeUser(u) {
@@ -19,7 +19,6 @@ export function AuthProvider({ children }) {
 
   const userId = user?.id || null;
 
-  // Attach interceptors ONCE
   useEffect(() => {
     const reqInt = axios.interceptors.request.use((config) => {
       if (access) config.headers.Authorization = `Bearer ${access}`;

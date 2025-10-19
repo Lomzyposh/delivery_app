@@ -16,11 +16,11 @@ const LoadingScreen = () => {
 
         const timer = setTimeout(() => {
             if (user) {
-                router.replace('/Main/Home'); 
+                router.replace('/Main/home');
             } else {
-                router.replace('/Auth');       // not logged in
+                router.replace('/Auth');
             }
-        }, 3000)
+        }, 3000);
 
         return () => clearTimeout(timer);
     }, [booted, user, router]);
@@ -28,7 +28,7 @@ const LoadingScreen = () => {
     return (
         <View style={styles.container}>
             <Image
-                source={require('../assets/images/foodLogo.png')}
+                source={require('../assets/images/foodHutLogo.png')}
                 style={styles.loaderLogo}
             />
             <Text style={styles.text}>Food Delivery</Text>
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: '100%',
         height: '100%',
-        backgroundColor: Colors.tintColorLight
+        ackgroundColor: '#f9a485ff'
     },
     text: {
         color: '#fff',

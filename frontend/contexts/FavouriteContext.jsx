@@ -2,8 +2,8 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { useAuth } from "./AuthContext";
+import { API_URL } from "../hooks/api";
 
-const API_URL = "http://192.168.121.224:5000";
 const FavoritesContext = createContext(null);
 
 export function FavoritesProvider({ children }) {

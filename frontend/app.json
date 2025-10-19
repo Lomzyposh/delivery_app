@@ -4,7 +4,7 @@
     "slug": "frontend",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/foodLogo.png",
+    "icon": "./assets/images/foodHutLogo.png",
     "scheme": "frontend",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -14,23 +14,23 @@
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#ff7f50",
-        "foregroundImage": "./assets/images/foodLogo.png",
-        "backgroundImage": "./assets/images/foodLogo.png",
-        "monochromeImage": "./assets/images/foodLogo.png"
+        "foregroundImage": "./assets/images/foodHutLogo.png",
+        "backgroundImage": "./assets/images/foodHutLogo.png",
+        "monochromeImage": "./assets/images/foodHutLogo.png"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false
     },
     "web": {
       "output": "static",
-      "favicon": "./assets/images/foodLogo.png"
+      "favicon": "./assets/images/foodHutLogo.png"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/foodLogo.png",
+          "image": "./assets/images/foodHutLogo.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ff7f50",

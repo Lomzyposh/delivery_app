@@ -1,289 +1,210 @@
-import { useRouter } from "expo-router";
-import React, { useEffect, useRef, useState } from "react";
+// app/Onboarding.jsx
+import React, { useMemo, useRef, useState } from "react";
 import {
   View,
   Text,
-  Image,
   FlatList,
   StyleSheet,
   Dimensions,
-  TouchableOpacity,
+  Pressable,
   StatusBar,
-  SafeAreaView,
+  Image,
 } from "react-native";
-// If you use Expo Router, uncomment:
-// import { useRouter } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import { useTheme } from "../contexts/ThemeContext";
+import { usePalette } from "../utils/palette";
+import { Colors, fonts } from "../constants/theme";
 
 const { width } = Dimensions.get("window");
-const router = useRouter();
+
 const SLIDES = [
   {
-    id: "1",
+    key: "order",
+    title: "Order for Food",
+    desc: "Pick from your favorite restaurants and add to cart in seconds.",
+    image: require("../assets/images/splash/food.png"),
+  },
+  {
+    key: "pay",
+    title: "Easy Payment",
+    desc: "Pay securely with cards or wallet—fast, safe, and seamless.",
+    image: require("../assets/images/splash/worker.png"),
+  },
+  {
+    key: "deliver",
     title: "Fast Delivery",
-    subtitle: "Get hot meals at your door in minutes.",
-    image:
-      "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?q=80&w=1200&auto=format&fit=crop",
-  },
-  {
-    id: "2",
-    title: "Everything You Crave",
-    subtitle: "Burgers, pizza, suya, small chops & more.",
-    image:
-      "https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1200&auto=format&fit=crop",
-  },
-  {
-    id: "3",
-    title: "Safe & Seamless",
-    subtitle: "Easy payments, reliable riders, real-time updates.",
-    image:
-      "https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1200&auto=format&fit=crop",
+    desc: "Riders get your meal to you hot and fresh, right on time.",
+    image: require("../assets/images/splash/drive.png"),
   },
 ];
 
-export default function OnboardingScreen({
-  buttonPosition = "bottom", // "bottom" | "top"
-  intervalMs = 3000,
-  indicatorStyle = "dot", // "dot" | "dash"
-  onGetStarted,
-}) {
-  // const router = useRouter();
+export default function Onboarding() {
+  const router = useRouter();
   const listRef = useRef(null);
   const [index, setIndex] = useState(0);
-  const max = SLIDES.length;
 
-  // Auto-scroll
-  useEffect(() => {
-    const id = setInterval(() => {
-      const next = (index + 1) % max;
-      listRef.current?.scrollToIndex({ index: next, animated: true });
-      setIndex(next);
-    }, intervalMs);
-    return () => clearInterval(id);
-  }, [index, max, intervalMs]);
+  const { theme } = useTheme();
+  const palette = usePalette(theme);
 
-  // Sync index on manual swipe
-  const onViewableItemsChanged = useRef(({ viewableItems }) => {
-    if (viewableItems?.length) {
-      const i = viewableItems[0].index ?? 0;
-      if (i !== index) setIndex(i);
+  const styles = useMemo(() => makeStyles(palette, theme), [palette, theme]);
+
+  const goLogin = () => router.push("/Auth/Login");
+
+  const next = () => {
+    if (index < SLIDES.length - 1) {
+      listRef.current?.scrollToIndex({ index: index + 1, animated: true });
+    } else {
+      goLogin();
     }
-  }).current;
-
-  const viewabilityConfig = useRef({
-    itemVisiblePercentThreshold: 70,
-  }).current;
-
-  const goNext = () => {
-    const next = Math.min(index + 1, max - 1);
-    listRef.current?.scrollToIndex({ index: next, animated: true });
-    setIndex(next);
   };
-
-  const handleGetStarted = () => {
-    if (onGetStarted) return onGetStarted();
-
-    router.replace("/Auth/Login")
-  };
-
-  const skipStarted = () => {
-    router.replace('/Main/Home')
-  }
 
   return (
-    <SafeAreaView style={styles.safe}>
+    <View style={[styles.root, { backgroundColor: theme.background }]}>
       <StatusBar barStyle="light-content" />
-      <View style={styles.container}>
-        {buttonPosition === "top" && <HeaderCTA onPress={handleGetStarted} />}
 
-        <FlatList
-          ref={listRef}
-          data={SLIDES}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <Slide item={item} />}
-          horizontal
-          pagingEnabled
-          showsHorizontalScrollIndicator={false}
-          onViewableItemsChanged={onViewableItemsChanged}
-          viewabilityConfig={viewabilityConfig}
-        />
+      {/* tinted header cap like the mockup; color from palette.tint */}
+      <View style={[styles.headerBg, { backgroundColor: palette.tint }]} />
 
-        <Indicators
-          length={max}
-          activeIndex={index}
-          styleType={indicatorStyle}
-          onDotPress={(i) => {
-            listRef.current?.scrollToIndex({ index: i, animated: true });
-            setIndex(i);
-          }}
-        />
+      <FlatList
+        ref={listRef}
+        data={SLIDES}
+        keyExtractor={(item) => item.key}
+        horizontal
+        pagingEnabled
+        // scrollEnabled={false}
+        showsHorizontalScrollIndicator={true}
+        onMomentumScrollEnd={(e) => {
+          const newIndex = Math.round(e.nativeEvent.contentOffset.x / width);
+          setIndex(newIndex);
+        }}
+        renderItem={({ item }) => (
+          <View style={styles.page}>
+            <View style={styles.illustration}>
+              <Image
+                source={item.image}
+                style={styles.image}
+                contentFit="contain"
+                transition={300}
+              />
+            </View>
 
-        {buttonPosition === "bottom" && (
-          <FooterCTA
-            onGetStarted={handleGetStarted}
-            onNext={goNext}
-            isLast={index === max - 1}
-            skipStarted={skipStarted}
-          />
+            <Text style={[styles.title, { color: palette.tint }]}>{item.title}</Text>
+            <Text style={[styles.desc, { color: palette.sub }]}>{item.desc}</Text>
+
+            <View style={styles.dots}>
+              {SLIDES.map((_, i) => (
+                <View
+                  key={i}
+                  style={[
+                    styles.dot,
+                    { backgroundColor: palette.border },
+                    i === index && { width: 22, backgroundColor: palette.tint },
+                  ]}
+                />
+              ))}
+            </View>
+
+            <Pressable
+              onPress={next}
+              style={({ pressed }) => [
+                styles.primaryBtn,
+                { backgroundColor: palette.tint, shadowColor: palette.tint },
+                pressed && { transform: [{ scale: 0.99 }] },
+              ]}
+            >
+              <Text style={styles.primaryLabel}>
+                {index === SLIDES.length - 1 ? "Get Started" : "Next"}
+              </Text>
+            </Pressable>
+
+            {index < SLIDES.length - 1 && (
+              <Pressable onPress={() => router.replace('/Main/(tabs)/home')} style={styles.skip}>
+                <Text style={[styles.skipText, { color: palette.sub }]}>Skip</Text>
+              </Pressable>
+            )}
+          </View>
         )}
-      </View>
-    </SafeAreaView>
-  );
-}
-
-function Slide({ item }) {
-  return (
-    <View style={{ width }}>
-      <Image source={{ uri: item.image }} style={styles.image} />
-      <View style={styles.overlay} />
-      <View style={styles.textWrap}>
-        <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.subtitle}>{item.subtitle}</Text>
-      </View>
+      />
     </View>
   );
 }
 
-function Indicators({ length, activeIndex, styleType, onDotPress }) {
-  return (
-    <View style={styles.indicators}>
-      {Array.from({ length }).map((_, i) => {
-        const active = i === activeIndex;
-        const common = [
-          styles.indicatorBase,
-          active ? styles.indicatorActive : styles.indicatorInactive,
-        ];
-        const style =
-          styleType === "dash" ? styles.indicatorDash : styles.indicatorDot;
-        return (
-          <TouchableOpacity key={i} onPress={() => onDotPress(i)} activeOpacity={0.8}>
-            <View style={[...common, style]} />
-          </TouchableOpacity>
-        );
-      })}
-    </View>
-  );
+function makeStyles(palette, theme) {
+  return StyleSheet.create({
+    root: { flex: 1, alignItems: "center", justifyContent: "center", paddingTop: 20 },
+    headerBg: {
+      ...StyleSheet.absoluteFillObject,
+      height: 280,
+      borderBottomLeftRadius: 28,
+      borderBottomRightRadius: 28,
+    },
+    page: {
+      width,
+      paddingHorizontal: 14,
+      paddingTop: 32,
+      alignItems: "center",
+    },
+    illustration: {
+      width: "100%",
+      height: 280,
+      alignItems: "center",
+      justifyContent: "center",
+      marginTop: 8,
+      backgroundColor: palette.card,
+      borderRadius: 24,
+      elevation: 10,
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 8 },
+      shadowOpacity: 0.15,
+      shadowRadius: 16,
+    },
+    image: { width: "100%", height: "92%" },
+    title: {
+      marginTop: 28,
+      fontSize: 30,
+      textAlign: "center",
+      fontFamily: fonts.fredoka,
+    },
+    desc: {
+      marginTop: 10,
+      fontSize: 14,
+      lineHeight: 20,
+      textAlign: "center",
+      paddingHorizontal: 8,
+      fontFamily: fonts.interRegular,
+    },
+    dots: {
+      marginTop: 18,
+      flexDirection: "row",
+      gap: 6,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    dot: {
+      width: 8,
+      height: 8,
+      borderRadius: 999,
+    },
+    primaryBtn: {
+      marginTop: 122,
+      width: "100%",
+      paddingVertical: 16,
+      borderRadius: 20,
+      alignItems: "center",
+      justifyContent: "center",
+      elevation: 6,
+      shadowOpacity: 0.35,
+      shadowOffset: { width: 0, height: 8 },
+      shadowRadius: 12,
+    },
+    primaryLabel: {
+      color: "#fff",
+      fontSize: 16,
+      fontWeight: "700",
+      fontFamily: fonts.interSemi,
+    },
+    skip: { marginTop: 12, padding: 8 },
+    skipText: { fontWeight: "600", fontFamily: fonts.interRegular },
+  });
 }
-
-function HeaderCTA({ onPress }) {
-  return (
-    <View style={styles.headerCta}>
-      <TouchableOpacity onPress={onPress} activeOpacity={0.9} style={styles.primaryBtn}>
-        <Text style={styles.primaryBtnText}>Get Started</Text>
-      </TouchableOpacity>
-    </View>
-  );
-}
-
-function FooterCTA({ onGetStarted, onNext, isLast, skipStarted }) {
-  return (
-    <View style={styles.footer}>
-      <TouchableOpacity
-        onPress={isLast ? onGetStarted : onNext}
-        activeOpacity={0.9}
-        style={styles.primaryBtn}
-      >
-        <Text style={styles.primaryBtnText}>
-          {isLast ? "Get Started" : "Next"}
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={skipStarted} activeOpacity={0.8} style={styles.linkBtn}>
-        <Text style={styles.linkText}>Skip</Text>
-      </TouchableOpacity>
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: "#0f1115" },
-  container: { flex: 1 },
-  image: {
-    width,
-    height: "100%",
-    position: "absolute",
-  },
-  overlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0,0,0,0.35)",
-  },
-  textWrap: {
-    position: "absolute",
-    bottom: 160,
-    paddingHorizontal: 24,
-    width: "100%",
-  },
-  title: {
-    color: "#fff",
-    fontSize: 32,
-    fontWeight: "800",
-    letterSpacing: 0.3,
-  },
-  subtitle: {
-    color: "rgba(255,255,255,0.85)",
-    fontSize: 16,
-    marginTop: 8,
-    lineHeight: 22,
-  },
-  indicators: {
-    position: "absolute",
-    bottom: 120,
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "center",
-    gap: 8,
-  },
-  indicatorBase: {
-    marginHorizontal: 4,
-  },
-  indicatorDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 9999,
-  },
-  indicatorDash: {
-    width: 22,
-    height: 6,
-    borderRadius: 6,
-  },
-  indicatorActive: {
-    backgroundColor: "#ffffff",
-  },
-  indicatorInactive: {
-    backgroundColor: "rgba(255,255,255,0.35)",
-  },
-  footer: {
-    position: "absolute",
-    bottom: 40,
-    width: "100%",
-    paddingHorizontal: 24,
-    alignItems: "center",
-    gap: 12,
-  },
-  headerCta: {
-    position: "absolute",
-    top: 16,
-    right: 16,
-    zIndex: 10,
-  },
-  primaryBtn: {
-    backgroundColor: "#ffffff",
-    paddingVertical: 14,
-    paddingHorizontal: 22,
-    borderRadius: 999,
-    minWidth: 160,
-    alignItems: "center",
-  },
-  primaryBtnText: {
-    color: "#0f1115",
-    fontWeight: "700",
-    fontSize: 16,
-  },
-  linkBtn: {
-    paddingVertical: 6,
-    paddingHorizontal: 8,
-  },
-  linkText: {
-    color: "rgba(255,255,255,0.85)",
-    fontSize: 14,
-    textDecorationLine: "underline",
-  },
-});

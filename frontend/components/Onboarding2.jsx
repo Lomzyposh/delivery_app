@@ -7,18 +7,12 @@ import { useRouter } from "expo-router";
 const Onboarding2 = () => {
     const router = useRouter();
 
-    const goToMain = () => {
-        router.push('/Main')
-    }
-
-    const goToLogin = () => {
-        router.replace("/Auth/Login")
-    }
+    const goToMain = () => router.replace("/Main");
+    const goToLogin = () => router.replace("/Auth/Login");
 
     const fallAnim = useRef(new Animated.Value(-300)).current;
 
     useEffect(() => {
-        goToMain();
         Animated.spring(fallAnim, {
             toValue: 0,
             useNativeDriver: true,

@@ -3,8 +3,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import axios from 'axios';
-
-const API_URL = 'http://192.168.121.224:5000';
+import { API_URL } from '../../hooks/api';
 
 export default function ResetPassword() {
     const params = useLocalSearchParams();

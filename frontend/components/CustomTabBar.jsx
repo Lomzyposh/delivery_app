@@ -18,7 +18,7 @@ const LABELS = {
     profile: "Profile",
 };
 
-export default function CustomTabBar({ state, descriptors, navigation }) {
+export default function CustomTabBar({ state, descriptors, navigation, theme }) {
     const insets = useSafeAreaInsets();
     const lift = useRef(new Animated.Value(0)).current;
 
@@ -43,7 +43,7 @@ export default function CustomTabBar({ state, descriptors, navigation }) {
     };
 
     return (
-        <View style={[styles.wrapper]}>
+        <View style={[styles.wrapper, { backgroundColor: theme.card, borderTopColor: theme.border }]}>
             <View style={styles.bar}>
                 {state.routes.map((route, index) => {
                     const focused = state.index === index;

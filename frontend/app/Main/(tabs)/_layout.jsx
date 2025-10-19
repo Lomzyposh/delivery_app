@@ -1,15 +1,23 @@
 import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import CustomTabBar from "../../../components/CustomTabBar";
+import { useTheme } from "../../../contexts/ThemeContext";
 
 export default function RootLayout() {
+    const { theme } = useTheme();
     return (
         <Tabs
             screenOptions={{
                 headerShown: false,
                 tabBarShowLabel: false,
+                tabBarActiveTintColor: "#FF6B00",
+                tabBarInactiveTintColor: "#222",
+                tabBarStyle: {
+                    backgroundColor: theme.background,
+                    borderTopColor: theme.border,
+                },
             }}
-            tabBar={(props) => <CustomTabBar {...props} />}
+            tabBar={(props) => <CustomTabBar {...props} theme={theme} />}
         >
             <Tabs.Screen
                 name="home"

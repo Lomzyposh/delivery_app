@@ -6,6 +6,7 @@ import { useNavigation, useRouter } from 'expo-router';
 import FoodDetailHeader from '../components/FoodDetailsHeader';
 import { useCart } from '../contexts/CartContext';
 import { useTheme } from '../contexts/ThemeContext';
+import { API_URL } from '../hooks/api';
 
 const FoodDetailsDemo = () => {
     const [meal, setMeal] = useState(null);
@@ -20,9 +21,8 @@ const FoodDetailsDemo = () => {
     const navigation = useNavigation();
     const router = useRouter();
 
-    const API_URL = "http://192.168.121.224:5000";
 
-    const [addons, setAddons] = useState(null); // null = loading; [] = none
+    const [addons, setAddons] = useState(null);
     const [selectedAddonsIds, setSelectedAddonsIds] = useState([]);
 
     const toggleAddOn = (id) => {

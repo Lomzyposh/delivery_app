@@ -7,7 +7,7 @@ export default function SkeletonList({ items = 7 }) {
     const { isDarkMode } = useTheme();
     const colorMode = isDarkMode ? "dark" : "light";
     return (
-        <View style={{ paddingHorizontal: 16, paddingTop: 12 }}>
+        <View style={{ paddingHorizontal: 16, paddingTop: 12, backgroundColor: colorMode === "dark" ? "#252525" : "#fff" }}>
             {Array.from({ length: items }).map((_, i) => (
                 <View
                     key={i}

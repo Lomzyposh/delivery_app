@@ -3,6 +3,7 @@ import React from 'react'
 import { useState } from 'react';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import axios from 'axios';
+import { API_URL } from '../../hooks/api';
 
 const EnterCode = () => {
     const { email } = useLocalSearchParams();
@@ -10,9 +11,6 @@ const EnterCode = () => {
     const [errorMsg, setErrorMsg] = useState('');
     const [loading, setLoading] = useState(false);
     const router = useRouter();
-
-
-    const API_URL = "http://192.168.121.224:5000";
 
     const verifyCode = async () => {
         console.log("Verifying...");
