@@ -14,7 +14,7 @@ const Favorite = require('./models/Favourite');
 const Code = require('./models/Code');
 const { Types: { ObjectId } } = mongoose;
 
-const LIFESPAN_MIN = 15;         
+const LIFESPAN_MIN = 15;
 const MAX_ATTEMPTS = 5;
 const RESET_WINDOW_MIN = 15;
 
@@ -123,7 +123,16 @@ mongoose.connect(process.env.MONGO_URI, { dbName: "delivery_app" })
 
 
 const signAccess = (user) =>
-    jwt.sign({ sub: user._id.toString(), role: user.role }, process.env.JWT_ACCESS_SECRET, { expiresIn: "30m" });
+    jwt.sign(
+        {
+            sub: user._id.toString(),
+            role: user.role,
+            name: user.name,
+            email: user.email,
+        },
+        process.env.JWT_ACCESS_SECRET,
+        { expiresIn: "30m" }
+    );
 
 const signRefresh = (user) =>
     jwt.sign({ sub: user._id.toString() }, process.env.JWT_REFRESH_SECRET, { expiresIn: "30d" });
@@ -203,6 +212,7 @@ app.post("/refresh", async (req, res) => {
             return res.status(401).json({ error: "Invalid refresh token" });
         }
         const access = signAccess(user);
+        console.log("Access", access)
         res.json({ access });
     } catch {
         res.status(401).json({ error: "Expired or invalid refresh" });
@@ -424,11 +434,9 @@ app.post('/api/forgot-password', async (req, res) => {
             return res.status(404).json({ success: false, message: 'Email not found.' });
         }
 
-        // Generate a new 6-digit code and expiration time
         const code = Math.floor(100000 + Math.random() * 900000).toString();
-        const expiresAt = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes
+        const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
 
-        // Replace any old code doc for this user
         await Code.deleteMany({ email: normalized, purpose: 'forgot' });
 
         await Code.create({
@@ -440,7 +448,6 @@ app.post('/api/forgot-password', async (req, res) => {
             attempts: 0,
         });
 
-        // Send via your mailer
         const subject = 'Your Password Reset Code';
         const message = `
       <h2>Password Reset Request</h2>
@@ -479,7 +486,7 @@ app.post('/api/verify-reset-code', async (req, res) => {
         }
 
         const result = await verifyResetCode(email, String(code), 'forgot');
-        if (!result.success) return res.status(400).json(result);
+        if (!result.success) return res.status(401).json({ success: false, message: result.message });
 
         return res.status(200).json(result);
     } catch (err) {
@@ -524,102 +531,18 @@ app.delete("/cart/clear", async (req, res) => {
 
 
 app.get('/api/meals', async (req, res) => {
-    console.log("req.query =>");
-
     try {
-        const {
-            category,
-            q,
-            restaurant,
-            minPrice,
-            maxPrice,
-            sort = 'createdAt',
-            order = 'desc',
-            page = 1,
-            limit = 20,
-        } = req.query;
+        const meals = await FoodItem.find({})
+            .populate({ path: 'restaurantId', select: 'name address logo rating' })
+            .lean();
 
-        const andClauses = [];
-
-        // Case-insensitive exact match helper
-        const escape = (s) => String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        const ciEq = (s) => new RegExp(`^${escape(s)}$`, 'i');
-
-        // Category filter (supports string field, array field, or nested slug)
-        if (category) {
-            andClauses.push({
-                $or: [
-                    { category: ciEq(category) },
-                    { categories: ciEq(category) },
-                    { 'category.slug': ciEq(category) },
-                ]
-            });
-        }
-
-        if (q && String(q).trim()) {
-            const rx = new RegExp(String(q).trim(), 'i');
-            andClauses.push({
-                $or: [{ name: rx }, { title: rx }, { description: rx }]
-            });
-        }
-
-        if (restaurant && ObjectId.isValid(restaurant)) {
-            andClauses.push({ restaurantId: new ObjectId(restaurant) });
-        }
-
-        const priceClause = {};
-        if (!Number.isNaN(Number(minPrice))) priceClause.$gte = Number(minPrice);
-        if (!Number.isNaN(Number(maxPrice))) priceClause.$lte = Number(maxPrice);
-        if (Object.keys(priceClause).length) {
-            andClauses.push({ price: priceClause });
-        }
-
-        const filter = andClauses.length ? { $and: andClauses } : {};
-
-        const sortMap = { price: 'price', createdAt: 'createdAt', name: 'name' };
-        const sortKey = sortMap[sort] || 'createdAt';
-        const sortDir = String(order).toLowerCase() === 'asc' ? 1 : -1;
-
-        const pageNum = Math.max(1, parseInt(page, 10) || 1);
-        const pageSize = Math.min(100, Math.max(1, parseInt(limit, 10) || 20));
-        const skip = (pageNum - 1) * pageSize;
-
-        const [meals, total] = await Promise.all([
-            FoodItem.find(filter)
-                .sort({ [sortKey]: sortDir })
-                .skip(skip)
-                .limit(pageSize)
-                .populate({
-                    path: 'restaurantId',
-                    select: 'name address logo rating',
-                })
-                .lean(),
-            FoodItem.countDocuments(filter),
-        ]);
-
-        res.json({
-            meals,
-            meta: {
-                page: pageNum,
-                pageSize,
-                total,
-                hasMore: skip + meals.length < total,
-                sort: sortKey,
-                order: sortDir === 1 ? 'asc' : 'desc',
-                applied: {
-                    category: category || null,
-                    q: q || null,
-                    restaurant: restaurant || null,
-                    minPrice: minPrice ?? null,
-                    maxPrice: maxPrice ?? null,
-                },
-            },
-        });
+        res.json({ meals, total: meals.length });
     } catch (e) {
         console.error('GET /api/meals error:', e);
         res.status(500).json({ error: e.message || 'Server error' });
     }
 });
+
 
 
 

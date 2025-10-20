@@ -17,6 +17,6 @@ export default function AppIndex() {
 
     if (!booted || !readyToRoute) return <FoodHutSplash />;
 
-    // if (user) return <Redirect href="/Main/(tabs)/home" />;FoodHut
+    if (user) return <Redirect href="/Main/(tabs)/home" />;
     return <OnboardingScreen />;
 }

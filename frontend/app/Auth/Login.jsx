@@ -176,7 +176,6 @@ export default function LoginScreen() {
         <KeyboardAvoidingView style={{ flex: 1, backgroundColor: palette.background }}
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             keyboardVerticalOffset={
-                // tweak this if you have a header/tab bar
                 Platform.OS === "ios" ? insets.top + 48 : 0
             }>
             <View style={{ margin: 10, justifyContent: "center", alignItems: "center" }} onTouchEnd={toggleTheme}>

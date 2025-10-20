@@ -5,17 +5,18 @@ export default function MainLayout() {
   const { isDarkMode } = useTheme();
   const colorMode = isDarkMode ? "dark" : "light";
   return (
-    <Stack screenOptions={{ 
+    <Stack screenOptions={{
       headerStyle: { backgroundColor: colorMode === "dark" ? "#474747ff" : "#fff" },
       headerTitleStyle: { color: colorMode === "dark" ? "#fff" : "#000" },
-     }}>
+    }}>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 
       <Stack.Screen name="cart" options={{ title: "Cart" }} />
       <Stack.Screen name="listMeals"
-        options={({ route }) => ({
-          title: route.params?.title ?? "Meals",
-        })} />
+        options={{
+          title: "Meals",
+        }} />
+      <Stack.Screen name="specialOffers" options={{ title: "Special Offers" }} />
     </Stack>
   );
 }

@@ -1,4 +1,3 @@
-// components/FoodHutSplash.jsx
 import React, { useEffect, useRef } from "react";
 import { View, Text, StyleSheet, Image, StatusBar, Animated } from "react-native";
 import { Colors, fonts } from "../constants/theme";

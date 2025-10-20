@@ -106,7 +106,6 @@ async function getMealDetail(idMeal) {
   return meals && meals[0] ? meals[0] : null;
 }
 
-// fabricate restaurants
 function buildRestaurants(n) {
   const restaurants = [];
   for (let i = 0; i < n; i++) {

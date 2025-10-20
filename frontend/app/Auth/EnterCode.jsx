@@ -1,74 +1,237 @@
-import { Alert, Button, StyleSheet, Text, TextInput, View } from 'react-native'
-import React from 'react'
-import { useState } from 'react';
-import { useLocalSearchParams, useRouter } from 'expo-router';
-import axios from 'axios';
-import { API_URL } from '../../hooks/api';
+// app/Auth/EnterCode.jsx
+import React, { useEffect, useRef, useState } from "react";
+import {
+    Alert,
+    Animated,
+    Easing,
+    KeyboardAvoidingView,
+    Platform,
+    StatusBar,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
+} from "react-native";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import axios from "axios";
+import { API_URL } from "../../hooks/api";
+import { useTheme } from "../../contexts/ThemeContext";
+import { usePalette } from "../../utils/palette";
 
-const EnterCode = () => {
+export default function EnterCode() {
     const { email } = useLocalSearchParams();
-    const [code, setCode] = useState(null);
-    const [errorMsg, setErrorMsg] = useState('');
-    const [loading, setLoading] = useState(false);
     const router = useRouter();
+    const { theme, toggleTheme } = useTheme();
+    const p = usePalette(theme);
+
+    const [code, setCode] = useState("");
+    const [focused, setFocused] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [errorMsg, setErrorMsg] = useState("");
+
+    const styles = makeStyles(p, focused, !!errorMsg, loading);
 
     const verifyCode = async () => {
-        console.log("Verifying...");
-        if (!code) {
-            setErrorMsg("Code Required");
+        setErrorMsg("");
+        const trimmed = code.trim();
+
+        if (!trimmed) {
+            setErrorMsg("Code is required.");
             return;
         }
-        try {
-            const res = await axios.post(`${API_URL}/api/verify-reset-code`, { email, code });
-            if (res.data.success) {
-                Alert.alert("Success", "Code Correct");
-                router.push({ pathname: '/Auth/ResetPassword', params: { email, code } });
-            } else {
-                setErrorMsg(res.data.message);
-            }
+        if (trimmed.length < 4) {
+            setErrorMsg("Please enter the full code.");
+            return;
+        }
 
+        setLoading(true);
+        try {
+            const res = await axios.post(`${API_URL}/api/verify-reset-code`, {
+                email,
+                code: trimmed,
+            });
+
+            if (res?.data?.success) {
+                Alert.alert("Success", "Code verified successfully!");
+                router.push({ pathname: "/Auth/ResetPassword", params: { email, code: trimmed } });
+            } else {
+                setErrorMsg(res?.data?.message || "Invalid or expired code.");
+            }
         } catch (err) {
-            setErrorMsg(err.message || 'Network error. Try again.');
-            console.log('ERR: ', err);
+            setErrorMsg("Invalid Code.Try Again");
+            console.log("ERR: ", err);
         } finally {
             setLoading(false);
         }
-    }
+    };
+
+    // bounce logo like ForgotPassword
+    const bounce = useRef(new Animated.Value(0)).current;
+    useEffect(() => {
+        const loop = Animated.loop(
+            Animated.sequence([
+                Animated.timing(bounce, {
+                    toValue: -10,
+                    duration: 500,
+                    easing: Easing.out(Easing.quad),
+                    useNativeDriver: true,
+                }),
+                Animated.timing(bounce, {
+                    toValue: 0,
+                    duration: 500,
+                    easing: Easing.in(Easing.quad),
+                    useNativeDriver: true,
+                }),
+            ])
+        );
+        loop.start();
+        return () => loop.stop();
+    }, [bounce]);
 
     return (
-        <View style={styles.container}>
-            {!!errorMsg && <Text style={{ color: 'red', marginTop: 4 }}>{errorMsg}</Text>}
+        <View style={[styles.screen, { backgroundColor: p.background }]}>
+            <StatusBar barStyle={p.statusBarStyle} />
+            <KeyboardAvoidingView
+                behavior={Platform.select({ ios: "padding", android: undefined })}
+                style={{ flex: 1, justifyContent: "center" }}
+            >
+                <View style={{ margin: 10, justifyContent: "center", alignItems: "center" }} onTouchEnd={toggleTheme}>
+                    <Animated.Image
+                        source={require("../../assets/images/foodHutLogo.png")}
+                        style={{
+                            width: 120,
+                            height: 150,
+                            resizeMode: "contain",
+                            transform: [{ translateY: bounce }],
+                        }}
+                    />
+                </View>
 
-            <Text style={styles.heading}>Enter Verification Code</Text>
-            <Text style={styles.sub}>We sent a code to: </Text>
-            <Text style={styles.email}>{email}</Text>
-            <TextInput
-                value={code}
-                onChangeText={setCode}
-                keyboardType='number-pad'
-                style={{ width: '50%', borderWidth: 1, marginTop: 8, marginBottom: 12, padding: 10, borderRadius: 8 }}
-                placeholder="Otp Code"
-            />
+                <View style={styles.card}>
+                    <Text style={styles.title}>Enter verification code</Text>
+                    <Text style={styles.subtitle}>We sent a code to:</Text>
+                    <Text style={styles.email}>{String(email || "").trim()}</Text>
 
-            <Button
-                title='Verify'
-                onPress={verifyCode}
-                disabled={loading}
-            />
+                    {errorMsg ? (
+                        <View style={styles.errorBanner}>
+                            <Text style={styles.errorText}>{errorMsg}</Text>
+                        </View>
+                    ) : null}
+
+                    <Text style={styles.label}>Code</Text>
+                    <TextInput
+                        value={code}
+                        onChangeText={setCode}
+                        keyboardType="number-pad"
+                        placeholder="e.g. 123456"
+                        placeholderTextColor={p.sub}
+                        selectionColor={p.tint}
+                        onFocus={() => setFocused(true)}
+                        onBlur={() => setFocused(false)}
+                        style={styles.input}
+                        returnKeyType="send"
+                        onSubmitEditing={verifyCode}
+                    />
+
+                    <TouchableOpacity
+                        style={styles.primaryBtn}
+                        onPress={verifyCode}
+                        disabled={loading}
+                        activeOpacity={0.8}
+                    >
+                        <Text style={styles.primaryBtnText}>
+                            {loading ? "Verifying…" : "Verify code"}
+                        </Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => router.replace("/Auth/ForgotPassword")} activeOpacity={0.8}>
+                        <Text style={styles.hint}>Back to forgot password</Text>
+                    </TouchableOpacity>
+                </View>
+            </KeyboardAvoidingView>
         </View>
-    )
+    );
 }
 
-export default EnterCode
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 20
-    },
-    heading: { fontSize: 24, fontWeight: '700', marginBottom: 10 },
-    sub: { color: '#666' },
-    email: { fontWeight: '600', color: '#1a73e8', marginTop: 5 },
-})
+function makeStyles(p, focused, hasError, loading) {
+    return StyleSheet.create({
+        screen: {
+            flex: 1,
+        },
+        card: {
+            backgroundColor: p.card,
+            borderColor: p.border,
+            borderWidth: 1,
+            marginHorizontal: 20,
+            padding: 20,
+            borderRadius: 16,
+            gap: 10,
+            shadowColor: "#000",
+            shadowOpacity: 0.25,
+            shadowRadius: 12,
+            shadowOffset: { width: 0, height: 6 },
+            elevation: 6,
+        },
+        title: {
+            color: p.text,
+            fontSize: 28,
+            fontWeight: "800",
+            letterSpacing: 0.3,
+        },
+        subtitle: {
+            color: p.sub,
+            marginBottom: 2,
+            lineHeight: 20,
+        },
+        email: {
+            color: p.tint,
+            fontWeight: "700",
+            marginBottom: 8,
+        },
+        errorBanner: {
+            backgroundColor: p.bannerBg,
+            borderColor: p.error,
+            borderWidth: 1,
+            paddingVertical: 8,
+            paddingHorizontal: 10,
+            borderRadius: 10,
+        },
+        errorText: {
+            color: p.error,
+            fontWeight: "600",
+        },
+        label: {
+            color: p.sub,
+            fontWeight: "700",
+            marginTop: 6,
+        },
+        input: {
+            backgroundColor: p.field,
+            color: p.text,
+            borderWidth: 1.5,
+            borderColor: hasError ? p.error : focused ? p.tint : p.border,
+            borderRadius: 12,
+            padding: 12,
+            textAlign: "center",
+            letterSpacing: 2,
+        },
+        primaryBtn: {
+            backgroundColor: loading ? p.buttonDisabled : p.tint,
+            paddingVertical: 14,
+            borderRadius: 14,
+            alignItems: "center",
+            marginTop: 10,
+        },
+        primaryBtnText: {
+            color: "#fff",
+            fontWeight: "800",
+            letterSpacing: 0.3,
+        },
+        hint: {
+            color: p.sub,
+            textAlign: "center",
+            marginTop: 6,
+        },
+    });
+}

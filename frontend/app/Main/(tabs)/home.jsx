@@ -44,8 +44,10 @@ export default function Home() {
     }, [user]);
 
     const categoryClick = (category) => {
-        router.push({ pathname: "/Main/listMeals", params: { category: String(category) } });
+        const slug = String(category).trim().toLowerCase().replace(/[^a-z0-9]+/g, "-");
+        router.push({ pathname: "/Main/listMeals", params: { category: slug } });
     };
+
 
     const openCart = () => {
         router.push("/Main/cart");
@@ -95,12 +97,12 @@ export default function Home() {
 
             <Text style={styles.sectionTitle}>Special Offers</Text>
 
-            {/* Promo Card */}
             <LinearGradient
-                colors={[Colors.tintColorDark, Colors.tintColorLight]} // works for both modes
+                colors={[Colors.tintColorDark, Colors.tintColorLight]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
                 style={styles.promoCard}
+                onTouchEnd={() => router.push('/Main/specialOffers')}
             >
                 <View>
                     <Text style={styles.promoBig}>30%</Text>

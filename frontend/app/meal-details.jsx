@@ -2,21 +2,20 @@ import { StyleSheet, Text, TouchableOpacity, View, ScrollView, ActivityIndicator
 import React, { useEffect, useMemo, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
-import { useNavigation, useRouter } from 'expo-router';
+import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
 import FoodDetailHeader from '../components/FoodDetailsHeader';
 import { useCart } from '../contexts/CartContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { API_URL } from '../hooks/api';
 
-const FoodDetailsDemo = () => {
+export default function FoodDetailsDemo() {
+    const { mealId } = useLocalSearchParams();
     const [meal, setMeal] = useState(null);
     const [pageLoading, setLoading] = useState(true);
     const { theme } = useTheme();
     const currentStyles = styles(theme);
 
     const { cart, loading, addToCart, setQuantity, removeItem } = useCart();
-
-    const mealId = '68dbd64b1813daf29d3998d5';
 
     const navigation = useNavigation();
     const router = useRouter();
@@ -177,7 +176,6 @@ const FoodDetailsDemo = () => {
     );
 };
 
-export default FoodDetailsDemo;
 
 const styles = (theme) => StyleSheet.create({
     loaderBox: { flex: 1, justifyContent: 'center', alignItems: 'center' },

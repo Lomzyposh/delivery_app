@@ -53,7 +53,6 @@ export function AuthProvider({ children }) {
     };
   }, [access]);
 
-  // Boot: try refresh token → set access + user
   useEffect(() => {
     (async () => {
       const refresh = await SecureStore.getItemAsync("refresh");
@@ -62,7 +61,8 @@ export function AuthProvider({ children }) {
           const { data } = await axios.post(`${API_URL}/refresh`, { refresh });
           setAccess(data.access);
           const payload = JSON.parse(atob(data.access.split(".")[1]));
-          setUser(normalizeUser({ id: payload.sub, role: payload.role }));
+          console.log(payload);
+          setUser(normalizeUser({ id: payload.sub, role: payload.role, name: payload.name, email: payload.email, }));
         } catch {
           await SecureStore.deleteItemAsync("refresh");
         }
@@ -71,7 +71,6 @@ export function AuthProvider({ children }) {
     })();
   }, []);
 
-  // Keep it simple: load cart whenever we have a userId
   useEffect(() => {
     if (!userId) return;
     (async () => {
@@ -89,7 +88,7 @@ export function AuthProvider({ children }) {
   const login = async (email, password) => {
     const { data } = await axios.post(`${API_URL}/login`, { email, password });
     setAccess(data.access);
-    setUser(normalizeUser(data.user)); // ✅ ensures .id exists
+    setUser(normalizeUser(data.user));
     await SecureStore.setItemAsync("refresh", data.refresh);
   };
 
