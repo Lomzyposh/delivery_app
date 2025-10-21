@@ -48,14 +48,14 @@ export default function RootLayout() {
         }}
       />
       <Tabs.Screen
-        name="account"
-        options={{
-          title: "Profile",
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? "person" : "person-outline"} size={24} color={color} />
-          ),
-        }}
-      />
+    name="profile"
+    options={{
+      title: "Profile",
+      tabBarIcon: ({ color, focused }) => (
+        <Ionicons name={focused ? "person" : "person-outline"} size={24} color={color} />
+      ),
+    }}
+  />
     </Tabs>
   );
 }
