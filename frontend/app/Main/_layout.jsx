@@ -12,6 +12,7 @@ export default function MainLayout() {
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 
       <Stack.Screen name="cart" options={{ title: "Cart" }} />
+        <Stack.Screen name="checkout" options={{ title: "Checkout" }} />
       <Stack.Screen name="listMeals"
         options={{
           title: "Meals",

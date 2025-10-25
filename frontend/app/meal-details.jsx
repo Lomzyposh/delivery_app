@@ -1,5 +1,13 @@
-import { StyleSheet, Text, TouchableOpacity, View, ScrollView, ActivityIndicator } from 'react-native';
-import React, { useEffect, useMemo, useState } from 'react';
+import {
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
+    ScrollView,
+    ActivityIndicator,
+    Animated,
+} from 'react-native';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
@@ -15,14 +23,22 @@ export default function FoodDetailsDemo() {
     const { theme } = useTheme();
     const currentStyles = styles(theme);
 
-    const { cart, loading, addToCart, setQuantity, removeItem } = useCart();
-
-    const navigation = useNavigation();
-    const router = useRouter();
-
-
+    const { cart, addToCart, setQuantity, removeItem } = useCart();
     const [addons, setAddons] = useState(null);
     const [selectedAddonsIds, setSelectedAddonsIds] = useState([]);
+
+    // 👉 Toast animation setup
+    const [toastVisible, setToastVisible] = useState(false);
+    const fadeAnim = useRef(new Animated.Value(0)).current;
+
+    const showToast = (message = 'Added to cart') => {
+        setToastVisible(true);
+        Animated.sequence([
+            Animated.timing(fadeAnim, { toValue: 1, duration: 300, useNativeDriver: true }),
+            Animated.delay(1000),
+            Animated.timing(fadeAnim, { toValue: 0, duration: 300, useNativeDriver: true }),
+        ]).start(() => setToastVisible(false));
+    };
 
     const toggleAddOn = (id) => {
         setSelectedAddonsIds((prev) =>
@@ -63,6 +79,7 @@ export default function FoodDetailsDemo() {
 
     const onAdd = async () => {
         await addToCart({ foodId: mealId, quantity: 1, addons: payloadAddons });
+        showToast(); // 👈 show the toast here
     };
 
     const onInc = async () => {
@@ -83,10 +100,7 @@ export default function FoodDetailsDemo() {
     const formatPrice = (p) => {
         if (p == null) return '';
         const num = Number(p);
-        // If you store cents, uncomment next line:
-        // const dollars = num / 100;
-        const dollars = num; // or keep as-is if already in dollars
-        return dollars.toFixed(2);
+        return num.toFixed(2);
     };
 
     if (pageLoading || !meal) {
@@ -111,7 +125,6 @@ export default function FoodDetailsDemo() {
         return (
             <ScrollView style={{ marginBottom: 80 }}>
                 {addonsArr.map((item, index) => {
-                    // Prefer Mongo's _id; fallback to item.id if your API sends that
                     const id = item._id || item.id;
                     const selected = selectedAddonsIds.includes(id);
                     return (
@@ -146,7 +159,6 @@ export default function FoodDetailsDemo() {
                     <Text style={currentStyles.price}>NGN #{formatPrice(meal.price)}</Text>
                     <Text style={currentStyles.desc}>{meal.description}</Text>
 
-                    {/* Add-ons */}
                     <Text style={currentStyles.addOnHeader}>Add-ons</Text>
                     <GetAddons addonsArr={addons} />
                 </View>
@@ -172,42 +184,86 @@ export default function FoodDetailsDemo() {
                     </View>
                 </View>
             )}
+
+            {/* 👇 Toast Alert */}
+            {toastVisible && (
+                <Animated.View style={[currentStyles.toast, { opacity: fadeAnim }]}>
+                    <Ionicons name="checkmark-circle" size={20} color="#fff" />
+                    <Text style={currentStyles.toastText}>Added to cart</Text>
+                </Animated.View>
+            )}
         </View>
     );
-};
+}
 
+const styles = (theme) =>
+    StyleSheet.create({
+        loaderBox: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: theme.background },
+        container: { flex: 1, backgroundColor: theme.background },
+        image: { width: '100%', height: 300, borderBottomLeftRadius: 30, borderBottomRightRadius: 30 },
+        content: { paddingHorizontal: 20, paddingTop: 20 },
+        title: { fontSize: 22, fontWeight: '700', color: theme.text, marginBottom: 5 },
+        price: { fontSize: 18, color: '#ff6600', fontWeight: '600', marginBottom: 8 },
+        desc: { fontSize: 15, color: theme.text, lineHeight: 22, marginBottom: 25 },
+        addOnHeader: { fontSize: 18, fontWeight: '600', color: theme.text, marginBottom: 12 },
+        addOnItem: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            borderWidth: 1,
+            borderColor: '#ddd',
+            borderRadius: 12,
+            padding: 14,
+            marginBottom: 10,
+            color: theme.text,
+        },
+        addOnSelected: { backgroundColor: theme.card, borderColor: '#ff6600' },
+        addOnName: { fontSize: 16, color: theme.text },
+        addOnPrice: { fontSize: 16, fontWeight: '600', color: '#ff6600' },
+        imageCont: { flex: 1, width: '100%' },
+        bottomBar: {
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            paddingHorizontal: 20,
+            paddingVertical: 15,
+            backgroundColor: theme.background,
+            borderTopWidth: 1,
+            borderTopColor: '#eee',
+        },
+        addToCartBtn: {
+            backgroundColor: '#ff6600',
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 25,
+            paddingVertical: 15,
+            gap: 8,
+        },
+        addToCartText: { color: theme.text, fontSize: 17, fontWeight: '700' },
+        qtyWrap: { flexDirection: 'row', alignItems: 'center', gap: 16, justifyContent: 'center' },
+        qtyBtn: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#d1d5db' },
+        pill: { borderRadius: 9999 },
+        qtyTxt: { fontSize: 22, fontWeight: '800', color: theme.text },
+        qtyVal: { fontSize: 18, fontWeight: '700', minWidth: 24, textAlign: 'center', color: '#ff6600' },
 
-const styles = (theme) => StyleSheet.create({
-    loaderBox: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-    container: { flex: 1, backgroundColor: theme.background },
-    image: { width: '100%', height: 300, borderBottomLeftRadius: 30, borderBottomRightRadius: 30 },
-    content: { paddingHorizontal: 20, paddingTop: 20 },
-    title: { fontSize: 22, fontWeight: '700', color: theme.text, marginBottom: 5 },
-    price: { fontSize: 18, color: '#ff6600', fontWeight: '600', marginBottom: 8 },
-    desc: { fontSize: 15, color: theme.text, lineHeight: 22, marginBottom: 25 },
-    addOnHeader: { fontSize: 18, fontWeight: '600', color: theme.text, marginBottom: 12 },
-    addOnItem: {
-        flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
-        borderWidth: 1, borderColor: '#ddd', borderRadius: 12, padding: 14, marginBottom: 10, color: theme.text
-    },
-    addOnSelected: { backgroundColor: theme.card, borderColor: '#ff6600' },
-    addOnName: { fontSize: 16, color: theme.text },
-    addOnPrice: { fontSize: 16, fontWeight: '600', color: '#ff6600' },
-    imageCont: { flex: 1, width: '100%' },
-    bottomBar: {
-        // width: '100%',
-        position: 'absolute', bottom: 0, left: 0, right: 0,
-        paddingHorizontal: 20, paddingVertical: 15,
-        backgroundColor: theme.background, borderTopWidth: 1, borderTopColor: '#eee',
-    },
-    addToCartBtn: {
-        backgroundColor: '#ff6600', flexDirection: 'row', justifyContent: 'center',
-        alignItems: 'center', borderRadius: 25, paddingVertical: 15, gap: 8,
-    },
-    addToCartText: { color: theme.text, fontSize: 17, fontWeight: '700' },
-    qtyWrap: { flexDirection: "row", alignItems: "center", gap: 16, justifyContent: "center" },
-    qtyBtn: { width: 44, height: 44, alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: "#d1d5db" },
-    pill: { borderRadius: 9999 },
-    qtyTxt: { fontSize: 22, fontWeight: "800", color: theme.text },
-    qtyVal: { fontSize: 18, fontWeight: "700", minWidth: 24, textAlign: "center", color: '#ff6600' },
-});
+        // 👇 Custom Toast styles
+        toast: {
+            position: 'absolute',
+            bottom: 100,
+            alignSelf: 'center',
+            backgroundColor: '#4CAF50',
+            paddingVertical: 10,
+            paddingHorizontal: 18,
+            borderRadius: 20,
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 8,
+            elevation: 4,
+            shadowColor: '#000',
+            shadowOpacity: 0.2,
+            shadowRadius: 3,
+        },
+        toastText: { color: '#fff', fontWeight: '600', fontSize: 15 },
+    });

@@ -17,6 +17,8 @@ import { Colors, fonts } from "../../../constants/theme";
 import { useRouter } from "expo-router";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useTheme } from "../../../contexts/ThemeContext";
+import RandomDeals from "../../../components/RandomDeals";
+import HomeRestaurantsRail from "../../../components/HomeRestaurantsRail";
 
 const CATEGORIES = [
     { key: "Snacks", label: "Snacks", img: require("../../../assets/images/icons/fastfood.png") },
@@ -141,33 +143,19 @@ export default function Home() {
                     </TouchableOpacity>
                 )}
             />
-
+            {/* 
             <View style={styles.discountWrap}>
                 <Text style={styles.discountTitle}>Discount Guaranteed!</Text>
                 <TouchableOpacity>
                     <Text style={styles.seeAll}>See All</Text>
                 </TouchableOpacity>
-            </View>
+            </View> */}
 
-            <View style={{ paddingHorizontal: 16 }}>
-                {SPECIALS.map((item) => (
-                    <View style={styles.card} key={item.id}>
-                        <View style={styles.cardLeft}>
-                            <View style={styles.foodThumb}>
-                                <MaterialCommunityIcons name={item.icon} size={28} color={theme.tint} />
-                            </View>
-                            <View>
-                                <Text style={styles.cardTitle}>{item.name}</Text>
-                                <Text style={styles.cardMeta}>Promo • Fast Delivery</Text>
-                            </View>
-                        </View>
-                        <View style={styles.cardRight}>
-                            <Text style={styles.cardPrice}>{item.price}</Text>
-                            <Ionicons name="chevron-forward" size={18} color={theme.sub} />
-                        </View>
-                    </View>
-                ))}
-            </View>
+            <RandomDeals onPressItem={(meal) =>
+                router.push({ pathname: "/meal-details/", params: { mealId: meal._id } })
+            }
+            />
+            <HomeRestaurantsRail />
 
             <View style={{ height: 28 }} />
         </ScrollView>

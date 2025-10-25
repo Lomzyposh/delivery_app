@@ -60,28 +60,28 @@ export default function CustomTabBar({ state, descriptors, navigation, theme }) 
                             })
                             : null;
 
-                    if (isCenter) {
-                        return (
-                            <TouchableOpacity
-                                key={route.key}
-                                activeOpacity={0.92}
-                                onPress={() => handlePress(route.name, index)}
-                                style={styles.centerButtonWrap}
-                            >
-                                <Animated.View
-                                    style={[
-                                        styles.centerButton,
-                                        { backgroundColor: ORANGE, transform: [{ translateY: lift }] },
-                                    ]}
-                                >
-                                    {iconEl}
-                                </Animated.View>
-                                <Text style={[styles.centerLabel, { color: focused ? TEXT_ACTIVE : TEXT_INACTIVE }]}>
-                                    {label}
-                                </Text>
-                            </TouchableOpacity>
-                        );
-                    }
+                    // if (isCenter) {
+                    //     return (
+                    //         <TouchableOpacity
+                    //             key={route.key}
+                    //             activeOpacity={0.92}
+                    //             onPress={() => handlePress(route.name, index)}
+                    //             style={styles.centerButtonWrap}
+                    //         >
+                    //             <Animated.View
+                    //                 style={[
+                    //                     styles.centerButton,
+                    //                     { backgroundColor: ORANGE, transform: [{ translateY: lift }] },
+                    //                 ]}
+                    //             >
+                    //                 {iconEl}
+                    //             </Animated.View>
+                    //             <Text style={[styles.centerLabel, { color: focused ? TEXT_ACTIVE : TEXT_INACTIVE }]}>
+                    //                 {label}
+                    //             </Text>
+                    //         </TouchableOpacity>
+                    //     );
+                    // }
 
                     return (
                         <TouchableOpacity

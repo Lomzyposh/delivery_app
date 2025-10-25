@@ -12,6 +12,7 @@ const Restaurant = require("./models/Restaurant");
 const Cart = require('./models/Cart');
 const Favorite = require('./models/Favourite');
 const Code = require('./models/Code');
+const { estimateDeliveryFee, isOpenNow, haversineKm } = require('../frontend/utils/restaurantHelpers');
 const { Types: { ObjectId } } = mongoose;
 
 const LIFESPAN_MIN = 15;
@@ -232,95 +233,231 @@ app.post("/logout", async (req, res) => {
 });
 
 
+const asId = (v) => new mongoose.Types.ObjectId(String(v));
+
+// compute total for one item
+async function computeItemTotal(foodId, quantity, addons = []) {
+    const food = await FoodItem.findById(foodId).lean();
+    if (!food) throw new Error("Food item not found");
+    const base = Number(food.price) || 0;
+
+    const addonsTotal = (addons || []).reduce(
+        (sum, a) => sum + (Number(a.price) || 0),
+        0
+    );
+    return (base + addonsTotal) * Math.max(1, Number(quantity) || 1);
+}
+
+// helper to always return a populated cart
+async function getPopulatedCart(userId) {
+    return Cart.findOne({ userId: asId(userId) })
+        .populate({
+            path: "items.foodId",
+            select: "name image price restaurantId",
+        })
+        .populate({
+            path: "items.foodId.restaurantId",
+            select: "name",
+        })
+        .populate({
+            path: "items.addons.addOnId",
+            select: "name price",
+        })
+        .lean();
+}
+
+// ---------------- GET /cart ----------------
 app.get("/cart", async (req, res) => {
     try {
-        const userId = req.query.userId; // e.g. /cart?userId=652a...
-        if (!userId) return res.status(400).json({ error: "userId is required (query)" });
+        const { userId } = req.query;
+        if (!userId)
+            return res.status(400).json({ error: "userId is required (query)" });
 
-        let cart = await Cart.findOne({ userId });
-        if (!cart) cart = await Cart.create({ userId, items: [] });
-        res.json(cart);
+        let cart = await Cart.findOne({ userId: asId(userId) });
+        if (!cart)
+            cart = await Cart.create({ userId: asId(userId), items: [], subtotal: 0 });
+
+        const populated = await getPopulatedCart(userId);
+        // console.log(populated);
+        res.json(populated || cart);
     } catch (e) {
         res.status(500).json({ error: e.message });
     }
 });
 
-// Add item
+// ---------------- POST /cart/items ----------------
 app.post("/cart/items", async (req, res) => {
     try {
         const { userId, foodId, quantity = 1, addons = [], notes } = req.body;
-        if (!userId || !foodId) return res.status(400).json({ error: "userId and foodId are required" });
+        if (!userId || !foodId)
+            return res
+                .status(400)
+                .json({ error: "userId and foodId are required" });
 
-        const cart = await Cart.findOneAndUpdate(
-            { userId },
-            { $push: { items: { foodId, quantity, addons, notes: notes || undefined } } },
-            { upsert: true, new: true }
+        let cart = await Cart.findOne({ userId: asId(userId) });
+        if (!cart)
+            cart = await Cart.create({ userId: asId(userId), items: [], subtotal: 0 });
+
+        // merge identical lines (same food + same addons signature + same notes)
+        const keyOf = (arr) =>
+            JSON.stringify(
+                (arr || [])
+                    .map((a) => ({ id: String(a.addOnId), p: a.price }))
+                    .sort((a, b) => a.id.localeCompare(b.id))
+            );
+
+        const newKey = keyOf(addons);
+        const existing = cart.items.find(
+            (it) =>
+                String(it.foodId) === String(foodId) &&
+                keyOf(it.addons) === newKey &&
+                (it.notes || "") === (notes || "")
         );
-        res.json(cart);
+
+        if (existing) {
+            existing.quantity += Number(quantity) || 1;
+            existing.totalPrice = await computeItemTotal(
+                foodId,
+                existing.quantity,
+                existing.addons
+            );
+        } else {
+            const totalPrice = await computeItemTotal(foodId, quantity, addons);
+            cart.items.push({
+                foodId: asId(foodId),
+                quantity: Number(quantity) || 1,
+                addons: addons.map((a) => ({
+                    addOnId: asId(a.addOnId),
+                    name: a.name,
+                    price: Number(a.price) || 0,
+                })),
+                notes,
+                totalPrice,
+            });
+        }
+
+        await cart.recalculateTotals();
+        await cart.save();
+
+        const populated = await getPopulatedCart(userId);
+        res.json(populated);
     } catch (e) {
         res.status(500).json({ error: e.message });
     }
 });
 
-// Update quantity
+// ---------------- PATCH /cart/items/:itemId/quantity ----------------
 app.patch("/cart/items/:itemId/quantity", async (req, res) => {
     try {
         const { userId, quantity } = req.body;
         const { itemId } = req.params;
-        if (!userId || !Number.isFinite(quantity) || quantity < 1) {
-            return res.status(400).json({ error: "userId and quantity >= 1 are required" });
-        }
+        if (!userId)
+            return res.status(400).json({ error: "userId required" });
 
-        const cart = await Cart.findOneAndUpdate(
-            { userId, "items._id": itemId },
-            { $set: { "items.$.quantity": quantity } },
-            { new: true }
+        const cart = await Cart.findOne({ userId: asId(userId) });
+        if (!cart) return res.status(404).json({ error: "Cart not found" });
+
+        const item = cart.items.id(itemId);
+        if (!item) return res.status(404).json({ error: "Item not found" });
+
+        const q = Math.max(1, Number(quantity) || 1);
+        item.quantity = q;
+        item.totalPrice = await computeItemTotal(
+            item.foodId,
+            q,
+            item.addons
         );
-        if (!cart) return res.status(404).json({ error: "Cart or item not found" });
-        res.json(cart);
+
+        await cart.recalculateTotals();
+        await cart.save();
+
+        const populated = await getPopulatedCart(userId);
+        res.json(populated);
     } catch (e) {
         res.status(500).json({ error: e.message });
     }
 });
 
+// ---------------- PUT /cart/items/:itemId/addons ----------------
 app.put("/cart/items/:itemId/addons", async (req, res) => {
     try {
         const { userId, addons = [] } = req.body;
         const { itemId } = req.params;
-        if (!userId) return res.status(400).json({ error: "userId is required" });
+        if (!userId)
+            return res.status(400).json({ error: "userId required" });
 
-        const cart = await Cart.findOneAndUpdate(
-            { userId, "items._id": itemId },
-            { $set: { "items.$.addons": addons } },
-            { new: true }
+        const cart = await Cart.findOne({ userId: asId(userId) });
+        if (!cart) return res.status(404).json({ error: "Cart not found" });
+
+        const item = cart.items.id(itemId);
+        if (!item) return res.status(404).json({ error: "Item not found" });
+
+        item.addons = (addons || []).map((a) => ({
+            addOnId: asId(a.addOnId),
+            name: a.name,
+            price: Number(a.price) || 0,
+        }));
+        item.totalPrice = await computeItemTotal(
+            item.foodId,
+            item.quantity,
+            item.addons
         );
-        if (!cart) return res.status(404).json({ error: "Cart or item not found" });
-        res.json(cart);
+
+        await cart.recalculateTotals();
+        await cart.save();
+
+        const populated = await getPopulatedCart(userId);
+        res.json(populated);
     } catch (e) {
         res.status(500).json({ error: e.message });
     }
 });
 
+// ---------------- DELETE /cart/items/:itemId ----------------
 app.delete("/cart/items/:itemId", async (req, res) => {
     try {
         const { userId } = req.body;
         const { itemId } = req.params;
-        if (!userId) return res.status(400).json({ error: "userId is required" });
+        if (!userId)
+            return res.status(400).json({ error: "userId required" });
 
-        const cart = await Cart.findOne({ userId });
+        const cart = await Cart.findOne({ userId: asId(userId) });
         if (!cart) return res.status(404).json({ error: "Cart not found" });
 
-        cart.items = cart.items.filter(i => String(i._id) !== String(itemId));
+        const item = cart.items.id(itemId);
+        if (!item) return res.status(404).json({ error: "Item not found" });
+
+        item.deleteOne();
         await cart.recalculateTotals();
         await cart.save();
 
-        res.json(cart);
+        const populated = await getPopulatedCart(userId);
+        res.json(populated);
     } catch (e) {
         res.status(500).json({ error: e.message });
     }
-
 });
 
+app.delete("/cart/clear", async (req, res) => {
+    try {
+        const { userId } = req.body;
+        if (!userId)
+            return res.status(400).json({ error: "userId required" });
+
+        let cart = await Cart.findOne({ userId: asId(userId) });
+        if (!cart)
+            cart = await Cart.create({ userId: asId(userId), items: [], subtotal: 0 });
+
+        cart.items = [];
+        await cart.recalculateTotals();
+        await cart.save();
+
+        const populated = await getPopulatedCart(userId);
+        res.json(populated);
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
 const toId = (id) => new ObjectId(String(id));
 function validId(id) { return ObjectId.isValid(String(id)); }
 
@@ -511,25 +648,6 @@ app.post('/api/reset-password', async (req, res) => {
 
 
 
-
-// Clear cart
-app.delete("/cart/clear", async (req, res) => {
-    try {
-        const { userId } = req.body;
-        if (!userId) return res.status(400).json({ error: "userId is required" });
-
-        const cart = await Cart.findOneAndUpdate(
-            { userId },
-            { $set: { items: [] } },
-            { new: true, upsert: true }
-        );
-        res.json(cart);
-    } catch (e) {
-        res.status(500).json({ error: e.message });
-    }
-});
-
-
 app.get('/api/meals', async (req, res) => {
     try {
         const meals = await FoodItem.find({})
@@ -541,6 +659,59 @@ app.get('/api/meals', async (req, res) => {
         console.error('GET /api/meals error:', e);
         res.status(500).json({ error: e.message || 'Server error' });
     }
+});
+
+
+app.get("/api/restaurants", async (req, res) => {
+  try {
+    const {
+      q, city, featured, limit = 20, page = 1,
+      lat, lng, withinKm, sort = "rating"
+    } = req.query;
+
+    const filters = {};
+    if (q) filters.name = { $regex: q, $options: "i" };
+    if (city) filters["address.city"] = city;
+    if (featured === "true") filters.isFeatured = true;
+
+    const projection = {
+      name: 1, description: 1, address: 1, coords: 1, openHours: 1,
+      deliveryFee: 1, minOrderValue: 1, rating: 1, cuisines: 1, isOpen: 1, logo: 1
+    };
+
+    const sortMap = {
+      rating: { "rating.average": -1 },
+      recent: { createdAt: -1 },
+      name: { name: 1 }
+    };
+
+    const docs = await Restaurant.find(filters, projection)
+      .sort(sortMap[sort] ?? sortMap.rating)
+      .skip((page - 1) * Number(limit))
+      .limit(Number(limit))
+      .lean();
+
+    const userLat = lat ? Number(lat) : null;
+    const userLng = lng ? Number(lng) : null;
+    const withComputed = docs.map(r => {
+      const distanceKm = userLat != null ? haversineKm(userLat, userLng, r.coords?.lat, r.coords?.lng) : null;
+      const openNow = isOpenNow(r.openHours);
+      const estimatedDeliveryFee = distanceKm != null ? estimateDeliveryFee(r.deliveryFee, distanceKm) : null;
+      return {
+        ...r,
+        openNow,
+        distanceKm: distanceKm != null ? Number(distanceKm.toFixed(1)) : null,
+        estimatedDeliveryFee
+      };
+    });
+
+    const filtered = withinKm ? withComputed.filter(r => (r.distanceKm ?? Infinity) <= Number(withinKm)) : withComputed;
+
+    res.json({ restaurants: filtered, total: filtered.length });
+  } catch (e) {
+    console.error("GET /api/restaurants error:", e);
+    res.status(500).json({ error: e.message || "Server error" });
+  }
 });
 
 

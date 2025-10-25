@@ -1,0 +1,513 @@
+// app/checkout/index.jsx
+import React, { useMemo, useRef, useState } from "react";
+import {
+    ActivityIndicator,
+    Animated,
+    FlatList,
+    KeyboardAvoidingView,
+    Modal,
+    Platform,
+    Pressable,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { Image } from "expo-image";
+
+import { useTheme } from "../../contexts/ThemeContext";
+import { useCart } from "../../contexts/CartContext";
+
+const TINT = "#ff6600";
+
+export default function CheckoutScreen() {
+    const { theme } = useTheme();
+    const s = styles(theme);
+
+    const { cart, loading } = useCart();
+    const items = cart?.items || [];
+
+    // form
+    const [name, setName] = useState("");
+    const [phone, setPhone] = useState("");
+    const [address, setAddress] = useState("");
+    const [notes, setNotes] = useState("");
+    const [delivery, setDelivery] = useState("delivery"); // 'delivery' | 'pickup'
+    const [payMethod, setPayMethod] = useState("card");   // 'card' | 'transfer' | 'cod'
+
+    // modal + toast
+    const [payOpen, setPayOpen] = useState(false);
+    const [toastVisible, setToastVisible] = useState(false);
+    const [toastMsg, setToastMsg] = useState("");
+    const fade = useRef(new Animated.Value(0)).current;
+
+    const showToast = (msg) => {
+        setToastMsg(msg);
+        setToastVisible(true);
+        Animated.sequence([
+            Animated.timing(fade, { toValue: 1, duration: 250, useNativeDriver: true }),
+            Animated.delay(1200),
+            Animated.timing(fade, { toValue: 0, duration: 250, useNativeDriver: true }),
+        ]).start(() => setToastVisible(false));
+    };
+
+    const subtotal = useMemo(() => Number(cart?.subtotal || 0), [cart?.subtotal]);
+    const vat = useMemo(() => Math.round(subtotal * 0.075), [subtotal]);
+    const deliveryFee = useMemo(() => (delivery === "delivery" ? 1200 : 0), [delivery]);
+    const total = useMemo(() => subtotal + vat + deliveryFee, [subtotal, vat, deliveryFee]);
+
+    const placeOrder = () => {
+        if (!name.trim() || !phone.trim() || (delivery === "delivery" && !address.trim())) {
+            showToast("Please fill required fields");
+            return;
+        }
+        setPayOpen(true); // static payment
+    };
+
+    if (loading) {
+        return (
+            <View style={s.center}>
+                <ActivityIndicator size="large" color={TINT} />
+            </View>
+        );
+    }
+
+    return (
+        <KeyboardAvoidingView
+            style={s.container}
+            behavior={Platform.OS === "ios" ? "padding" : undefined}
+        >
+            <ScrollView contentContainerStyle={s.scrollBody} showsVerticalScrollIndicator={false}>
+                {/* Contact */}
+                <Section title="Contact details" theme={theme}>
+                    <Field label="Full name" required theme={theme}>
+                        <TextInput
+                            value={name}
+                            onChangeText={setName}
+                            placeholder="Jane Doe"
+                            placeholderTextColor={theme.subtle || "#9aa0ae"}
+                            style={s.input}
+                        />
+                    </Field>
+                    <Field label="Phone number" required theme={theme}>
+                        <TextInput
+                            value={phone}
+                            onChangeText={setPhone}
+                            placeholder="+234 810 000 0000"
+                            placeholderTextColor={theme.subtle || "#9aa0ae"}
+                            keyboardType="phone-pad"
+                            style={s.input}
+                        />
+                    </Field>
+                </Section>
+
+                {/* Delivery */}
+                <Section title="Delivery options" theme={theme}>
+                    <RadioRow
+                        label="Deliver to my address"
+                        checked={delivery === "delivery"}
+                        onPress={() => setDelivery("delivery")}
+                        theme={theme}
+                        icon="bicycle-outline"
+                    />
+                    <RadioRow
+                        label="I’ll pick up myself"
+                        checked={delivery === "pickup"}
+                        onPress={() => setDelivery("pickup")}
+                        theme={theme}
+                        icon="walk-outline"
+                    />
+                    {delivery === "delivery" && (
+                        <Field label="Delivery address" required theme={theme}>
+                            <TextInput
+                                value={address}
+                                onChangeText={setAddress}
+                                placeholder="House/Street, City"
+                                placeholderTextColor={theme.subtle || "#9aa0ae"}
+                                style={[s.input, { height: 52 }]}
+                            />
+                        </Field>
+                    )}
+                    <Field label="Order notes (optional)" theme={theme}>
+                        <TextInput
+                            value={notes}
+                            onChangeText={setNotes}
+                            placeholder="Any extra instructions?"
+                            placeholderTextColor={theme.subtle || "#9aa0ae"}
+                            style={[s.input, { height: 52 }]}
+                        />
+                    </Field>
+                </Section>
+
+                {/* Payment */}
+                <Section title="Payment method" theme={theme}>
+                    <RadioRow
+                        label="Card (Master/Visa/Verve)"
+                        checked={payMethod === "card"}
+                        onPress={() => setPayMethod("card")}
+                        theme={theme}
+                        icon="card-outline"
+                    />
+                    <RadioRow
+                        label="Bank transfer"
+                        checked={payMethod === "transfer"}
+                        onPress={() => setPayMethod("transfer")}
+                        theme={theme}
+                        icon="cash-outline"
+                    />
+                    <RadioRow
+                        label="Cash on delivery"
+                        checked={payMethod === "cod"}
+                        onPress={() => setPayMethod("cod")}
+                        theme={theme}
+                        icon="wallet-outline"
+                    />
+                </Section>
+
+                {/* Summary */}
+                <Section title="Order summary" theme={theme}>
+                    {items.length === 0 ? (
+                        <Text style={{ color: theme.subtle || "#9aa0ae", fontStyle: "italic" }}>
+                            Your cart is empty.
+                        </Text>
+                    ) : (
+                        <FlatList
+                            data={items}
+                            keyExtractor={(it, idx) => String(it?._id || idx)}
+                            renderItem={({ item }) => <SummaryRow item={item} theme={theme} />}
+                            ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+                            scrollEnabled={false}
+                        />
+                    )}
+
+                    <View style={s.hr} />
+
+                    <Row label="Subtotal" value={`₦${subtotal.toLocaleString()}`} theme={theme} />
+                    <Row label="VAT (7.5%)" value={`₦${vat.toLocaleString()}`} theme={theme} />
+                    <Row
+                        label={`Delivery fee${delivery === "pickup" ? " (pickup)" : ""}`}
+                        value={`₦${deliveryFee.toLocaleString()}`}
+                        theme={theme}
+                    />
+                    <View style={{ height: 6 }} />
+                    <Row label="Total" value={`₦${total.toLocaleString()}`} theme={theme} strong />
+                </Section>
+            </ScrollView>
+
+            {/* Place order */}
+            <View style={s.bottomBar}>
+                <TouchableOpacity style={s.placeBtn} onPress={placeOrder}>
+                    <Ionicons name="shield-checkmark-outline" size={18} color="#fff" />
+                    <Text style={s.placeTxt}>Place Order</Text>
+                </TouchableOpacity>
+            </View>
+
+            {/* Static payment sheet */}
+            <Modal
+                visible={payOpen}
+                transparent
+                animationType="slide"
+                onRequestClose={() => setPayOpen(false)}
+            >
+                <View style={s.sheetBackdrop}>
+                    <View style={s.sheet}>
+                        <View style={s.sheetHeader}>
+                            <Text style={s.sheetTitle}>Payment (Demo)</Text>
+                            <TouchableOpacity onPress={() => setPayOpen(false)} style={{ padding: 6 }}>
+                                <Ionicons name="close" size={20} color={theme.text} />
+                            </TouchableOpacity>
+                        </View>
+
+                        <View style={{ gap: 10 }}>
+                            <FakeInput label="Amount" value={`₦${total.toLocaleString()}`} theme={theme} />
+                            <FakeInput label="Payment method" value={labelForPay(payMethod)} theme={theme} />
+                            <FakeInput label="Status" value="NOT IMPLEMENTED" theme={theme} />
+                        </View>
+
+                        <View style={{ height: 16 }} />
+
+                        <TouchableOpacity
+                            onPress={() => {
+                                setPayOpen(false);
+                                showToast("This is a static payment sheet");
+                            }}
+                            style={s.fakePayBtn}
+                        >
+                            <Ionicons name="lock-closed-outline" size={18} color="#fff" />
+                            <Text style={s.fakePayTxt}>Simulate Payment</Text>
+                        </TouchableOpacity>
+
+                        <Text style={s.sheetNote}>
+                            *For demo only — no real transaction will occur.
+                        </Text>
+                    </View>
+                </View>
+            </Modal>
+
+            {/* Toast */}
+            {toastVisible && (
+                <Animated.View style={[s.toast, { opacity: fade }]}>
+                    <Ionicons name="information-circle-outline" size={18} color="#fff" />
+                    <Text style={s.toastTxt}>{toastMsg}</Text>
+                </Animated.View>
+            )}
+        </KeyboardAvoidingView>
+    );
+}
+
+/* ---------- small components ---------- */
+
+function Section({ title, theme, children }) {
+    return (
+        <View style={{ marginBottom: 18 }}>
+            <Text style={{ color: theme.text, fontWeight: "800", fontSize: 16, marginBottom: 10 }}>
+                {title}
+            </Text>
+            <View
+                style={{
+                    backgroundColor: theme.card,
+                    borderWidth: 1,
+                    borderColor: theme.border || "#ddd",
+                    borderRadius: 16,
+                    padding: 12,
+                    gap: 12,
+                }}
+            >
+                {children}
+            </View>
+        </View>
+    );
+}
+
+function Field({ label, required, theme, children }) {
+    return (
+        <View style={{ gap: 6 }}>
+            <Text style={{ color: theme.text, fontSize: 13, fontWeight: "700" }}>
+                {label} {required ? <Text style={{ color: "#e11d48" }}>*</Text> : null}
+            </Text>
+            {children}
+        </View>
+    );
+}
+
+function RadioRow({ label, checked, onPress, theme, icon }) {
+    return (
+        <Pressable
+            onPress={onPress}
+            style={({ pressed }) => [
+                {
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    padding: 12,
+                    borderRadius: 12,
+                    borderWidth: 1,
+                    borderColor: checked ? TINT : (theme.border || "#ddd"),
+                    backgroundColor: checked ? (theme.activeBg || theme.background) : theme.background,
+                    opacity: pressed ? 0.95 : 1,
+                },
+            ]}
+            android_ripple={{ color: theme.ripple || "#e5e7eb" }}
+        >
+            <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+                <Ionicons name={icon} size={18} color={checked ? TINT : (theme.subtle || "#9aa0ae")} />
+                <Text style={{ color: theme.text, fontWeight: "700" }}>{label}</Text>
+            </View>
+            <Ionicons
+                name={checked ? "radio-button-on" : "radio-button-off"}
+                size={20}
+                color={checked ? TINT : (theme.subtle || "#9aa0ae")}
+            />
+        </Pressable>
+    );
+}
+
+function SummaryRow({ item, theme }) {
+    const title = item?.foodId?.name || "Meal";
+    const imageUri = item?.foodId?.image || item?.image || null;
+    const qty = item?.quantity || 1;
+    const price = Number(item?.totalPrice || 0);
+
+    return (
+        <View
+            style={{
+                flexDirection: "row",
+                alignItems: "center",
+                gap: 10,
+                padding: 10,
+                borderRadius: 12,
+                backgroundColor: theme.background,
+                borderWidth: 1,
+                borderColor: theme.border || "#ddd",
+            }}
+        >
+            <Image
+                source={imageUri ? { uri: imageUri } : require("../../assets/images/placeholder.jpg")}
+                style={{ width: 60, height: 60, borderRadius: 10, backgroundColor: "#2a2f39" }}
+                contentFit="cover"
+            />
+            <View style={{ flex: 1 }}>
+                <Text style={{ color: theme.text, fontWeight: "800" }} numberOfLines={1}>
+                    {title}
+                </Text>
+                <Text style={{ color: theme.subtle || "#9aa0ae", fontSize: 12 }}>Qty: {qty}</Text>
+            </View>
+            <Text style={{ color: TINT, fontWeight: "900" }}>₦{price.toLocaleString()}</Text>
+        </View>
+    );
+}
+
+function Row({ label, value, theme, strong }) {
+    return (
+        <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 8 }}>
+            <Text style={{ color: strong ? theme.text : (theme.subtle || "#9aa0ae"), fontWeight: strong ? "900" : "700" }}>
+                {label}
+            </Text>
+            <Text style={{ color: strong ? theme.text : (theme.subtle || "#9aa0ae"), fontWeight: strong ? "900" : "700" }}>
+                {value}
+            </Text>
+        </View>
+    );
+}
+
+function FakeInput({ label, value, theme }) {
+    return (
+        <View style={{ gap: 6 }}>
+            <Text style={{ color: theme.subtle || "#9aa0ae", fontSize: 12, fontWeight: "700" }}>
+                {label}
+            </Text>
+            <View
+                style={{
+                    backgroundColor: theme.background,
+                    borderWidth: 1,
+                    borderColor: theme.border || "#ddd",
+                    paddingHorizontal: 12,
+                    paddingVertical: 12,
+                    borderRadius: 12,
+                }}
+            >
+                <Text style={{ color: theme.text, fontWeight: "700" }}>{value}</Text>
+            </View>
+        </View>
+    );
+}
+
+/* ---------- styles(theme) ---------- */
+const styles = (theme) =>
+    StyleSheet.create({
+        container: { flex: 1, backgroundColor: theme.background },
+        center: { flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: theme.background },
+        scrollBody: { padding: 16, paddingBottom: 120 },
+
+        input: {
+            backgroundColor: theme.background,
+            color: theme.text,
+            borderWidth: 1,
+            borderColor: theme.border || "#ddd",
+            borderRadius: 12,
+            paddingHorizontal: 12,
+            paddingVertical: Platform.OS === "ios" ? 12 : 10,
+            fontWeight: "600",
+        },
+        hr: {
+            height: 1,
+            backgroundColor: theme.border || "#ddd",
+            marginVertical: 8,
+            opacity: 0.6,
+        },
+
+        bottomBar: {
+            position: "absolute",
+            left: 0,
+            right: 0,
+            bottom: 0,
+            padding: 12,
+            borderTopWidth: StyleSheet.hairlineWidth,
+            borderColor: theme.border || "#eee",
+            backgroundColor: theme.background,
+        },
+        placeBtn: {
+            backgroundColor: TINT,
+            borderRadius: 14,
+            alignItems: "center",
+            justifyContent: "center",
+            paddingVertical: 14,
+            flexDirection: "row",
+            gap: 8,
+        },
+        placeTxt: { color: "#fff", fontWeight: "900", fontSize: 16 },
+
+        // sheet
+        sheetBackdrop: {
+            flex: 1,
+            backgroundColor: "rgba(0,0,0,0.5)",
+            justifyContent: "flex-end",
+        },
+        sheet: {
+            backgroundColor: theme.card,
+            padding: 16,
+            borderTopLeftRadius: 16,
+            borderTopRightRadius: 16,
+            borderWidth: 1,
+            borderColor: theme.border || "#ddd",
+            gap: 8,
+        },
+        sheetHeader: {
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginBottom: 8,
+        },
+        sheetTitle: { color: theme.text, fontWeight: "900", fontSize: 16 },
+        sheetNote: {
+            color: theme.subtle || "#9aa0ae",
+            fontSize: 12,
+            marginTop: 8,
+            textAlign: "center",
+        },
+        fakePayBtn: {
+            backgroundColor: TINT,
+            paddingVertical: 12,
+            borderRadius: 12,
+            alignItems: "center",
+            flexDirection: "row",
+            justifyContent: "center",
+            gap: 8,
+        },
+        fakePayTxt: { color: "#fff", fontWeight: "900" },
+
+        // toast
+        toast: {
+            position: "absolute",
+            bottom: 90,
+            alignSelf: "center",
+            backgroundColor: "#111827",
+            paddingHorizontal: 14,
+            paddingVertical: 10,
+            borderRadius: 20,
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 8,
+            elevation: 4,
+            shadowColor: "#000",
+            shadowOpacity: 0.2,
+            shadowRadius: 3,
+        },
+        toastTxt: { color: "#fff", fontWeight: "700" },
+    });
+
+function labelForPay(method) {
+    switch (method) {
+        case "card":
+            return "Card";
+        case "transfer":
+            return "Bank Transfer";
+        case "cod":
+            return "Cash on Delivery";
+        default:
+            return "Unknown";
+    }
+}

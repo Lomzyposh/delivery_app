@@ -111,6 +111,7 @@ export default function ListMeals() {
             if (!refreshing) setLoading(true);
             const res = await axios.get(`${API_URL}/api/meals`, { timeout: 12000 });
             const data = res?.data || {};
+            console.log("All meals", data.meals[0]);
             const list = Array.isArray(data.meals) ? data.meals : Array.isArray(data) ? data : [];
             setMeals(list);
             const uniq = Array.from(new Set(list.map(m => String(m?.category ?? m?.categories ?? "").trim())));

@@ -33,7 +33,6 @@ export function FavoritesProvider({ children }) {
         const fid = String(foodId);
         const wasFav = isFavorite(fid);
 
-        // optimistic
         setFavorites(prev => wasFav ? prev.filter(id => id !== fid) : [...prev, fid]);
 
         try {
