@@ -713,7 +713,6 @@ app.get("/api/restaurants/:id", async (req, res) => {
     }
 });
 
-// GET /api/restaurants/:id/fooditems  (foods for a restaurant)
 app.get("/api/restaurants/:id/fooditems", async (req, res) => {
     try {
         const { id } = req.params;
@@ -744,56 +743,28 @@ app.post("/api/fooditems", async (req, res) => {
 });
 
 
-
 app.patch("/api/me", async (req, res) => {
-    const { name, email } = req.body || {};
-    const update = {};
-    if (typeof name === "string") update.name = name.trim();
-    if (typeof email === "string") update.email = email.trim().toLowerCase();
 
     try {
-        const me = await User.findById(req.userId);
+        console.log("jj")   
+        const { userId, name, email } = req.body || {};
+
+        if (!userId) return res.status(400).json({ message: "Missing userId" });
+        // console.log("UserId", userId)
+
+        const me = await User.findById(userId);
         if (!me) return res.status(404).json({ message: "User not found" });
 
-        if (update.name !== undefined) me.name = update.name;
-        if (update.email !== undefined) me.email = update.email;
+        if (typeof name === "string" && name.trim()) me.name = name.trim();
+        if (typeof email === "string" && email.trim()) me.email = email.trim().toLowerCase();
 
         await me.save();
-
-        res.json({
-            _id: me._id,
-            name: me.name,
-            email: me.email,
-            role: me.role,
-            createdAt: me.createdAt,
-            updatedAt: me.updatedAt,
-        });
-    } catch (e) {
-        if (e?.code === 11000 && e?.keyPattern?.email) {
-            return res.status(400).json({ message: "Email is already in use" });
-        }
-        return res.status(400).json({ message: e.message || "Failed to update profile" });
+        res.json({ id: me._id, name: me.name, email: me.email, message: "Profile updated" });
+    } catch (err) {
+        console.error("Update profile error:", err.message);
+        res.status(500).json({ message: "Server error" });
     }
-});
-
-app.patch("/api/me/password", async (req, res) => {
-    const { currentPassword, newPassword } = req.body || {};
-    if (!currentPassword || !newPassword) {
-        return res.status(400).json({ message: "currentPassword and newPassword are required" });
-    }
-
-    const me = await User.findById(req.userId);
-    if (!me) return res.status(404).json({ message: "User not found" });
-
-    const ok = await me.validatePassword(currentPassword);
-    if (!ok) return res.status(400).json({ message: "Current password is incorrect" });
-
-    await me.setPassword(newPassword);
-    await me.save();
-
-    res.json({ ok: true });
-});
-
+})
 
 
 app.get("/api/hello", (req, res) => {
