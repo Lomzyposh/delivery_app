@@ -5,18 +5,23 @@ import { useTheme } from "../../../contexts/ThemeContext";
 
 export default function RootLayout() {
     const { theme } = useTheme();
+
     return (
         <Tabs
+            // Important: give the screens the right bg too
+            sceneContainerStyle={{ backgroundColor: theme.background }}
             screenOptions={{
                 headerShown: false,
                 tabBarShowLabel: false,
-                tabBarActiveTintColor: "#FF6B00",
-                tabBarInactiveTintColor: "#222",
+                // These are backups if you ever fall back to the default bar:
+                tabBarActiveTintColor: theme.tint || "#FF6B00",
+                tabBarInactiveTintColor: theme.sub || "#888",
                 tabBarStyle: {
-                    backgroundColor: theme.background,
+                    backgroundColor: theme.card,
                     borderTopColor: theme.border,
                 },
             }}
+            // use your custom bar and pass theme down
             tabBar={(props) => <CustomTabBar {...props} theme={theme} />}
         >
             <Tabs.Screen
@@ -29,7 +34,6 @@ export default function RootLayout() {
                 }}
             />
 
-
             <Tabs.Screen
                 name="restaurants"
                 options={{
@@ -39,17 +43,17 @@ export default function RootLayout() {
                     ),
                 }}
             />
-            
+
             <Tabs.Screen
                 name="cart"
                 options={{
                     title: "Cart",
-                    headerShown: true,
                     tabBarIcon: ({ color, focused }) => (
                         <Ionicons name={focused ? "bag" : "bag-outline"} size={24} color={color} />
                     ),
                 }}
             />
+
             <Tabs.Screen
                 name="account"
                 options={{

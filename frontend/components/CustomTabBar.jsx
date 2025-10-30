@@ -1,14 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Platform, Animated } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-const ORANGE = "#FF5A3C";
-const ORANGE_DARK = "#E64E33";
-const ICON_INACTIVE = "#A3A3A3";
-const TEXT_ACTIVE = "#FF5A3C";
-const TEXT_INACTIVE = "#8A8A8A";
-const BAR_BG = "#FFFFFF";
+// Fallbacks only; we’ll prefer theme.*
+const DEFAULT_TINT = "#FF5A3C";
 
 const LABELS = {
     home: "Home",
@@ -33,7 +28,7 @@ export default function CustomTabBar({ state, descriptors, navigation, theme }) 
         }).start();
     }, [state.index]);
 
-    const handlePress = (routeName, index) => {
+    const onPress = (routeName, index) => {
         const event = navigation.emit({
             type: "tabPress",
             target: state.routes[index].key,
@@ -42,58 +37,56 @@ export default function CustomTabBar({ state, descriptors, navigation, theme }) 
         if (!event.defaultPrevented) navigation.navigate(routeName);
     };
 
+    const tint = theme.tint || DEFAULT_TINT;
+    const bg = theme.card || "#111";            // bar tile bg
+    const wrapperBg = theme.background || "#000";
+    const border = theme.border || "rgba(255,255,255,0.08)";
+    const text = theme.text || "#fff";
+    const sub = theme.sub || "#9aa0ae";
+
     return (
-        <View style={[styles.wrapper, { backgroundColor: theme.card, borderTopColor: theme.border }]}>
-            <View style={styles.bar}>
+        <View
+            style={[
+                styles.wrapper,
+                {
+                    backgroundColor: wrapperBg,
+                    paddingBottom: Math.max(insets.bottom - 4, 0),
+                    borderTopColor: border,
+                    borderTopWidth: StyleSheet.hairlineWidth,
+                },
+            ]}
+        >
+            <View
+                style={[
+                    styles.bar,
+                    {
+                        backgroundColor: bg,
+                        borderColor: border,
+                    },
+                ]}
+            >
                 {state.routes.map((route, index) => {
                     const focused = state.index === index;
                     const options = descriptors[route.key].options;
                     const label = LABELS[route.name] || options.title || route.name;
-                    // const isCenter = index === 2;
+
+                    const iconColor = focused ? tint : sub;
+                    const labelColor = focused ? tint : sub;
 
                     const iconEl =
                         typeof options.tabBarIcon === "function"
-                            ? options.tabBarIcon({
-                                color: focused ? TEXT_ACTIVE : ICON_INACTIVE,
-                                focused,
-                                size: 24,
-                            })
+                            ? options.tabBarIcon({ color: iconColor, focused, size: 24 })
                             : null;
-
-                    // if (isCenter) {
-                    //     return (
-                    //         <TouchableOpacity
-                    //             key={route.key}
-                    //             activeOpacity={0.92}
-                    //             onPress={() => handlePress(route.name, index)}
-                    //             style={styles.centerButtonWrap}
-                    //         >
-                    //             <Animated.View
-                    //                 style={[
-                    //                     styles.centerButton,
-                    //                     { backgroundColor: ORANGE, transform: [{ translateY: lift }] },
-                    //                 ]}
-                    //             >
-                    //                 {iconEl}
-                    //             </Animated.View>
-                    //             <Text style={[styles.centerLabel, { color: focused ? TEXT_ACTIVE : TEXT_INACTIVE }]}>
-                    //                 {label}
-                    //             </Text>
-                    //         </TouchableOpacity>
-                    //     );
-                    // }
 
                     return (
                         <TouchableOpacity
                             key={route.key}
-                            activeOpacity={0.8}
-                            onPress={() => handlePress(route.name, index)}
+                            activeOpacity={0.85}
+                            onPress={() => onPress(route.name, index)}
                             style={styles.item}
                         >
                             <View style={styles.iconOnly}>{iconEl}</View>
-                            <Text style={[styles.label, { color: focused ? TEXT_ACTIVE : TEXT_INACTIVE }]}>
-                                {label}
-                            </Text>
+                            <Text style={[styles.label, { color: labelColor }]}>{label}</Text>
                         </TouchableOpacity>
                     );
                 })}
@@ -104,17 +97,16 @@ export default function CustomTabBar({ state, descriptors, navigation, theme }) 
 
 const styles = StyleSheet.create({
     wrapper: {
-        // backgroundColor: "",
+        // outer container matches screen background
     },
     bar: {
-        // marginHorizontal: 16,
         height: 74,
-        backgroundColor: BAR_BG,
         borderRadius: 22,
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
         paddingHorizontal: 18,
+        borderWidth: 1,
         ...Platform.select({
             ios: {
                 shadowColor: "#000",
@@ -130,40 +122,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
     },
-    iconOnly: {
-        marginBottom: 4,
-    },
-    label: {
-        fontSize: 10,
-        lineHeight: 13,
-        fontWeight: "500",
-    },
-    centerButtonWrap: {
-        width: 72,
-        alignItems: "center",
-        justifyContent: "flex-start",
-        marginTop: -22,
-    },
-    centerButton: {
-        width: 56,
-        height: 56,
-        borderRadius: 28,
-        alignItems: "center",
-        justifyContent: "center",
-        ...Platform.select({
-            ios: {
-                shadowColor: ORANGE_DARK,
-                shadowOpacity: 0.35,
-                shadowRadius: 12,
-                shadowOffset: { width: 0, height: 6 },
-            },
-            android: { elevation: 10 },
-        }),
-    },
-    centerLabel: {
-        marginTop: 6,
-        fontSize: 11,
-        lineHeight: 13,
-        fontWeight: "500",
-    },
+    iconOnly: { marginBottom: 4 },
+    label: { fontSize: 10, lineHeight: 13, fontWeight: "600" },
 });

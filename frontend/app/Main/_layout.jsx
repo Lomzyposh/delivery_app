@@ -14,6 +14,7 @@ export default function MainLayout() {
       <Stack.Screen name="restaurant" options={{
         headerShown: false
       }} />
+
       <Stack.Screen name="checkout" options={{ title: "Checkout" }} />
       <Stack.Screen name="listMeals"
         options={{

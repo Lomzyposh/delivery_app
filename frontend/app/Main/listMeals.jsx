@@ -10,6 +10,7 @@ import {
     TouchableOpacity,
     View,
     Modal,
+    TextInput,
 } from "react-native";
 import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import axios from "axios";
@@ -30,15 +31,7 @@ function toSlug(s) {
         .replace(/^-+|-+$/g, "");
 }
 
-function titleCase(s) {
-    return String(s || "")
-        .toLowerCase()
-        .replace(/\b\w/g, (m) => m.toUpperCase());
-}
-
-
 function getCategoryCandidates(m) {
-    // supports: "category": "Dessert", "categories": "Dessert" or ["Dessert", "Cakes"], {category:{name,slug}}
     const out = [];
     if (typeof m?.category === "string") out.push(m.category);
     if (typeof m?.categories === "string") out.push(m.categories);
@@ -48,62 +41,43 @@ function getCategoryCandidates(m) {
     return out;
 }
 
-
 export default function ListMeals() {
-    const { category: categoryParam, discount: discountParam } = useLocalSearchParams();
+    const params = useLocalSearchParams();
+    const { q, category: categoryParam, discount: discountParam } = params;
     const navigation = useNavigation();
     const { theme } = useTheme();
     const p = usePalette(theme);
+    const router = useRouter();
+    const { ready: favReady, isFavorite, toggleFavorite, favorites } = useFavorites();
 
+    // ---- initial favorites-only from route ----
+    const initialFavOnly = useMemo(() => {
+        const flag = String(params.fav ?? params.onlyFav ?? params.favorites ?? "").toLowerCase();
+        return ["1", "true", "yes", "fav", "favorites"].includes(flag);
+    }, [params.fav, params.onlyFav, params.favorites]);
+
+    const [favOnly, setFavOnly] = useState(initialFavOnly);
+    const [searchText, setSearchText] = useState(q || "");
     const [meals, setMeals] = useState([]);
-    const [categories] = useState([
+    const [loading, setLoading] = useState(true);
+    const [refreshing, setRefreshing] = useState(false);
+    const [error, setError] = useState("");
+
+    const [selectedCategory, setSelectedCategory] = useState(categoryParam || "");
+    const [selectedDiscount, setSelectedDiscount] = useState(
+        Number(discountParam) || null
+    );
+
+    const [openCat, setOpenCat] = useState(false);
+    const [openDisc, setOpenDisc] = useState(false);
+
+    const categories = [
         { label: "Breakfast", value: "breakfast" },
         { label: "Snacks", value: "snacks" },
         { label: "Beef", value: "beef" },
         { label: "Chicken", value: "chicken" },
         { label: "Dessert", value: "dessert" },
-    ]);
-
-    const [loading, setLoading] = useState(true);
-    const [refreshing, setRefreshing] = useState(false);
-    const [error, setError] = useState("");
-
-    const initialCategory = useMemo(
-        () => (categoryParam ? toSlug(categoryParam) : ""),
-        [categoryParam]
-    );
-    const initialDiscount = useMemo(() => {
-        const n = Number(discountParam);
-        return Number.isFinite(n) && DISCOUNT_OPTIONS.includes(n) ? n : null;
-    }, [discountParam]);
-
-    const [selectedCategory, setSelectedCategory] = useState(initialCategory);
-    const [selectedDiscount, setSelectedDiscount] = useState(initialDiscount);
-
-    useEffect(() => {
-        setSelectedCategory(initialCategory);
-    }, [initialCategory]);
-    useEffect(() => {
-        setSelectedDiscount(initialDiscount);
-    }, [initialDiscount]);
-
-    const [openCat, setOpenCat] = useState(false);
-    const [openDisc, setOpenDisc] = useState(false);
-
-    const categoryTitle = useMemo(() => {
-        const slug = String(selectedCategory || initialCategory || "").trim();
-        if (!slug) return "Meals";
-        return slug
-            .split(/[-_ ]+/)
-            .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
-            .join(" ");
-    }, [selectedCategory, initialCategory]);
-
-    useLayoutEffect(() => {
-        const parts = [categoryTitle];
-        if (selectedDiscount) parts.push(`${selectedDiscount}% off`);
-        navigation.setOptions({ title: parts.filter(Boolean).join(" · ") || "Meals" });
-    }, [navigation, categoryTitle, selectedDiscount]);
+    ];
 
     const fetchMeals = useCallback(async () => {
         try {
@@ -111,13 +85,18 @@ export default function ListMeals() {
             if (!refreshing) setLoading(true);
             const res = await axios.get(`${API_URL}/api/meals`, { timeout: 12000 });
             const data = res?.data || {};
-            console.log("All meals", data.meals[0]);
-            const list = Array.isArray(data.meals) ? data.meals : Array.isArray(data) ? data : [];
+            const list = Array.isArray(data.meals)
+                ? data.meals
+                : Array.isArray(data)
+                    ? data
+                    : [];
             setMeals(list);
-            const uniq = Array.from(new Set(list.map(m => String(m?.category ?? m?.categories ?? "").trim())));
-            console.log("Unique categories from API:", uniq);
         } catch (err) {
-            setError(err?.response?.data?.message || err?.message || "Failed to load meals. Please try again.");
+            setError(
+                err?.response?.data?.message ||
+                err?.message ||
+                "Failed to load meals. Please try again."
+            );
             setMeals([]);
         } finally {
             setLoading(false);
@@ -129,9 +108,39 @@ export default function ListMeals() {
         fetchMeals();
     }, [fetchMeals]);
 
-    const filteredMeals = useMemo(() => {
-        let out = meals;
+    useLayoutEffect(() => {
+        const parts = [];
+        if (favOnly) parts.push("Favourites");
+        if (selectedCategory) parts.push(selectedCategory);
+        if (selectedDiscount) parts.push(`${selectedDiscount}% off`);
+        navigation.setOptions({
+            title: parts.length > 0 ? parts.join(" · ") : "Meals",
+        });
+    }, [navigation, favOnly, selectedCategory, selectedDiscount]);
 
+    /* ---------------- Filter + Search Logic ---------------- */
+    const filteredMeals = useMemo(() => {
+        let out = [...meals];
+
+        // Favorites only (if requested and context is ready)
+        if (favOnly && favReady) {
+            out = out.filter((m) => {
+                const id = String(m?._id ?? m?.id ?? "");
+                return id && isFavorite(id);
+            });
+        }
+
+        // text search
+        if (searchText.trim()) {
+            const term = searchText.trim().toLowerCase();
+            out = out.filter((m) =>
+                [m.name, m.title, m.restaurantName, m.category]
+                    .filter(Boolean)
+                    .some((v) => String(v).toLowerCase().includes(term))
+            );
+        }
+
+        // category filter
         if (selectedCategory) {
             const sel = toSlug(selectedCategory);
             out = out.filter((m) => {
@@ -140,14 +149,24 @@ export default function ListMeals() {
             });
         }
 
+        // discount filter
         if (selectedDiscount) {
-            out = out.filter((m) => Number(m?.discount) === Number(selectedDiscount));
+            out = out.filter(
+                (m) => Number(m?.discount) === Number(selectedDiscount)
+            );
         }
 
         return out;
-    }, [meals, selectedCategory, selectedDiscount]);
+    }, [meals, searchText, selectedCategory, selectedDiscount, favOnly, favReady, isFavorite]);
 
     const styles = makeStyles(p);
+
+    const clearFilters = () => {
+        setSearchText("");
+        setSelectedCategory("");
+        setSelectedDiscount(null);
+        setFavOnly(false);
+    };
 
     if (loading) return <SkeletonList items={8} />;
 
@@ -155,21 +174,86 @@ export default function ListMeals() {
         return (
             <View style={[styles.center, { backgroundColor: p.background }]}>
                 <Text style={styles.errorText}>{error}</Text>
-                <Pressable onPress={fetchMeals} style={styles.retryBtn} android_ripple={{ color: p.ripple }}>
+                <Pressable
+                    onPress={fetchMeals}
+                    style={styles.retryBtn}
+                    android_ripple={{ color: p.ripple }}
+                >
                     <Text style={styles.retryText}>Retry</Text>
                 </Pressable>
             </View>
         );
     }
 
+    // small label for fav toggle
+    const favCount = favReady ? favorites.length : 0;
+
     return (
         <View style={{ flex: 1, backgroundColor: p.background }}>
+            {/* Search Bar */}
+            <View
+                style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    backgroundColor: p.card,
+                    borderRadius: 14,
+                    borderWidth: 1,
+                    borderColor: p.border,
+                    marginHorizontal: 16,
+                    marginTop: 10,
+                    paddingHorizontal: 12,
+                    paddingVertical: 8,
+                }}
+            >
+                <Ionicons name="search" size={20} color={p.sub} />
+                <TextInput
+                    placeholder="Search meals..."
+                    placeholderTextColor={p.sub}
+                    style={{ flex: 1, color: p.text, paddingHorizontal: 8 }}
+                    value={searchText}
+                    onChangeText={setSearchText}
+                    returnKeyType="search"
+                />
+                {searchText ? (
+                    <TouchableOpacity onPress={() => setSearchText("")}>
+                        <Ionicons name="close" size={20} color={p.sub} />
+                    </TouchableOpacity>
+                ) : null}
+            </View>
+
+            {/* Filter Row (with Favorites Only) */}
             <View style={styles.filtersRow}>
+                {/* Favorites only chip */}
+                <Pressable
+                    onPress={() => setFavOnly((v) => !v)}
+                    android_ripple={{ color: p.ripple }}
+                    style={({ pressed }) => [
+                        styles.favChip,
+                        { borderColor: p.border, backgroundColor: favOnly ? p.tint : p.card },
+                        pressed && { opacity: 0.95 },
+                    ]}
+                >
+                    <Ionicons
+                        name={favOnly ? "heart" : "heart-outline"}
+                        size={16}
+                        color={favOnly ? "#fff" : p.text}
+                    />
+                    <Text
+                        style={{
+                            color: favOnly ? "#fff" : p.text,
+                            fontWeight: "800",
+                            fontSize: 12,
+                        }}
+                    >
+                        {favReady ? `(${favCount})` : ""}
+                    </Text>
+                </Pressable>
+
                 <Dropdown
                     label="Category"
                     placeholder="All"
                     value={selectedCategory}
-                    setValue={(v) => setSelectedCategory(v)}
+                    setValue={setSelectedCategory}
                     open={openCat}
                     setOpen={setOpenCat}
                     options={categories}
@@ -180,10 +264,13 @@ export default function ListMeals() {
                     label="Discount"
                     placeholder="Any"
                     value={selectedDiscount}
-                    setValue={(v) => setSelectedDiscount(v)}
+                    setValue={setSelectedDiscount}
                     open={openDisc}
                     setOpen={setOpenDisc}
-                    options={DISCOUNT_OPTIONS.map((d) => ({ label: `${d}%`, value: d }))}
+                    options={DISCOUNT_OPTIONS.map((d) => ({
+                        label: `${d}%`,
+                        value: d,
+                    }))}
                     p={p}
                     allowClear
                 />
@@ -211,15 +298,15 @@ export default function ListMeals() {
                 ListEmptyComponent={
                     <View style={[styles.center, { paddingVertical: 48 }]}>
                         <Text style={styles.emptyText}>
-                            No meals match your filters
+                            {favOnly
+                                ? "No favourite meals found."
+                                : "No meals match your filters."}
+                            {searchText ? ` (“${searchText}”)` : ""}
                             {selectedCategory ? ` (${selectedCategory})` : ""}
                             {selectedDiscount ? `, ${selectedDiscount}% off` : ""}.
                         </Text>
                         <Pressable
-                            onPress={() => {
-                                setSelectedCategory("");
-                                setSelectedDiscount(null);
-                            }}
+                            onPress={clearFilters}
                             style={styles.retryGhost}
                             android_ripple={{ color: p.ripple }}
                         >
@@ -241,7 +328,7 @@ function MealCard({ meal, p }) {
     const mealId = meal._id || meal.id;
     const discount = Number(meal?.discount) || 0;
     const { isFavorite, toggleFavorite } = useFavorites();
-    const fav = isFavorite(mealId);
+    const fav = isFavorite(String(mealId || ""));
 
     const priceNum = Number(price);
     const finalPrice = Number.isFinite(priceNum)
@@ -249,8 +336,8 @@ function MealCard({ meal, p }) {
         : null;
     const router = useRouter();
 
-    const itemClick = (mealId) => {
-        router.push({ pathname: "/meal-details", params: { id: String(mealId) } });
+    const itemClick = (mid) => {
+        router.push({ pathname: "/meal-details", params: { id: String(mid) } });
     };
 
     return (
@@ -289,21 +376,37 @@ function MealCard({ meal, p }) {
                 resizeMode="cover"
             />
 
-            {/* Right content */}
             <View style={{ flex: 1, justifyContent: "space-between", height: 110 }}>
                 <View>
-                    <Text style={{ color: p.text, fontWeight: "800", fontSize: 16 }} numberOfLines={1}>
+                    <Text
+                        style={{ color: p.text, fontWeight: "800", fontSize: 16 }}
+                        numberOfLines={1}
+                    >
                         {title}
                     </Text>
                     {!!restaurantName && (
-                        <Text style={{ color: p.sub, fontSize: 13, fontWeight: "600", marginTop: 2 }} numberOfLines={1}>
+                        <Text
+                            style={{
+                                color: p.sub,
+                                fontSize: 13,
+                                fontWeight: "600",
+                                marginTop: 2,
+                            }}
+                            numberOfLines={1}
+                        >
                             {restaurantName}
                         </Text>
                     )}
                 </View>
 
-                {/* Price Section */}
-                <View style={{ flexDirection: "row", alignItems: "center", gap: 8, marginTop: 4 }}>
+                <View
+                    style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        gap: 8,
+                        marginTop: 4,
+                    }}
+                >
                     {discount > 0 && finalPrice !== null ? (
                         <>
                             <Text
@@ -335,7 +438,7 @@ function MealCard({ meal, p }) {
                             >
                                 <Text
                                     style={{
-                                        color: '#fff',
+                                        color: "#fff",
                                         fontWeight: "800",
                                         fontSize: 12,
                                     }}
@@ -346,7 +449,9 @@ function MealCard({ meal, p }) {
                         </>
                     ) : (
                         Number.isFinite(priceNum) && (
-                            <Text style={{ color: p.price, fontWeight: "800", fontSize: 16 }}>
+                            <Text
+                                style={{ color: p.price, fontWeight: "800", fontSize: 16 }}
+                            >
                                 ₦{priceNum.toLocaleString()}
                             </Text>
                         )
@@ -354,7 +459,6 @@ function MealCard({ meal, p }) {
                 </View>
             </View>
 
-            {/* Favorite Heart */}
             <TouchableOpacity
                 style={{
                     backgroundColor: p.background,
@@ -366,12 +470,15 @@ function MealCard({ meal, p }) {
                     shadowRadius: 3,
                     elevation: 3,
                 }}
-                onPress={() => toggleFavorite(mealId)}
+                onPress={() => toggleFavorite(String(mealId || ""))}
             >
-                <Ionicons name={fav ? "heart" : "heart-outline"} size={22} color={fav ? "red" : p.text} />
+                <Ionicons
+                    name={fav ? "heart" : "heart-outline"}
+                    size={22}
+                    color={fav ? "red" : p.text}
+                />
             </TouchableOpacity>
         </Pressable>
-
     );
 }
 
@@ -397,12 +504,16 @@ function Dropdown({ label, placeholder, value, setValue, open, setOpen, options,
                     <Text style={{ color: p.sub, fontWeight: "700" }}>{label}:</Text>
                     <Text
                         numberOfLines={1}
-                        style={{ color: selectedLabel ? p.text : p.sub, fontWeight: selectedLabel ? "800" : "600", flexShrink: 1 }}
+                        style={{
+                            color: selectedLabel ? p.text : p.sub,
+                            fontWeight: selectedLabel ? "800" : "600",
+                            flexShrink: 1,
+                        }}
                     >
                         {selectedLabel || placeholder}
                     </Text>
                 </View>
-                {allowClear && !!value ? (
+                {allowClear && (!!value || value === 0) ? (
                     <Pressable
                         onPress={(e) => {
                             e.stopPropagation?.();
@@ -418,7 +529,10 @@ function Dropdown({ label, placeholder, value, setValue, open, setOpen, options,
 
             <Modal visible={open} transparent animationType="fade" onRequestClose={() => setOpen(false)}>
                 <Pressable style={stylesStatic.ddBackdrop} onPress={() => setOpen(false)}>
-                    <Pressable style={[stylesStatic.ddSheet, { backgroundColor: p.background, borderColor: p.border }]} onPress={() => { }}>
+                    <Pressable
+                        style={[stylesStatic.ddSheet, { backgroundColor: p.background, borderColor: p.border }]}
+                        onPress={() => { }}
+                    >
                         <View style={[stylesStatic.ddHeader, { borderColor: p.border }]}>
                             <Text style={{ color: p.text, fontWeight: "800", fontSize: 16 }}>{label}</Text>
                             <TouchableOpacity onPress={() => setOpen(false)} style={{ padding: 6 }}>
@@ -426,7 +540,7 @@ function Dropdown({ label, placeholder, value, setValue, open, setOpen, options,
                             </TouchableOpacity>
                         </View>
 
-                        {/* “All/Any” option */}
+                        {/* All/Any */}
                         <Pressable
                             onPress={() => {
                                 setValue(label === "Discount" ? null : "");
@@ -446,10 +560,13 @@ function Dropdown({ label, placeholder, value, setValue, open, setOpen, options,
                         <FlatList
                             data={options}
                             keyExtractor={(it, idx) => String(it?.value ?? it?.label ?? idx)}
-                            ItemSeparatorComponent={() => <View style={{ height: 1, backgroundColor: p.border }} />}
+                            ItemSeparatorComponent={() => (
+                                <View style={{ height: 1, backgroundColor: p.border }} />
+                            )}
                             renderItem={({ item }) => {
                                 const active =
-                                    eqCi(String(item.value), String(value)) || eqCi(String(item.label), String(value));
+                                    eqCi(String(item.value), String(value)) ||
+                                    eqCi(String(item.label), String(value));
                                 return (
                                     <Pressable
                                         onPress={() => {
@@ -458,11 +575,19 @@ function Dropdown({ label, placeholder, value, setValue, open, setOpen, options,
                                         }}
                                         style={({ pressed }) => [
                                             stylesStatic.ddItem,
-                                            { borderColor: p.border, backgroundColor: active ? p.tint : "transparent", color: active ? '#fff' : '#000' },
+                                            {
+                                                borderColor: p.border,
+                                                backgroundColor: active ? p.tint : "transparent",
+                                            },
                                             pressed && { opacity: 0.85 },
                                         ]}
                                     >
-                                        <Text style={{ color: p.text, fontWeight: active ? "800" : "600" }}>
+                                        <Text
+                                            style={{
+                                                color: active ? "#fff" : p.text,
+                                                fontWeight: active ? "800" : "600",
+                                            }}
+                                        >
                                             {item.label}
                                         </Text>
                                     </Pressable>
@@ -481,9 +606,6 @@ function Dropdown({ label, placeholder, value, setValue, open, setOpen, options,
 function eqCi(a, b) {
     return String(a).toLowerCase() === String(b).toLowerCase();
 }
-function escapeReg(s) {
-    return String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
 
 function makeStyles(p) {
     return StyleSheet.create({
@@ -501,17 +623,17 @@ function makeStyles(p) {
             borderRadius: 12,
         },
         retryText: { color: "#fff", fontWeight: "700" },
-        emptyText: { color: p.sub, fontSize: 16, marginBottom: 10 },
+        emptyText: { color: p.sub, fontSize: 16, marginBottom: 10, textAlign: "center" },
         retryGhost: {
             borderWidth: 1,
             borderColor: p.border,
             paddingHorizontal: 16,
             paddingVertical: 10,
             borderRadius: 12,
-            backgroundColor: p.emptyBadge,
+            backgroundColor: p.card,
+            marginTop: 6,
         },
         retryGhostText: { color: p.text, fontWeight: "700" },
-
         filtersRow: {
             paddingHorizontal: 16,
             paddingVertical: 10,
@@ -520,27 +642,21 @@ function makeStyles(p) {
             borderColor: p.border,
             backgroundColor: p.background,
             flexDirection: "row",
+            alignItems: "center",
+        },
+        favChip: {
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 6,
+            paddingHorizontal: 12,
+            paddingVertical: 8,
+            borderRadius: 12,
+            borderWidth: 1,
         },
     });
 }
 
 const stylesStatic = StyleSheet.create({
-    cardImg: { width: 100, height: 100, borderRadius: 12, backgroundColor: "#2a2f39", marginRight: 8 },
-    cardTitle: { fontSize: 16, fontWeight: "800" },
-    cardSub: { fontSize: 13, marginTop: 2, fontWeight: "600" },
-    cardPrice: { fontSize: 15, fontWeight: "800" },
-    iconWrapper: {
-        backgroundColor: "#fff",
-        borderRadius: 50,
-        padding: 12,
-        elevation: 4,
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.15,
-        shadowRadius: 2,
-    },
-
-    // Dropdown styles
     ddTrigger: {
         flex: 1,
         minHeight: 44,
@@ -575,25 +691,6 @@ const stylesStatic = StyleSheet.create({
         paddingVertical: 12,
         paddingHorizontal: 8,
         borderBottomWidth: 0,
-        borderRadius: 20
+        borderRadius: 20,
     },
 });
-
-function cardBase(p) {
-    return {
-        minHeight: 120,
-        backgroundColor: p.card,
-        borderRadius: 16,
-        padding: 12,
-        gap: 10,
-        flexDirection: "row",
-        alignItems: "center",
-        borderWidth: 1,
-        borderColor: p.border,
-        shadowColor: p.shadow,
-        shadowOffset: { width: 0, height: 6 },
-        shadowOpacity: 0.25,
-        shadowRadius: 12,
-        elevation: 6,
-    };
-}

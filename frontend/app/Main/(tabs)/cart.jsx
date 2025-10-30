@@ -1,4 +1,4 @@
-// app/(tabs)/cart/index.jsx  (adjust the path if yours differs)
+// app/(tabs)/cart/index.jsx
 import React, { useCallback, useMemo, useState } from "react";
 import {
     ActivityIndicator,
@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { API_URL } from "../../../hooks/api";
 import { useTheme } from "../../../contexts/ThemeContext";
@@ -25,6 +26,7 @@ export default function Cart() {
     const p = usePalette(theme);
     const styles = makeStyles(p);
     const router = useRouter();
+    const insets = useSafeAreaInsets();
 
     const { cart, loading, setCart, setQuantity, removeItem, clearCart } = useCart();
 
@@ -67,12 +69,61 @@ export default function Cart() {
     const items = cart?.items || [];
     const subtotal = Number(cart?.subtotal || 0);
 
+    // height of the custom top bar (content area), plus safe area
+    const TOPBAR_H = 56 + insets.top;
+
     return (
         <View style={{ flex: 1, backgroundColor: p.background }}>
+            {/* --- Custom Top Bar with Back Button --- */}
+            <View
+                style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    paddingTop: insets.top,
+                    height: TOPBAR_H,
+                    backgroundColor: p.background,
+                    borderBottomWidth: StyleSheet.hairlineWidth,
+                    borderColor: p.border,
+                    zIndex: 10,
+                    flexDirection: "row",
+                    alignItems: "center",
+                    paddingHorizontal: 12,
+                }}
+            >
+                <TouchableOpacity
+                    onPress={() => router.back()}
+                    style={{
+                        width: 38,
+                        height: 38,
+                        borderRadius: 12,
+                        alignItems: "center",
+                        justifyContent: "center",
+                        backgroundColor: p.card,
+                        borderWidth: 1,
+                        borderColor: p.border,
+                    }}
+                    activeOpacity={0.85}
+                >
+                    <Ionicons name="chevron-back" size={20} color={p.text} />
+                </TouchableOpacity>
+
+                <View style={{ marginLeft: 10, flex: 1 }}>
+                    <Text style={{ color: p.text, fontWeight: "900", fontSize: 18 }} numberOfLines={1}>
+                        Your Cart
+                    </Text>
+                    <Text style={{ color: p.sub, fontSize: 12 }}>
+                        {items.length} item{items.length === 1 ? "" : "s"} · ₦{subtotal.toLocaleString()}
+                    </Text>
+                </View>
+            </View>
+
             <FlatList
                 data={items}
                 keyExtractor={(it, idx) => String(it?._id || idx)}
-                contentContainerStyle={{ padding: 16, paddingTop: 8 }}
+                // Pad top so content starts below the custom top bar
+                contentContainerStyle={{ padding: 16, paddingTop: TOPBAR_H + 8 }}
                 ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
                 renderItem={({ item }) => {
                     const deleting = deletingIds.has(String(item._id));
