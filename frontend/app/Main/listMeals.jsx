@@ -250,7 +250,7 @@ function MealCard({ meal, p }) {
     const router = useRouter();
 
     const itemClick = (mealId) => {
-        router.push({ pathname: "/meal-details", params: { mealId: String(mealId) } });
+        router.push({ pathname: "/meal-details", params: { id: String(mealId) } });
     };
 
     return (

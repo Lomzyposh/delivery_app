@@ -1,4 +1,3 @@
-// app/checkout/index.jsx
 import React, { useMemo, useRef, useState } from "react";
 import {
     ActivityIndicator,
@@ -20,6 +19,7 @@ import { Image } from "expo-image";
 
 import { useTheme } from "../../contexts/ThemeContext";
 import { useCart } from "../../contexts/CartContext";
+import { Picker } from "@react-native-picker/picker";
 
 const TINT = "#ff6600";
 
@@ -30,15 +30,16 @@ export default function CheckoutScreen() {
     const { cart, loading } = useCart();
     const items = cart?.items || [];
 
-    // form
+
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
     const [address, setAddress] = useState("");
     const [notes, setNotes] = useState("");
-    const [delivery, setDelivery] = useState("delivery"); // 'delivery' | 'pickup'
-    const [payMethod, setPayMethod] = useState("card");   // 'card' | 'transfer' | 'cod'
+    const [delivery, setDelivery] = useState("delivery");
+    const [pickupStation, setPickupStation] = useState("");
+    const [payMethod, setPayMethod] = useState("card");
 
-    // modal + toast
+
     const [payOpen, setPayOpen] = useState(false);
     const [toastVisible, setToastVisible] = useState(false);
     const [toastMsg, setToastMsg] = useState("");
@@ -64,7 +65,7 @@ export default function CheckoutScreen() {
             showToast("Please fill required fields");
             return;
         }
-        setPayOpen(true); // static payment
+        setPayOpen(true);
     };
 
     if (loading) {
@@ -75,13 +76,20 @@ export default function CheckoutScreen() {
         );
     }
 
+    const STATIONS = [
+        { id: "1", name: "Lekki Pickup Hub" },
+        { id: "2", name: "Ikeja Central Station" },
+        { id: "3", name: "Yaba Express Point" },
+        { id: "4", name: "Victoria Island Spot" },
+    ];
+
+
     return (
         <KeyboardAvoidingView
             style={s.container}
             behavior={Platform.OS === "ios" ? "padding" : undefined}
         >
             <ScrollView contentContainerStyle={s.scrollBody} showsVerticalScrollIndicator={false}>
-                {/* Contact */}
                 <Section title="Contact details" theme={theme}>
                     <Field label="Full name" required theme={theme}>
                         <TextInput
@@ -104,7 +112,6 @@ export default function CheckoutScreen() {
                     </Field>
                 </Section>
 
-                {/* Delivery */}
                 <Section title="Delivery options" theme={theme}>
                     <RadioRow
                         label="Deliver to my address"
@@ -120,6 +127,36 @@ export default function CheckoutScreen() {
                         theme={theme}
                         icon="walk-outline"
                     />
+
+                    {delivery === "pickup" && (
+                        <View style={{ marginTop: 8 }}>
+                            <Text style={{ color: theme.text, fontWeight: "700", marginBottom: 6 }}>
+                                Select pickup station <Text style={{ color: "#e11d48" }}>*</Text>
+                            </Text>
+                            <View
+                                style={{
+                                    borderWidth: 1,
+                                    borderColor: theme.border || "#ccc",
+                                    borderRadius: 12,
+                                    overflow: "hidden",
+                                    backgroundColor: theme.background,
+                                }}
+                            >
+                                <Picker
+                                    selectedValue={pickupStation}
+                                    onValueChange={(value) => setPickupStation(value)}
+                                    dropdownIconColor={theme.text}
+                                    style={{ color: theme.text }}
+                                >
+                                    <Picker.Item label="-- Select a station --" value="" />
+                                    {STATIONS.map((s) => (
+                                        <Picker.Item key={s.id} label={s.name} value={s.name} />
+                                    ))}
+                                </Picker>
+                            </View>
+                        </View>
+                    )}
+
                     {delivery === "delivery" && (
                         <Field label="Delivery address" required theme={theme}>
                             <TextInput
@@ -131,6 +168,7 @@ export default function CheckoutScreen() {
                             />
                         </Field>
                     )}
+
                     <Field label="Order notes (optional)" theme={theme}>
                         <TextInput
                             value={notes}
@@ -330,12 +368,13 @@ function SummaryRow({ item, theme }) {
     const imageUri = item?.foodId?.image || item?.image || null;
     const qty = item?.quantity || 1;
     const price = Number(item?.totalPrice || 0);
+    const addons = Array.isArray(item?.addons) ? item.addons : [];
 
     return (
         <View
             style={{
                 flexDirection: "row",
-                alignItems: "center",
+                alignItems: "flex-start",
                 gap: 10,
                 padding: 10,
                 borderRadius: 12,
@@ -349,16 +388,43 @@ function SummaryRow({ item, theme }) {
                 style={{ width: 60, height: 60, borderRadius: 10, backgroundColor: "#2a2f39" }}
                 contentFit="cover"
             />
+
             <View style={{ flex: 1 }}>
+                {/* Name + quantity */}
                 <Text style={{ color: theme.text, fontWeight: "800" }} numberOfLines={1}>
                     {title}
                 </Text>
                 <Text style={{ color: theme.subtle || "#9aa0ae", fontSize: 12 }}>Qty: {qty}</Text>
+
+                {/* Addons */}
+                {addons.length > 0 && (
+                    <View style={{ marginTop: 4, gap: 2 }}>
+                        {addons.map((a, idx) => {
+                            const name = a?.addOnId?.name ?? a?.name;
+                            const price = a?.addOnId?.price ?? a?.price ?? 0;
+                            if (!name) return null;
+                            return (
+                                <Text
+                                    key={String(a._id || idx)}
+                                    style={{
+                                        color: theme.subtle || "#9aa0ae",
+                                        fontSize: 12,
+                                    }}
+                                    numberOfLines={1}
+                                >
+                                    • {name} (+₦{Number(price).toLocaleString()})
+                                </Text>
+                            );
+                        })}
+                    </View>
+                )}
             </View>
-            <Text style={{ color: TINT, fontWeight: "900" }}>₦{price.toLocaleString()}</Text>
+
+            <Text style={{ color: "#ff6600", fontWeight: "900" }}>₦{price.toLocaleString()}</Text>
         </View>
     );
 }
+
 
 function Row({ label, value, theme, strong }) {
     return (

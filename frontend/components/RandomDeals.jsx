@@ -150,13 +150,10 @@ export default function RandomDeals({ onPressItem }) {
 
                     <View style={styles.footRow}>
                         <View style={styles.ratingRow}>
-                            <Ionicons name="star" size={14} />
+                            <Ionicons name="star" size={14} color={"goldenrod"} />
                             <Text style={styles.ratingText}>
                                 {((item?.rating && item.rating.average) || 0).toFixed(1)} ({(item?.rating && item.rating.count) || 0})
                             </Text>
-                        </View>
-                        <View style={styles.btn}>
-                            <Text style={styles.btnText}>Add</Text>
                         </View>
                     </View>
                 </View>

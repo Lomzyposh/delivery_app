@@ -49,14 +49,14 @@ export default function CustomTabBar({ state, descriptors, navigation, theme }) 
                     const focused = state.index === index;
                     const options = descriptors[route.key].options;
                     const label = LABELS[route.name] || options.title || route.name;
-                    const isCenter = index === 2;
+                    // const isCenter = index === 2;
 
                     const iconEl =
                         typeof options.tabBarIcon === "function"
                             ? options.tabBarIcon({
-                                color: focused ? (isCenter ? "#FFF" : TEXT_ACTIVE) : ICON_INACTIVE,
+                                color: focused ? TEXT_ACTIVE : ICON_INACTIVE,
                                 focused,
-                                size: isCenter ? 26 : 24,
+                                size: 24,
                             })
                             : null;
 

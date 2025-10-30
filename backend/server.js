@@ -90,7 +90,6 @@ async function performPasswordReset(email, newPassword) {
     const user = await User.findOne({ email: normalized });
     if (!user) return { success: false, message: 'User not found.' };
 
-    // ✅ Only allow if a recent verify opened the reset window
     if (!user.resetAllowedUntil || user.resetAllowedUntil <= now) {
         return { success: false, message: 'Reset window not active or expired. Verify your code again.' };
     }
@@ -265,72 +264,76 @@ async function getPopulatedCart(userId) {
         })
         .lean();
 }
+/* ==================== CART ROUTES (updated) ==================== */
+/* Helpers used only in this routes file */
+const canonicalAddonIds = (addons = []) => {
+    // Accept shapes: { addOnId }, {_id}, { id }, raw string/objectid
+    const ids = addons
+        .map(a => a?.addOnId?._id || a?.addOnId || a?._id || a?.id || a)
+        .filter(Boolean)
+        .map(x => String(x));
+    ids.sort();
+    return ids;
+};
+const sameAddonSet = (a = [], b = []) => {
+    const A = canonicalAddonIds(a);
+    const B = canonicalAddonIds(b);
+    if (A.length !== B.length) return false;
+    for (let i = 0; i < A.length; i++) if (A[i] !== B[i]) return false;
+    return true;
+};
+const normalizeAddonsForStorage = (addons = []) =>
+    canonicalAddonIds(addons).map(id => ({ addOnId: asId(id) }));
 
-// ---------------- GET /cart ----------------
+/* ---------------- GET /cart ---------------- */
 app.get("/cart", async (req, res) => {
     try {
         const { userId } = req.query;
-        if (!userId)
-            return res.status(400).json({ error: "userId is required (query)" });
+        if (!userId) return res.status(400).json({ error: "userId is required (query)" });
 
         let cart = await Cart.findOne({ userId: asId(userId) });
-        if (!cart)
-            cart = await Cart.create({ userId: asId(userId), items: [], subtotal: 0 });
+        if (!cart) cart = await Cart.create({ userId: asId(userId), items: [], subtotal: 0 });
 
         const populated = await getPopulatedCart(userId);
-        // console.log(populated);
         res.json(populated || cart);
     } catch (e) {
         res.status(500).json({ error: e.message });
     }
 });
 
-// ---------------- POST /cart/items ----------------
+/* ---------------- POST /cart/items ----------------
+   Add item: MERGE only if (same foodId AND same add-on set AND same notes).
+   Otherwise create a NEW line.
+---------------------------------------------------- */
 app.post("/cart/items", async (req, res) => {
     try {
         const { userId, foodId, quantity = 1, addons = [], notes } = req.body;
         if (!userId || !foodId)
-            return res
-                .status(400)
-                .json({ error: "userId and foodId are required" });
+            return res.status(400).json({ error: "userId and foodId are required" });
 
         let cart = await Cart.findOne({ userId: asId(userId) });
-        if (!cart)
-            cart = await Cart.create({ userId: asId(userId), items: [], subtotal: 0 });
+        if (!cart) cart = await Cart.create({ userId: asId(userId), items: [], subtotal: 0 });
 
-        // merge identical lines (same food + same addons signature + same notes)
-        const keyOf = (arr) =>
-            JSON.stringify(
-                (arr || [])
-                    .map((a) => ({ id: String(a.addOnId), p: a.price }))
-                    .sort((a, b) => a.id.localeCompare(b.id))
-            );
+        const normalizedAddons = normalizeAddonsForStorage(addons);
 
-        const newKey = keyOf(addons);
-        const existing = cart.items.find(
-            (it) =>
+        // find an existing line with SAME composite (foodId + addons + notes)
+        const existing = (cart.items || []).find(
+            it =>
                 String(it.foodId) === String(foodId) &&
-                keyOf(it.addons) === newKey &&
-                (it.notes || "") === (notes || "")
+                sameAddonSet(it.addons, normalizedAddons) &&
+                String(it.notes || "") === String(notes || "")
         );
 
         if (existing) {
-            existing.quantity += Number(quantity) || 1;
-            existing.totalPrice = await computeItemTotal(
-                foodId,
-                existing.quantity,
-                existing.addons
-            );
+            const newQty = (Number(existing.quantity) || 1) + (Number(quantity) || 1);
+            existing.quantity = Math.max(1, newQty);
+            existing.totalPrice = await computeItemTotal(existing.foodId, existing.quantity, existing.addons);
         } else {
-            const totalPrice = await computeItemTotal(foodId, quantity, addons);
+            const totalPrice = await computeItemTotal(foodId, quantity, normalizedAddons);
             cart.items.push({
                 foodId: asId(foodId),
                 quantity: Number(quantity) || 1,
-                addons: addons.map((a) => ({
-                    addOnId: asId(a.addOnId),
-                    name: a.name,
-                    price: Number(a.price) || 0,
-                })),
+                addons: normalizedAddons,   // snapshot (name/price) refreshed in compute
                 notes,
                 totalPrice,
             });
@@ -346,13 +349,12 @@ app.post("/cart/items", async (req, res) => {
     }
 });
 
-// ---------------- PATCH /cart/items/:itemId/quantity ----------------
+/* ---------------- PATCH /cart/items/:itemId/quantity ---------------- */
 app.patch("/cart/items/:itemId/quantity", async (req, res) => {
     try {
         const { userId, quantity } = req.body;
         const { itemId } = req.params;
-        if (!userId)
-            return res.status(400).json({ error: "userId required" });
+        if (!userId) return res.status(400).json({ error: "userId required" });
 
         const cart = await Cart.findOne({ userId: asId(userId) });
         if (!cart) return res.status(404).json({ error: "Cart not found" });
@@ -360,13 +362,13 @@ app.patch("/cart/items/:itemId/quantity", async (req, res) => {
         const item = cart.items.id(itemId);
         if (!item) return res.status(404).json({ error: "Item not found" });
 
-        const q = Math.max(1, Number(quantity) || 1);
-        item.quantity = q;
-        item.totalPrice = await computeItemTotal(
-            item.foodId,
-            q,
-            item.addons
-        );
+        const q = Math.max(0, Number(quantity) || 0);
+        if (q <= 0) {
+            item.deleteOne();
+        } else {
+            item.quantity = q;
+            item.totalPrice = await computeItemTotal(item.foodId, q, item.addons);
+        }
 
         await cart.recalculateTotals();
         await cart.save();
@@ -378,13 +380,17 @@ app.patch("/cart/items/:itemId/quantity", async (req, res) => {
     }
 });
 
-// ---------------- PUT /cart/items/:itemId/addons ----------------
+/* ---------------- PUT /cart/items/:itemId/addons ----------------
+   Change add-ons for a line:
+   - If another line with SAME foodId AND SAME (new) add-on set AND SAME notes exists,
+     MERGE quantities into that line and delete the current line.
+   - Else just update this line’s add-ons and recompute.
+------------------------------------------------------------------ */
 app.put("/cart/items/:itemId/addons", async (req, res) => {
     try {
-        const { userId, addons = [] } = req.body;
+        const { userId, addons = [], notes } = req.body; // notes optional; if present, participates in merge
         const { itemId } = req.params;
-        if (!userId)
-            return res.status(400).json({ error: "userId required" });
+        if (!userId) return res.status(400).json({ error: "userId required" });
 
         const cart = await Cart.findOne({ userId: asId(userId) });
         if (!cart) return res.status(404).json({ error: "Cart not found" });
@@ -392,16 +398,30 @@ app.put("/cart/items/:itemId/addons", async (req, res) => {
         const item = cart.items.id(itemId);
         if (!item) return res.status(404).json({ error: "Item not found" });
 
-        item.addons = (addons || []).map((a) => ({
-            addOnId: asId(a.addOnId),
-            name: a.name,
-            price: Number(a.price) || 0,
-        }));
-        item.totalPrice = await computeItemTotal(
-            item.foodId,
-            item.quantity,
-            item.addons
+        const normalizedAddons = normalizeAddonsForStorage(addons);
+        const targetNotes = notes != null ? String(notes) : String(item.notes || "");
+
+        // Find potential merge target
+        const mergeInto = (cart.items || []).find(
+            it =>
+                it._id.toString() !== item._id.toString() &&
+                String(it.foodId) === String(item.foodId) &&
+                sameAddonSet(it.addons, normalizedAddons) &&
+                String(it.notes || "") === targetNotes
         );
+
+        if (mergeInto) {
+            // merge qty into target
+            mergeInto.quantity = Math.max(1, (Number(mergeInto.quantity) || 1) + (Number(item.quantity) || 1));
+            mergeInto.totalPrice = await computeItemTotal(mergeInto.foodId, mergeInto.quantity, mergeInto.addons);
+            // remove current line
+            item.deleteOne();
+        } else {
+            // just update this line
+            item.addons = normalizedAddons;
+            if (notes != null) item.notes = targetNotes;
+            item.totalPrice = await computeItemTotal(item.foodId, item.quantity, item.addons);
+        }
 
         await cart.recalculateTotals();
         await cart.save();
@@ -413,13 +433,12 @@ app.put("/cart/items/:itemId/addons", async (req, res) => {
     }
 });
 
-// ---------------- DELETE /cart/items/:itemId ----------------
+/* ---------------- DELETE /cart/items/:itemId ---------------- */
 app.delete("/cart/items/:itemId", async (req, res) => {
     try {
         const { userId } = req.body;
         const { itemId } = req.params;
-        if (!userId)
-            return res.status(400).json({ error: "userId required" });
+        if (!userId) return res.status(400).json({ error: "userId required" });
 
         const cart = await Cart.findOne({ userId: asId(userId) });
         if (!cart) return res.status(404).json({ error: "Cart not found" });
@@ -438,15 +457,14 @@ app.delete("/cart/items/:itemId", async (req, res) => {
     }
 });
 
+/* ---------------- DELETE /cart/clear ---------------- */
 app.delete("/cart/clear", async (req, res) => {
     try {
         const { userId } = req.body;
-        if (!userId)
-            return res.status(400).json({ error: "userId required" });
+        if (!userId) return res.status(400).json({ error: "userId required" });
 
         let cart = await Cart.findOne({ userId: asId(userId) });
-        if (!cart)
-            cart = await Cart.create({ userId: asId(userId), items: [], subtotal: 0 });
+        if (!cart) cart = await Cart.create({ userId: asId(userId), items: [], subtotal: 0 });
 
         cart.items = [];
         await cart.recalculateTotals();
@@ -458,6 +476,7 @@ app.delete("/cart/clear", async (req, res) => {
         res.status(500).json({ error: e.message });
     }
 });
+
 const toId = (id) => new ObjectId(String(id));
 function validId(id) { return ObjectId.isValid(String(id)); }
 
@@ -555,6 +574,8 @@ async function processMail(to, subject, message) {
         };
     }
 }
+
+
 
 
 app.post('/api/forgot-password', async (req, res) => {
@@ -663,57 +684,115 @@ app.get('/api/meals', async (req, res) => {
 
 
 app.get("/api/restaurants", async (req, res) => {
-  try {
-    const {
-      q, city, featured, limit = 20, page = 1,
-      lat, lng, withinKm, sort = "rating"
-    } = req.query;
+    try {
+        const { q = "", featured } = req.query;
+        const filter = {};
+        if (q) {
+            filter.$or = [
+                { name: { $regex: q, $options: "i" } },
+                { cuisines: { $regex: q, $options: "i" } },
+            ];
+        }
+        if (featured != null) filter.isFeatured = featured === "true";
 
-    const filters = {};
-    if (q) filters.name = { $regex: q, $options: "i" };
-    if (city) filters["address.city"] = city;
-    if (featured === "true") filters.isFeatured = true;
-
-    const projection = {
-      name: 1, description: 1, address: 1, coords: 1, openHours: 1,
-      deliveryFee: 1, minOrderValue: 1, rating: 1, cuisines: 1, isOpen: 1, logo: 1
-    };
-
-    const sortMap = {
-      rating: { "rating.average": -1 },
-      recent: { createdAt: -1 },
-      name: { name: 1 }
-    };
-
-    const docs = await Restaurant.find(filters, projection)
-      .sort(sortMap[sort] ?? sortMap.rating)
-      .skip((page - 1) * Number(limit))
-      .limit(Number(limit))
-      .lean();
-
-    const userLat = lat ? Number(lat) : null;
-    const userLng = lng ? Number(lng) : null;
-    const withComputed = docs.map(r => {
-      const distanceKm = userLat != null ? haversineKm(userLat, userLng, r.coords?.lat, r.coords?.lng) : null;
-      const openNow = isOpenNow(r.openHours);
-      const estimatedDeliveryFee = distanceKm != null ? estimateDeliveryFee(r.deliveryFee, distanceKm) : null;
-      return {
-        ...r,
-        openNow,
-        distanceKm: distanceKm != null ? Number(distanceKm.toFixed(1)) : null,
-        estimatedDeliveryFee
-      };
-    });
-
-    const filtered = withinKm ? withComputed.filter(r => (r.distanceKm ?? Infinity) <= Number(withinKm)) : withComputed;
-
-    res.json({ restaurants: filtered, total: filtered.length });
-  } catch (e) {
-    console.error("GET /api/restaurants error:", e);
-    res.status(500).json({ error: e.message || "Server error" });
-  }
+        const items = await Restaurant.find(filter).sort({ isFeatured: -1, createdAt: -1 }).lean();
+        return res.json({ items });
+    } catch (e) {
+        console.error("List restaurants failed:", e);
+        return res.status(500).json({ error: "Failed to fetch restaurants" });
+    }
 });
 
+app.get("/api/restaurants/:id", async (req, res) => {
+    try {
+        const r = await Restaurant.findById(req.params.id).lean();
+        if (!r) return res.status(404).json({ error: "Restaurant not found" });
+        return res.json(r);
+    } catch (e) {
+        return res.status(400).json({ error: "Invalid restaurant id" });
+    }
+});
+
+// GET /api/restaurants/:id/fooditems  (foods for a restaurant)
+app.get("/api/restaurants/:id/fooditems", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const items = await FoodItem.find({ restaurantId: id, isAvailable: true })
+            .sort({ isFeatured: -1, createdAt: -1 })
+            .lean();
+        return res.json({ items });
+    } catch (e) {
+        console.error("List foods failed:", e);
+        return res.status(500).json({ error: "Failed to fetch foods" });
+    }
+});
+
+app.post("/api/fooditems", async (req, res) => {
+    try {
+        // validate restaurant exists
+        const { restaurantId } = req.body || {};
+        if (!restaurantId) return res.status(400).json({ error: "restaurantId is required" });
+        const exists = await Restaurant.exists({ _id: restaurantId });
+        if (!exists) return res.status(404).json({ error: "Restaurant not found" });
+
+        const doc = await FoodItem.create(req.body);
+        return res.status(201).json(doc);
+    } catch (e) {
+        console.error("Create food failed:", e);
+        return res.status(400).json({ error: e.message || "Invalid food data" });
+    }
+});
+
+
+
+app.patch("/api/me", async (req, res) => {
+    const { name, email } = req.body || {};
+    const update = {};
+    if (typeof name === "string") update.name = name.trim();
+    if (typeof email === "string") update.email = email.trim().toLowerCase();
+
+    try {
+        const me = await User.findById(req.userId);
+        if (!me) return res.status(404).json({ message: "User not found" });
+
+        if (update.name !== undefined) me.name = update.name;
+        if (update.email !== undefined) me.email = update.email;
+
+        await me.save();
+
+        res.json({
+            _id: me._id,
+            name: me.name,
+            email: me.email,
+            role: me.role,
+            createdAt: me.createdAt,
+            updatedAt: me.updatedAt,
+        });
+    } catch (e) {
+        if (e?.code === 11000 && e?.keyPattern?.email) {
+            return res.status(400).json({ message: "Email is already in use" });
+        }
+        return res.status(400).json({ message: e.message || "Failed to update profile" });
+    }
+});
+
+app.patch("/api/me/password", async (req, res) => {
+    const { currentPassword, newPassword } = req.body || {};
+    if (!currentPassword || !newPassword) {
+        return res.status(400).json({ message: "currentPassword and newPassword are required" });
+    }
+
+    const me = await User.findById(req.userId);
+    if (!me) return res.status(404).json({ message: "User not found" });
+
+    const ok = await me.validatePassword(currentPassword);
+    if (!ok) return res.status(400).json({ message: "Current password is incorrect" });
+
+    await me.setPassword(newPassword);
+    await me.save();
+
+    res.json({ ok: true });
+});
 
 
 

@@ -28,22 +28,25 @@ export default function RootLayout() {
                     ),
                 }}
             />
-            <Tabs.Screen
-                name="saved"
-                options={{
-                    title: "Saved",
-                    tabBarIcon: ({ color, focused }) => (
-                        <Ionicons name={focused ? "heart" : "heart-outline"} size={24} color={color} />
-                    ),
-                }}
-            />
-         
+
+
             <Tabs.Screen
                 name="restaurants"
                 options={{
                     title: "Restaurants",
                     tabBarIcon: ({ color, focused }) => (
                         <Ionicons name={focused ? "restaurant" : "restaurant-outline"} size={26} color={color} />
+                    ),
+                }}
+            />
+            
+            <Tabs.Screen
+                name="cart"
+                options={{
+                    title: "Cart",
+                    headerShown: true,
+                    tabBarIcon: ({ color, focused }) => (
+                        <Ionicons name={focused ? "bag" : "bag-outline"} size={24} color={color} />
                     ),
                 }}
             />

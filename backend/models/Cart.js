@@ -1,12 +1,13 @@
 // models/Cart.js
 const mongoose = require("mongoose");
-const autopopulate = require("mongoose-autopopulate"); // npm i mongoose-autopopulate
+const autopopulate = require("mongoose-autopopulate");
 
 const FoodItem = require("./FoodItem");
 const AddOn = require("./Addon");
 
 const { Schema, Types } = mongoose;
 
+/* ---------- Subschemas ---------- */
 const AddonSubSchema = new Schema(
     {
         addOnId: {
@@ -15,7 +16,7 @@ const AddonSubSchema = new Schema(
             autopopulate: { select: "name price" },
             required: false,
         },
-        // snapshot cache (optional, will be refreshed from DB in compute)
+        // snapshot cache (refreshed during compute)
         name: String,
         price: { type: Number, default: 0 },
     },
@@ -53,12 +54,11 @@ const CartSchema = new Schema(
     { timestamps: true, collection: "carts" }
 );
 
-// ---------- JSON shape / virtuals ----------
+/* ---------- JSON shape / virtuals ---------- */
 CartSchema.set("toJSON", {
     virtuals: true,
     versionKey: false,
     transform: (_doc, ret) => {
-        // keep _id, but ensure lean numbers
         if (typeof ret.subtotal === "string") ret.subtotal = Number(ret.subtotal);
         if (Array.isArray(ret.items)) {
             for (const it of ret.items) {
@@ -73,9 +73,8 @@ CartSchema.virtual("itemsCount").get(function () {
     return (this.items || []).reduce((n, it) => n + (Number(it.quantity) || 0), 0);
 });
 
-// ---------- Helpers ----------
+/* ---------- Helpers: compute totals ---------- */
 async function computeItemTotal(item) {
-    // ensure ObjectId types
     const foodId = item.foodId?._id || item.foodId;
     const food = await FoodItem.findById(foodId).select("price name").lean();
     if (!food) throw new Error("FoodItem not found for cart item");
@@ -98,16 +97,16 @@ async function computeItemTotal(item) {
     let addonsSum = 0;
     item.addons = (item.addons || []).map((a) => {
         const idStr = a?.addOnId ? String(a.addOnId._id || a.addOnId) : null;
-        const price = idStr && priceById.has(idStr) ? priceById.get(idStr) : Number(a?.price || 0);
+        const price =
+            idStr && priceById.has(idStr) ? priceById.get(idStr) : Number(a?.price || 0);
         const name = idStr && nameById.has(idStr) ? nameById.get(idStr) : a?.name;
 
         addonsSum += Number(price || 0);
-
-        // keep original addOnId (as ObjectId or populated doc), refresh snapshot fields
         return { ...a, price, name };
     });
 
-    const line = (Number(food.price || 0) + addonsSum) * Math.max(1, Number(item.quantity) || 1);
+    const line =
+        (Number(food.price || 0) + addonsSum) * Math.max(1, Number(item.quantity) || 1);
     item.totalPrice = Math.max(0, Number(line.toFixed(2)));
 }
 
@@ -120,13 +119,11 @@ async function computeCartTotals(cartDoc) {
     cartDoc.subtotal = Math.max(0, Number(subtotal.toFixed(2)));
 }
 
-// ---------- Recalc hooks ----------
+/* ---------- Recalc hooks ---------- */
 CartSchema.methods.recalculateTotals = async function () {
     await computeCartTotals(this);
 };
 
-
-// Recompute before save so totals are always fresh
 CartSchema.pre("save", async function (next) {
     try {
         await computeCartTotals(this);
@@ -136,7 +133,6 @@ CartSchema.pre("save", async function (next) {
     }
 });
 
-// After findOneAndUpdate, recompute + persist if items/subtotal changed
 CartSchema.post("findOneAndUpdate", async function (doc) {
     if (!doc) return;
     try {
@@ -149,12 +145,72 @@ CartSchema.post("findOneAndUpdate", async function (doc) {
     }
 });
 
-// ---------- Autopopulate plugin ----------
+/* ---------- Autopopulate ---------- */
 CartItemSchema.plugin(autopopulate);
 AddonSubSchema.plugin(autopopulate);
 CartSchema.plugin(autopopulate);
 
-// ---------- Convenience statics ----------
+/* ---------- Utility: compare add-on sets (order-insensitive) ---------- */
+function canonicalAddonIds(addons) {
+    // accept [{addOnId}, {_id}, {id}] and return sorted string ids
+    const ids = (addons || [])
+        .map((a) => a?.addOnId?._id || a?.addOnId || a?._id || a?.id)
+        .filter(Boolean)
+        .map((x) => String(x));
+    ids.sort();
+    return ids;
+}
+function sameAddonSet(a, b) {
+    const A = canonicalAddonIds(a);
+    const B = canonicalAddonIds(b);
+    if (A.length !== B.length) return false;
+    for (let i = 0; i < A.length; i++) if (A[i] !== B[i]) return false;
+    return true;
+}
+
+/* ---------- Instance helpers to add/merge lines ---------- */
+CartSchema.methods.findLineIndexByComposite = function (foodId, addons) {
+    const idStr = String(foodId);
+    const items = this.items || [];
+    for (let i = 0; i < items.length; i++) {
+        const it = items[i];
+        const fId = String(it.foodId?._id || it.foodId);
+        if (fId !== idStr) continue;
+        if (sameAddonSet(it.addons, addons)) return i; // only merge when add-on set matches
+    }
+    return -1;
+};
+
+CartSchema.methods.addItemSmart = async function ({
+    foodId,
+    quantity = 1,
+    addons = [],
+    notes,
+}) {
+    const q = Math.max(1, Number(quantity) || 1);
+
+    // normalize payload to { addOnId }
+    const normAddons = canonicalAddonIds(addons).map((id) => ({ addOnId: new Types.ObjectId(id) }));
+
+    const idx = this.findLineIndexByComposite(foodId, normAddons);
+    if (idx >= 0) {
+        // merge with same add-on set
+        this.items[idx].quantity = Math.max(1, Number(this.items[idx].quantity || 1) + q);
+    } else {
+        // create a NEW line for different add-ons
+        this.items.push({
+            foodId: new Types.ObjectId(String(foodId)),
+            quantity: q,
+            addons: normAddons,
+            notes: notes ? String(notes) : undefined,
+        });
+    }
+
+    await this.recalculateTotals();
+    return this.save();
+};
+
+/* ---------- Convenience statics ---------- */
 CartSchema.statics.findOrCreateForUser = async function (userId) {
     const uid = new Types.ObjectId(String(userId));
     let cart = await this.findOne({ userId: uid });
@@ -163,11 +219,9 @@ CartSchema.statics.findOrCreateForUser = async function (userId) {
 };
 
 CartSchema.statics.populateCart = function (query) {
-    // Use this if you don’t want the plugin or want explicit control
     return query
-        .populate({ path: "items.foodId", select: "name imageUrl price restaurantName slug" })
+        .populate({ path: "items.foodId", select: "name image price restaurantId" })
         .populate({ path: "items.addons.addOnId", select: "name price" });
 };
-
 
 module.exports = mongoose.model("Cart", CartSchema);

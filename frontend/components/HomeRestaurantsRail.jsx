@@ -13,7 +13,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useTheme } from "../contexts/ThemeContext";
 import { API_URL } from "../hooks/api";
-
+import { useRestaurants } from "../contexts/RestaurantContext";
 
 export default function HomeRestaurantsRail({
     title = "Popular Restaurants",
@@ -21,13 +21,13 @@ export default function HomeRestaurantsRail({
     withinKm = 15,
     featured = false,
     onPressRestaurant,
-    routeBase = "/restaurant-details",
 }) {
     const { theme } = useTheme();
     const s = styles(theme);
     const router = useRouter();
 
-    const [items, setItems] = useState([]);
+    const { restaurants: ctxRestaurants, loading, error, refetch } = useRestaurants?.() || {};
+
     const [busy, setBusy] = useState(true);
     const [err, setErr] = useState(null);
 
@@ -36,26 +36,21 @@ export default function HomeRestaurantsRail({
         Animated.timing(fade, { toValue: 1, duration: 300, useNativeDriver: true }).start();
 
     useEffect(() => {
+        if (typeof loading === "boolean") setBusy(loading);
+        if (error) setErr(error);
+    }, [loading, error]);
+
+    useEffect(() => {
         let mounted = true;
         (async () => {
             try {
-                setBusy(true);
-                setErr(null);
-                const qs = new URLSearchParams({
-                    featured: String(featured),
-                    sort: "rating",
-                    limit: String(limit),
-                    withinKm: String(withinKm),
-                }).toString();
-
-                const res = await fetch(`${API_URL}/api/restaurants`);
-                if (!res.ok) throw new Error(`HTTP ${res.status}`);
-                const { restaurants } = await res.json();
-                if (!mounted) return;
-                setItems(Array.isArray(restaurants) ? restaurants : []);
-                runFadeIn();
+                if (ctxRestaurants == null && typeof refetch === "function") {
+                    setBusy(true);
+                    setErr(null);
+                    await refetch();
+                }
             } catch (e) {
-                if (mounted) setErr(e.message || "Failed to load restaurants");
+                if (mounted) setErr(e?.message || "Failed to load restaurants.");
             } finally {
                 if (mounted) setBusy(false);
             }
@@ -63,11 +58,47 @@ export default function HomeRestaurantsRail({
         return () => {
             mounted = false;
         };
-    }, [featured, limit, withinKm]);
+    }, []); 
+
+    useEffect(() => {
+        if (!busy && !err) runFadeIn();
+    }, [busy, err]);
+
+    const list = useMemo(() => {
+        const source = Array.isArray(ctxRestaurants) ? ctxRestaurants : [];
+        let arr = source;
+
+        if (featured) {
+            arr = arr.filter((r) => r?.featured === true);
+        }
+        if (withinKm != null) {
+            arr = arr.filter((r) => r?.distanceKm == null || r.distanceKm <= withinKm);
+        }
+
+        arr = arr
+            .slice()
+            .sort((a, b) => {
+                const ar = a?.rating?.average ?? 0;
+                const br = b?.rating?.average ?? 0;
+                if (br !== ar) return br - ar;
+                const ac = a?.rating?.count ?? 0;
+                const bc = b?.rating?.count ?? 0;
+                return bc - ac;
+            })
+            .slice(0, limit);
+
+        return arr;
+    }, [ctxRestaurants, featured, withinKm, limit]);
 
     const handlePress = (r) => {
-        if (onPressRestaurant) return onPressRestaurant(r);
-        router.push(`${routeBase}/${r._id}`);
+        if (!r) return;
+        // if (onPressRestaurant) return onPressRestaurant(r);
+        const id = r._id || r.id;
+        if (!id) return;
+        router.push({
+            pathname: "/Main/restaurant",
+            params: { id },
+        });
     };
 
     const content = useMemo(() => {
@@ -86,7 +117,7 @@ export default function HomeRestaurantsRail({
                 </View>
             );
         }
-        if (!items.length) {
+        if (!list.length) {
             return <Text style={s.emptyTxt}>No restaurants to show.</Text>;
         }
         return (
@@ -96,9 +127,9 @@ export default function HomeRestaurantsRail({
                     showsHorizontalScrollIndicator={false}
                     contentContainerStyle={{ paddingHorizontal: 16 }}
                 >
-                    {items.map((it) => (
+                    {list.map((it) => (
                         <TouchableOpacity
-                            key={it._id}
+                            key={it._id || it.id}
                             onPress={() => handlePress(it)}
                             activeOpacity={0.9}
                             style={s.card}
@@ -114,15 +145,9 @@ export default function HomeRestaurantsRail({
                                 transition={150}
                             />
 
-                            {/* open/closed badge */}
-                            <View
-                                style={[
-                                    s.badge,
-                                    it.openNow ? s.badgeOpen : s.badgeClosed,
-                                ]}
-                            >
-                                <View style={s.dot(it.openNow)} />
-                                <Text style={s.badgeTxt}>{it.openNow ? "Open" : "Closed"}</Text>
+                            <View style={[s.badge, it.isOpen ? s.badgeOpen : s.badgeClosed]}>
+                                <View style={s.dot(it.isOpen)} />
+                                <Text style={s.badgeTxt}>{it.isOpen ? "Open" : "Closed"}</Text>
                             </View>
 
                             <View style={s.cardBody}>
@@ -162,7 +187,7 @@ export default function HomeRestaurantsRail({
                 </ScrollView>
             </Animated.View>
         );
-    }, [busy, err, items, theme]);
+    }, [busy, err, list, theme]);
 
     return (
         <View style={s.wrap}>

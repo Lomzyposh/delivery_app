@@ -1,6 +1,9 @@
-import React, { useCallback, useState } from "react";
+// app/(tabs)/cart/index.jsx  (adjust the path if yours differs)
+import React, { useCallback, useMemo, useState } from "react";
 import {
+    ActivityIndicator,
     FlatList,
+    Image,
     Pressable,
     RefreshControl,
     StyleSheet,
@@ -8,25 +11,27 @@ import {
     TouchableOpacity,
     View,
 } from "react-native";
-import { Image } from "expo-image";
 import { Ionicons } from "@expo/vector-icons";
-import SkeletonList from "../../components/Skeleton";
-import { useTheme } from "../../contexts/ThemeContext";
-import { usePalette } from "../../utils/palette";
-import { useCart } from "../../contexts/CartContext";
-import { API_URL } from "../../hooks/api";
 import { useRouter } from "expo-router";
+
+import { API_URL } from "../../../hooks/api";
+import { useTheme } from "../../../contexts/ThemeContext";
+import { usePalette } from "../../../utils/palette";
+import { useCart } from "../../../contexts/CartContext";
+import SkeletonList from "../../../components/Skeleton";
 
 export default function Cart() {
     const { theme } = useTheme();
     const p = usePalette(theme);
     const styles = makeStyles(p);
-    const router = useRouter()
-        ;
+    const router = useRouter();
+
     const { cart, loading, setCart, setQuantity, removeItem, clearCart } = useCart();
 
     const [refreshing, setRefreshing] = useState(false);
     const [error, setError] = useState("");
+    // track which line(s) are being deleted
+    const [deletingIds, setDeletingIds] = useState(new Set());
 
     const onRefresh = useCallback(async () => {
         if (!cart?.userId) return;
@@ -52,11 +57,7 @@ export default function Cart() {
         return (
             <View style={[styles.center, { backgroundColor: p.background }]}>
                 <Text style={styles.errorText}>{error}</Text>
-                <Pressable
-                    onPress={onRefresh}
-                    style={styles.retryBtn}
-                    android_ripple={{ color: p.ripple }}
-                >
+                <Pressable onPress={onRefresh} style={styles.retryBtn} android_ripple={{ color: p.ripple }}>
                     <Text style={styles.retryText}>Retry</Text>
                 </Pressable>
             </View>
@@ -73,15 +74,39 @@ export default function Cart() {
                 keyExtractor={(it, idx) => String(it?._id || idx)}
                 contentContainerStyle={{ padding: 16, paddingTop: 8 }}
                 ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
-                renderItem={({ item }) => (
-                    <CartItemRow
-                        item={item}
-                        p={p}
-                        onInc={() => setQuantity(item._id, item.quantity + 1)}
-                        onDec={() => setQuantity(item._id, Math.max(1, item.quantity - 1))}
-                        onRemove={() => removeItem(item._id)}
-                    />
-                )}
+                renderItem={({ item }) => {
+                    const deleting = deletingIds.has(String(item._id));
+
+                    const removeLine = async () => {
+                        const id = String(item._id);
+                        if (deletingIds.has(id)) return;
+                        setDeletingIds((prev) => {
+                            const next = new Set(prev);
+                            next.add(id);
+                            return next;
+                        });
+                        try {
+                            await removeItem(id);
+                        } finally {
+                            setDeletingIds((prev) => {
+                                const next = new Set(prev);
+                                next.delete(id);
+                                return next;
+                            });
+                        }
+                    };
+
+                    return (
+                        <CartItemRow
+                            item={item}
+                            p={p}
+                            onInc={() => setQuantity(item._id, item.quantity + 1)}
+                            onDec={() => setQuantity(item._id, Math.max(0, item.quantity - 1))} // 0 will remove on backend
+                            onRemove={removeLine}
+                            deleting={deleting}
+                        />
+                    );
+                }}
                 refreshControl={
                     <RefreshControl
                         tintColor={p.sub}
@@ -103,15 +128,11 @@ export default function Cart() {
                                 <Text style={styles.totalValue}>₦{subtotal.toLocaleString()}</Text>
                             </View>
 
-                            <Pressable
-                                onPress={clearCart}
-                                style={styles.clearBtn}
-                                android_ripple={{ color: p.ripple }}
-                            >
+                            <Pressable onPress={clearCart} style={styles.clearBtn} android_ripple={{ color: p.ripple }}>
                                 <Text style={styles.clearText}>Clear cart</Text>
                             </Pressable>
 
-                            <Pressable style={styles.checkoutBtn} onPress={() => router.push("./checkout")}>
+                            <Pressable style={styles.checkoutBtn} onPress={() => router.push("/Main/checkout")}>
                                 <Text style={styles.checkoutText}>Proceed to Checkout</Text>
                             </Pressable>
                         </View>
@@ -122,13 +143,11 @@ export default function Cart() {
     );
 }
 
-function CartItemRow({ item, p, onInc, onDec, onRemove }) {
+function CartItemRow({ item, p, onInc, onDec, onRemove, deleting }) {
     const title = item?.foodId?.name || "Meal";
     const imageUri = item?.foodId?.image || item?.image || item?.img || null;
     const restaurant = item?.foodId?.restaurantId?.name;
 
-
-    // Prefer populated addon name/price from addOnId; fall back to snapshot
     const addons = Array.isArray(item.addons) ? item.addons : [];
 
     return (
@@ -153,10 +172,9 @@ function CartItemRow({ item, p, onInc, onDec, onRemove }) {
                 source={
                     imageUri
                         ? { uri: imageUri }
-                        : require("../../assets/images/placeholder.jpg")
+                        : require("../../../assets/images/placeholder.jpg")
                 }
                 style={{ width: 90, height: 90, borderRadius: 12, backgroundColor: "#2a2f39" }}
-                contentFit="cover"
             />
 
             <View style={{ flex: 1 }}>
@@ -169,14 +187,13 @@ function CartItemRow({ item, p, onInc, onDec, onRemove }) {
                     </Text>
                 )}
 
-                {/* Addons */}
                 {addons.length > 0 && (
                     <View style={{ marginTop: 6, gap: 4 }}>
                         {addons.map((a) => {
                             const nm = a?.addOnId?.name ?? a?.name;
                             const pr = a?.addOnId?.price ?? a?.price ?? 0;
                             return (
-                                <Text key={String(a._id)} numberOfLines={1} style={{ color: p.sub, fontSize: 13 }}>
+                                <Text key={String(a._id || nm)} numberOfLines={1} style={{ color: p.sub, fontSize: 13 }}>
                                     • {nm} (+₦{Number(pr).toLocaleString()})
                                 </Text>
                             );
@@ -184,7 +201,6 @@ function CartItemRow({ item, p, onInc, onDec, onRemove }) {
                     </View>
                 )}
 
-                {/* Quantity + Price row */}
                 <View
                     style={{
                         flexDirection: "row",
@@ -196,14 +212,16 @@ function CartItemRow({ item, p, onInc, onDec, onRemove }) {
                     <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
                         <TouchableOpacity
                             onPress={onDec}
-                            style={{ backgroundColor: p.background, padding: 8, borderRadius: 8 }}
+                            disabled={deleting}
+                            style={{ backgroundColor: p.background, padding: 8, borderRadius: 8, opacity: deleting ? 0.5 : 1 }}
                         >
                             <Ionicons name="remove" size={18} color={p.text} />
                         </TouchableOpacity>
                         <Text style={{ color: p.text, fontWeight: "800" }}>{item.quantity}</Text>
                         <TouchableOpacity
                             onPress={onInc}
-                            style={{ backgroundColor: p.background, padding: 8, borderRadius: 8 }}
+                            disabled={deleting}
+                            style={{ backgroundColor: p.background, padding: 8, borderRadius: 8, opacity: deleting ? 0.5 : 1 }}
                         >
                             <Ionicons name="add" size={18} color={p.text} />
                         </TouchableOpacity>
@@ -215,46 +233,61 @@ function CartItemRow({ item, p, onInc, onDec, onRemove }) {
                 </View>
             </View>
 
-            {/* Remove */}
-            <TouchableOpacity onPress={onRemove} style={{ padding: 8 }}>
-                <Ionicons name="trash-outline" size={20} color={p.error} />
-            </TouchableOpacity>
+            {deleting ? (
+                <ActivityIndicator color={p.tint} />
+            ) : (
+                <TouchableOpacity onPress={onRemove} style={{ padding: 8 }}>
+                    <Ionicons name="trash-outline" size={20} color={p.error} />
+                </TouchableOpacity>
+            )}
         </View>
     );
 }
 
+/* ---------- styles ---------- */
 function makeStyles(p) {
     return StyleSheet.create({
-        center: { flex: 1, padding: 24, alignItems: "center", justifyContent: "center" },
-        errorText: { color: p.error, fontSize: 16, textAlign: "center", marginBottom: 12 },
-        retryBtn: { backgroundColor: p.tint, paddingHorizontal: 18, paddingVertical: 10, borderRadius: 12 },
-        retryText: { color: "#fff", fontWeight: "700" },
-        emptyText: { color: p.sub, fontSize: 16, marginBottom: 10 },
-        totalRow: {
-            flexDirection: "row",
-            justifyContent: "space-between",
-            paddingHorizontal: 8,
-            paddingVertical: 12,
-            borderTopWidth: StyleSheet.hairlineWidth,
+        center: { flex: 1, alignItems: "center", justifyContent: "center", gap: 8 },
+        errorText: { color: p.error, textAlign: "center", paddingHorizontal: 16 },
+        retryBtn: {
+            marginTop: 8,
+            paddingHorizontal: 14,
+            paddingVertical: 10,
+            borderRadius: 12,
+            backgroundColor: p.card,
+            borderWidth: 1,
             borderColor: p.border,
         },
-        totalLabel: { color: p.sub, fontSize: 15, fontWeight: "700" },
-        totalValue: { color: p.text, fontSize: 18, fontWeight: "900" },
-        checkoutBtn: {
-            marginTop: 10,
-            backgroundColor: p.tint,
-            paddingVertical: 14,
-            borderRadius: 14,
+        retryText: { color: p.text, fontWeight: "700" },
+
+        emptyText: { color: p.sub },
+
+        totalRow: {
+            flexDirection: "row",
             alignItems: "center",
+            justifyContent: "space-between",
+            marginBottom: 10,
         },
-        checkoutText: { color: "#fff", fontWeight: "900", fontSize: 16 },
+        totalLabel: { color: p.sub, fontSize: 14 },
+        totalValue: { color: p.text, fontWeight: "900", fontSize: 16 },
+
         clearBtn: {
-            marginTop: 4,
-            backgroundColor: p.emptyBadge,
-            paddingVertical: 12,
+            backgroundColor: p.card,
+            borderWidth: 1,
+            borderColor: p.border,
             borderRadius: 12,
+            paddingVertical: 12,
+            alignItems: "center",
+            marginBottom: 10,
+        },
+        clearText: { color: p.error, fontWeight: "800" },
+
+        checkoutBtn: {
+            backgroundColor: p.tint,
+            borderRadius: 14,
+            paddingVertical: 14,
             alignItems: "center",
         },
-        clearText: { color: p.text, fontWeight: "800" },
+        checkoutText: { color: p.onTint || "#fff", fontWeight: "800" },
     });
 }
