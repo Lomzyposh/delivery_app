@@ -128,6 +128,7 @@ export function AuthProvider({ children }) {
     () => ({
       user,
       userId,
+      setUser,
       access,
       cart,
       booted,

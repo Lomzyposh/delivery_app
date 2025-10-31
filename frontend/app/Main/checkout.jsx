@@ -1,10 +1,10 @@
+// app/Main/checkout.jsx
 import React, { useMemo, useRef, useState } from "react";
 import {
     ActivityIndicator,
     Animated,
     FlatList,
     KeyboardAvoidingView,
-    Modal,
     Platform,
     Pressable,
     ScrollView,
@@ -16,31 +16,58 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
+import { Picker } from "@react-native-picker/picker";
 
 import { useTheme } from "../../contexts/ThemeContext";
 import { useCart } from "../../contexts/CartContext";
-import { Picker } from "@react-native-picker/picker";
+import { useAuth } from "../../contexts/AuthContext";
+import { API_URL } from "../../hooks/api";
 
 const TINT = "#ff6600";
+
+/* ---------- robust JSON POST helper ---------- */
+async function apiPostJson(url, body) {
+    const res = await fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+        },
+        body: JSON.stringify(body),
+    });
+
+    const ct = res.headers.get("content-type") || "";
+    const text = await res.text();
+
+    if (!ct.includes("application/json")) {
+        // Server returned HTML (404/500) or something else; surface a readable hint
+        throw new Error(`Expected JSON, got: ${ct}. Sample: ${text.slice(0, 140)}...`);
+    }
+
+    const data = text ? JSON.parse(text) : {};
+    if (!res.ok) throw new Error(data?.error || `HTTP ${res.status}`);
+    return data;
+}
 
 export default function CheckoutScreen() {
     const { theme } = useTheme();
     const s = styles(theme);
 
-    const { cart, loading } = useCart();
+    const { cart, loading, setCart /*, clearCart*/ } = useCart();
     const items = cart?.items || [];
 
+    const { userId } = useAuth();
 
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
     const [address, setAddress] = useState("");
     const [notes, setNotes] = useState("");
-    const [delivery, setDelivery] = useState("delivery");
+    const [delivery, setDelivery] = useState("delivery"); // "delivery" | "pickup"
     const [pickupStation, setPickupStation] = useState("");
-    const [payMethod, setPayMethod] = useState("card");
+    const [payMethod, setPayMethod] = useState("card"); // "card" | "transfer" | "cod"
 
+    const [submitting, setSubmitting] = useState(false);
 
-    const [payOpen, setPayOpen] = useState(false);
     const [toastVisible, setToastVisible] = useState(false);
     const [toastMsg, setToastMsg] = useState("");
     const fade = useRef(new Animated.Value(0)).current;
@@ -50,7 +77,7 @@ export default function CheckoutScreen() {
         setToastVisible(true);
         Animated.sequence([
             Animated.timing(fade, { toValue: 1, duration: 250, useNativeDriver: true }),
-            Animated.delay(1200),
+            Animated.delay(1400),
             Animated.timing(fade, { toValue: 0, duration: 250, useNativeDriver: true }),
         ]).start(() => setToastVisible(false));
     };
@@ -60,12 +87,97 @@ export default function CheckoutScreen() {
     const deliveryFee = useMemo(() => (delivery === "delivery" ? 1200 : 0), [delivery]);
     const total = useMemo(() => subtotal + vat + deliveryFee, [subtotal, vat, deliveryFee]);
 
-    const placeOrder = () => {
-        if (!name.trim() || !phone.trim() || (delivery === "delivery" && !address.trim())) {
-            showToast("Please fill required fields");
+    const placeOrder = async () => {
+        // Basic validations to match your Order schema requirements
+        if (!userId) {
+            showToast("You need to be logged in.");
             return;
         }
-        setPayOpen(true);
+        if (!name.trim() || !phone.trim()) {
+            showToast("Please provide your name & phone.");
+            return;
+        }
+        if (delivery === "delivery" && !address.trim()) {
+            showToast("Delivery address is required.");
+            return;
+        }
+        if (!Array.isArray(items) || items.length === 0) {
+            showToast("Your cart is empty.");
+            return;
+        }
+
+        try {
+            setSubmitting(true);
+
+            // Map cart items → Order.items (schema-compatible)
+            const payloadItems = items.map((it) => {
+                const title = it?.foodId?.name ?? it?.name ?? "Meal";
+                const image = it?.foodId?.image ?? it?.image ?? "";
+                const qty = Number(it?.quantity || 1);
+                const unitPrice = Number(it?.foodId?.price ?? it?.unitPrice ?? 0);
+
+                // Order schema expects `addOns: [{ name, price }]`
+                const addOns = Array.isArray(it?.addons)
+                    ? it.addons.map((a) => ({
+                        name: a?.addOnId?.name ?? a?.name ?? "",
+                        price: Number(a?.addOnId?.price ?? a?.price ?? 0),
+                    }))
+                    : [];
+
+                const addOnsSum = addOns.reduce((acc, a) => acc + Number(a.price || 0), 0);
+                const totalPrice = (unitPrice + addOnsSum) * qty;
+
+                return {
+                    foodId: it?.foodId?._id || it?.foodId || undefined,
+                    name: title,
+                    image,
+                    quantity: qty,
+                    unitPrice,
+                    addOns,
+                    totalPrice,
+                };
+            });
+
+            const body = {
+                userId, // ObjectId string
+                contact: { name: name.trim(), phone: phone.trim() },
+                shipping: {
+                    deliveryType: delivery, // "delivery" | "pickup"
+                    address: address.trim() || undefined,
+                    pickupStation: pickupStation || undefined,
+                    notes: notes || undefined,
+                },
+                restaurantId: cart?.restaurantId || undefined,
+                items: payloadItems,
+                amounts: {
+                    subtotal,
+                    vat,
+                    deliveryFee,
+                    total,
+                    currency: "NGN",
+                },
+                payment: {
+                    method: payMethod, // enum ["card","transfer","cod"]
+                    status: "pending",
+                    reference: "",
+                },
+                status: "pending",
+            };
+
+            // Clean base just in case
+            const API = (API_URL || "").replace(/\/+$/, "");
+            const { order } = await apiPostJson(`${API}/api/orders`, body);
+
+            // Optional: await clearCart();
+            showToast("Order placed successfully!");
+            // You can navigate to an order details page with order._id if needed
+            // router.push(`/(tabs)/orders`);
+            setCart((c) => ({ ...c, items: [], subtotal: 0 }));
+        } catch (e) {
+            showToast(e?.message || "Order failed");
+        } finally {
+            setSubmitting(false);
+        }
     };
 
     if (loading) {
@@ -82,7 +194,6 @@ export default function CheckoutScreen() {
         { id: "3", name: "Yaba Express Point" },
         { id: "4", name: "Victoria Island Spot" },
     ];
-
 
     return (
         <KeyboardAvoidingView
@@ -237,53 +348,19 @@ export default function CheckoutScreen() {
 
             {/* Place order */}
             <View style={s.bottomBar}>
-                <TouchableOpacity style={s.placeBtn} onPress={placeOrder}>
-                    <Ionicons name="shield-checkmark-outline" size={18} color="#fff" />
-                    <Text style={s.placeTxt}>Place Order</Text>
+                <TouchableOpacity
+                    style={[s.placeBtn, submitting && { opacity: 0.6 }]}
+                    onPress={placeOrder}
+                    disabled={submitting}
+                >
+                    {submitting ? (
+                        <ActivityIndicator size="small" color="#fff" />
+                    ) : (
+                        <Ionicons name="shield-checkmark-outline" size={18} color="#fff" />
+                    )}
+                    <Text style={s.placeTxt}>{submitting ? "Placing..." : "Place Order"}</Text>
                 </TouchableOpacity>
             </View>
-
-            {/* Static payment sheet */}
-            <Modal
-                visible={payOpen}
-                transparent
-                animationType="slide"
-                onRequestClose={() => setPayOpen(false)}
-            >
-                <View style={s.sheetBackdrop}>
-                    <View style={s.sheet}>
-                        <View style={s.sheetHeader}>
-                            <Text style={s.sheetTitle}>Payment (Demo)</Text>
-                            <TouchableOpacity onPress={() => setPayOpen(false)} style={{ padding: 6 }}>
-                                <Ionicons name="close" size={20} color={theme.text} />
-                            </TouchableOpacity>
-                        </View>
-
-                        <View style={{ gap: 10 }}>
-                            <FakeInput label="Amount" value={`₦${total.toLocaleString()}`} theme={theme} />
-                            <FakeInput label="Payment method" value={labelForPay(payMethod)} theme={theme} />
-                            <FakeInput label="Status" value="NOT IMPLEMENTED" theme={theme} />
-                        </View>
-
-                        <View style={{ height: 16 }} />
-
-                        <TouchableOpacity
-                            onPress={() => {
-                                setPayOpen(false);
-                                showToast("This is a static payment sheet");
-                            }}
-                            style={s.fakePayBtn}
-                        >
-                            <Ionicons name="lock-closed-outline" size={18} color="#fff" />
-                            <Text style={s.fakePayTxt}>Simulate Payment</Text>
-                        </TouchableOpacity>
-
-                        <Text style={s.sheetNote}>
-                            *For demo only — no real transaction will occur.
-                        </Text>
-                    </View>
-                </View>
-            </Modal>
 
             {/* Toast */}
             {toastVisible && (
@@ -297,7 +374,6 @@ export default function CheckoutScreen() {
 }
 
 /* ---------- small components ---------- */
-
 function Section({ title, theme, children }) {
     return (
         <View style={{ marginBottom: 18 }}>
@@ -343,21 +419,21 @@ function RadioRow({ label, checked, onPress, theme, icon }) {
                     padding: 12,
                     borderRadius: 12,
                     borderWidth: 1,
-                    borderColor: checked ? TINT : (theme.border || "#ddd"),
-                    backgroundColor: checked ? (theme.activeBg || theme.background) : theme.background,
+                    borderColor: checked ? TINT : theme.border || "#ddd",
+                    backgroundColor: checked ? theme.activeBg || theme.background : theme.background,
                     opacity: pressed ? 0.95 : 1,
                 },
             ]}
             android_ripple={{ color: theme.ripple || "#e5e7eb" }}
         >
             <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-                <Ionicons name={icon} size={18} color={checked ? TINT : (theme.subtle || "#9aa0ae")} />
+                <Ionicons name={icon} size={18} color={checked ? TINT : theme.subtle || "#9aa0ae"} />
                 <Text style={{ color: theme.text, fontWeight: "700" }}>{label}</Text>
             </View>
             <Ionicons
                 name={checked ? "radio-button-on" : "radio-button-off"}
                 size={20}
-                color={checked ? TINT : (theme.subtle || "#9aa0ae")}
+                color={checked ? TINT : theme.subtle || "#9aa0ae"}
             />
         </Pressable>
     );
@@ -390,13 +466,11 @@ function SummaryRow({ item, theme }) {
             />
 
             <View style={{ flex: 1 }}>
-                {/* Name + quantity */}
                 <Text style={{ color: theme.text, fontWeight: "800" }} numberOfLines={1}>
                     {title}
                 </Text>
                 <Text style={{ color: theme.subtle || "#9aa0ae", fontSize: 12 }}>Qty: {qty}</Text>
 
-                {/* Addons */}
                 {addons.length > 0 && (
                     <View style={{ marginTop: 4, gap: 2 }}>
                         {addons.map((a, idx) => {
@@ -406,10 +480,7 @@ function SummaryRow({ item, theme }) {
                             return (
                                 <Text
                                     key={String(a._id || idx)}
-                                    style={{
-                                        color: theme.subtle || "#9aa0ae",
-                                        fontSize: 12,
-                                    }}
+                                    style={{ color: theme.subtle || "#9aa0ae", fontSize: 12 }}
                                     numberOfLines={1}
                                 >
                                     • {name} (+₦{Number(price).toLocaleString()})
@@ -425,38 +496,15 @@ function SummaryRow({ item, theme }) {
     );
 }
 
-
 function Row({ label, value, theme, strong }) {
     return (
         <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 8 }}>
-            <Text style={{ color: strong ? theme.text : (theme.subtle || "#9aa0ae"), fontWeight: strong ? "900" : "700" }}>
+            <Text style={{ color: strong ? theme.text : theme.subtle || "#9aa0ae", fontWeight: strong ? "900" : "700" }}>
                 {label}
             </Text>
-            <Text style={{ color: strong ? theme.text : (theme.subtle || "#9aa0ae"), fontWeight: strong ? "900" : "700" }}>
+            <Text style={{ color: strong ? theme.text : theme.subtle || "#9aa0ae", fontWeight: strong ? "900" : "700" }}>
                 {value}
             </Text>
-        </View>
-    );
-}
-
-function FakeInput({ label, value, theme }) {
-    return (
-        <View style={{ gap: 6 }}>
-            <Text style={{ color: theme.subtle || "#9aa0ae", fontSize: 12, fontWeight: "700" }}>
-                {label}
-            </Text>
-            <View
-                style={{
-                    backgroundColor: theme.background,
-                    borderWidth: 1,
-                    borderColor: theme.border || "#ddd",
-                    paddingHorizontal: 12,
-                    paddingVertical: 12,
-                    borderRadius: 12,
-                }}
-            >
-                <Text style={{ color: theme.text, fontWeight: "700" }}>{value}</Text>
-            </View>
         </View>
     );
 }
@@ -505,45 +553,6 @@ const styles = (theme) =>
             gap: 8,
         },
         placeTxt: { color: "#fff", fontWeight: "900", fontSize: 16 },
-
-        // sheet
-        sheetBackdrop: {
-            flex: 1,
-            backgroundColor: "rgba(0,0,0,0.5)",
-            justifyContent: "flex-end",
-        },
-        sheet: {
-            backgroundColor: theme.card,
-            padding: 16,
-            borderTopLeftRadius: 16,
-            borderTopRightRadius: 16,
-            borderWidth: 1,
-            borderColor: theme.border || "#ddd",
-            gap: 8,
-        },
-        sheetHeader: {
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-            marginBottom: 8,
-        },
-        sheetTitle: { color: theme.text, fontWeight: "900", fontSize: 16 },
-        sheetNote: {
-            color: theme.subtle || "#9aa0ae",
-            fontSize: 12,
-            marginTop: 8,
-            textAlign: "center",
-        },
-        fakePayBtn: {
-            backgroundColor: TINT,
-            paddingVertical: 12,
-            borderRadius: 12,
-            alignItems: "center",
-            flexDirection: "row",
-            justifyContent: "center",
-            gap: 8,
-        },
-        fakePayTxt: { color: "#fff", fontWeight: "900" },
 
         // toast
         toast: {

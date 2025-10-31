@@ -43,6 +43,16 @@ export default function RootLayout() {
                     ),
                 }}
             />
+            {/* receipt-outline */}
+              <Tabs.Screen
+                name="orders"
+                options={{
+                    title: "Orders",
+                    tabBarIcon: ({ color, focused }) => (
+                        <Ionicons name={focused ? "receipt" : "receipt-outline"} size={26} color={color} />
+                    ),
+                }}
+            />
 
             <Tabs.Screen
                 name="cart"

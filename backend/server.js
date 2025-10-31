@@ -13,6 +13,7 @@ const Cart = require('./models/Cart');
 const Favorite = require('./models/Favourite');
 const Code = require('./models/Code');
 const { estimateDeliveryFee, isOpenNow, haversineKm } = require('../frontend/utils/restaurantHelpers');
+const Order = require('./models/Order');
 const { Types: { ObjectId } } = mongoose;
 
 const LIFESPAN_MIN = 15;
@@ -742,11 +743,189 @@ app.post("/api/fooditems", async (req, res) => {
     }
 });
 
+app.post("/api/orders", async (req, res) => {
+    try {
+        const {
+            userId,
+            contact,
+            shipping,
+            restaurantId,
+            items = [],
+            amounts = {},
+            payment = {},
+            status = "pending",
+        } = req.body || {};
+
+        // --- basic validation matching your Order schema ---
+        if (!userId) return res.status(400).json({ error: "userId is required" });
+        if (!mongoose.isValidObjectId(String(userId))) {
+            return res.status(400).json({ error: "Invalid userId" });
+        }
+        if (!contact?.name || !contact?.phone) {
+            return res
+                .status(400)
+                .json({ error: "contact.name and contact.phone are required" });
+        }
+        if (!shipping?.deliveryType || !["delivery", "pickup"].includes(shipping.deliveryType)) {
+            return res
+                .status(400)
+                .json({ error: "shipping.deliveryType must be 'delivery' or 'pickup'" });
+        }
+        if (!payment?.method || !["card", "transfer", "cod"].includes(payment.method)) {
+            return res
+                .status(400)
+                .json({ error: "payment.method must be 'card', 'transfer', or 'cod'" });
+        }
+        if (!Array.isArray(items) || items.length === 0) {
+            return res.status(400).json({ error: "items array is required and cannot be empty" });
+        }
+
+        // (optional) validate restaurantId if sent
+        if (restaurantId && !mongoose.isValidObjectId(String(restaurantId))) {
+            return res.status(400).json({ error: "Invalid restaurantId" });
+        }
+
+        // --- normalize items to match your Order schema (addOns: [{name, price}]) ---
+        const normalizedItems = [];
+        let computedSubtotal = 0;
+
+        for (const it of items) {
+            const qty = Math.max(1, Number(it?.quantity || 1));
+            const unitPrice = Math.max(0, Number(it?.unitPrice || 0));
+
+            const addOns = Array.isArray(it?.addOns)
+                ? it.addOns.map((a) => ({
+                    name: String(a?.name || ""),
+                    price: Math.max(0, Number(a?.price || 0)),
+                }))
+                : [];
+
+            const addOnSum = addOns.reduce((acc, a) => acc + Number(a.price || 0), 0);
+            const lineTotal = (unitPrice + addOnSum) * qty;
+
+            computedSubtotal += lineTotal;
+
+            normalizedItems.push({
+                foodId: it?.foodId,                   // optional but nice to keep
+                name: String(it?.name || "Meal"),
+                image: String(it?.image || ""),
+                quantity: qty,
+                unitPrice,
+                addOns,
+                totalPrice: lineTotal,
+            });
+        }
+
+        // compute amounts (trust client if sent, else compute server-side)
+        const subtotal = Number(amounts?.subtotal ?? computedSubtotal);
+        const vat = Number(amounts?.vat ?? Math.round(subtotal * 0.075));
+        const deliveryFee = Number(
+            amounts?.deliveryFee ?? (shipping?.deliveryType === "delivery" ? 1200 : 0)
+        );
+        const total = Number(amounts?.total ?? subtotal + vat + deliveryFee);
+
+        const orderDoc = await Order.create({
+            userId,
+            contact: {
+                name: contact.name,
+                phone: contact.phone,
+            },
+            shipping: {
+                deliveryType: shipping.deliveryType,
+                address: shipping.address,
+                pickupStation: shipping.pickupStation,
+                notes: shipping.notes,
+            },
+            restaurantId: restaurantId || undefined,
+            items: normalizedItems,
+            amounts: {
+                subtotal,
+                vat,
+                deliveryFee,
+                total,
+                currency: String(amounts?.currency || "NGN"),
+            },
+            payment: {
+                method: payment.method,                  // "card" | "transfer" | "cod"
+                status: payment.status || "pending",     // default per schema
+                reference: payment.reference || "",
+            },
+            status: status || "pending",
+        });
+
+        await Cart.updateOne(
+            { userId: new mongoose.Types.ObjectId(String(userId)) },
+            { $set: { items: [], subtotal: 0 } }
+        );
+
+        // Return JSON (important for your client-side JSON parser)
+        return res.status(201).json({ order: orderDoc });
+    } catch (err) {
+        console.error("Create order error:", err);
+        return res.status(500).json({ error: "Unable to create order" });
+    }
+});
+
+app.get("/api/orders", async (req, res) => {
+    try {
+        const { userId, status, limit = 20, cursor } = req.query;
+
+        if (!userId) return res.status(400).json({ error: "userId is required" });
+        if (!mongoose.isValidObjectId(String(userId))) {
+            return res.status(400).json({ error: "Invalid userId" });
+        }
+
+        const q = { userId: new mongoose.Types.ObjectId(String(userId)) };
+        if (status) q.status = status; // e.g. 'pending', 'out-for-delivery', 'completed'
+
+        // Simple cursor-based pagination using createdAt
+        if (cursor) {
+            const asDate = new Date(cursor);
+            if (!isNaN(asDate.getTime())) {
+                q.createdAt = { $lt: asDate };
+            }
+        }
+
+        const lim = Math.max(1, Math.min(Number(limit) || 20, 50));
+
+        const orders = await Order.find(q)
+            .sort({ createdAt: -1 })
+            .limit(lim)
+            .lean();
+
+        // nextCursor for subsequent pages
+        const nextCursor = orders.length === lim ? orders[orders.length - 1].createdAt : null;
+
+        return res.json({ orders, nextCursor });
+    } catch (err) {
+        console.error("List orders error:", err);
+        return res.status(500).json({ error: "Unable to fetch orders" });
+    }
+});
+
+// GET /api/orders/:id — fetch one order by id
+app.get("/api/orders/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        if (!mongoose.isValidObjectId(String(id))) {
+            return res.status(400).json({ error: "Invalid order id" });
+        }
+
+        const order = await Order.findById(id).lean();
+        if (!order) return res.status(404).json({ error: "Order not found" });
+
+        return res.json({ order });
+    } catch (err) {
+        console.error("Get order error:", err);
+        return res.status(500).json({ error: "Unable to fetch order" });
+    }
+});
+
 
 app.patch("/api/me", async (req, res) => {
 
     try {
-        console.log("jj")   
+        console.log("jj")
         const { userId, name, email } = req.body || {};
 
         if (!userId) return res.status(400).json({ message: "Missing userId" });

@@ -24,6 +24,8 @@ const sameAddonSet = (a = [], b = []) => {
     return true;
 };
 
+
+
 export default function FoodDetailsDemo() {
     const params = useLocalSearchParams();
     const rawId = typeof params.id === 'string' ? params.id : Array.isArray(params.id) ? params.id[0] : '';
