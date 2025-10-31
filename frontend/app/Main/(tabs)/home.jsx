@@ -22,11 +22,11 @@ import HomeRestaurantsRail from "../../../components/HomeRestaurantsRail";
 import HomeSearch from "../../../components/HomeSearch";
 
 const CATEGORIES = [
-    { key: "Snacks", label: "Snacks", img: require("../../../assets/images/icons/fastfood.png") },
-    { key: "Beef", label: "Beef", img: require("../../../assets/images/icons/protein.png") },
-    { key: "turkey", label: "Turkey", img: require("../../../assets/images/icons/chicken2.png") },
-    { key: "chicken", label: "Chicken", img: require("../../../assets/images/icons/chicken1.png") },
-    { key: "Dessert", label: "Dessert", img: require("../../../assets/images/icons/gelato.png") },
+    { key: "Snacks", label: "Snacks", img: require("../../../assets/images/fastfood.png") },
+    { key: "Beef", label: "Beef", img: require("../../../assets/images/protein.png") },
+    { key: "turkey", label: "Turkey", img: require("../../../assets/images/chicken2.png") },
+    { key: "chicken", label: "Chicken", img: require("../../../assets/images/chicken1.png") },
+    { key: "Dessert", label: "Dessert", img: require("../../../assets/images/gelato.png") },
 ];
 
 const SPECIALS = [
