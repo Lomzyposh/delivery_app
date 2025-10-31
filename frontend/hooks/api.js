@@ -1,1 +1,1 @@
-export const API_URL = "http://192.168.165.224:5000";
+export const API_URL = "https://delivery-app-h6i6.onrender.com";
