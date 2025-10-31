@@ -19,7 +19,8 @@
         "monochromeImage": "./assets/images/foodHutLogo.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.lomzyposh.foodhut"
     },
     "web": {
       "output": "static",
@@ -44,6 +45,13 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "33003558-284b-4c57-b1ad-85c5695fcd56"
+      }
+    },
+    "owner": "lomzyposh"
   }
 }
